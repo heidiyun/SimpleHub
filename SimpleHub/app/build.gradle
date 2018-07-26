@@ -36,6 +36,8 @@ dependencies {
     implementation "com.android.support:customtabs:27.1.1"
     implementation"org.jetbrains.anko:anko-commons:0.10.5"
 
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    
 
     implementation 'com.android.support:design:27.1.1'
 

@@ -52,3 +52,22 @@ fun provideGithubApi(context: Context) = Retrofit.Builder().apply {
     client(authHttpClient(context))
     addConverterFactory(GsonConverterFactory.create())
 }.build().create(RepoApi::class.java)
+
+fun provideFollowerApi(context: Context) = Retrofit.Builder().apply {
+    baseUrl("https://api.github.com/")
+    client(authHttpClient(context))
+    addConverterFactory(GsonConverterFactory.create())
+}.build().create(FollowerApi::class.java)
+
+
+fun provideFollowingApi(context: Context) = Retrofit.Builder().apply {
+    baseUrl("https://api.github.com/")
+    client(authHttpClient(context))
+    addConverterFactory(GsonConverterFactory.create())
+}.build().create(FollowingApi::class.java)
+
+fun provideStarredApi(context: Context) = Retrofit.Builder().apply {
+    baseUrl("https://api.github.com/")
+    client(authHttpClient(context))
+    addConverterFactory(GsonConverterFactory.create())
+}.build().create(StarringApi::class.java)

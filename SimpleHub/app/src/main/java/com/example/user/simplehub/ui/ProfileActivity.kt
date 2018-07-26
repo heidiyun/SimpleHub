@@ -15,7 +15,9 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
+import com.example.user.simplehub.api.model.GithubFollowers
 import com.example.user.simplehub.api.model.GithubRepo
+import com.example.user.simplehub.api.provideFollowerApi
 import com.example.user.simplehub.api.provideGithubApi
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.fragment.*
@@ -25,8 +27,10 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
+import kotlinx.android.synthetic.main.item_follower.view.*
 import kotlinx.android.synthetic.main.profile_tab_repository.*
 import kotlinx.android.synthetic.main.repo_item.view.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 //class MyAdapter(val fm: FragmentManager): FragmentPagerAdapter(fm) {
@@ -83,6 +87,34 @@ class SearchListAdapter : RecyclerView.Adapter<RepoViewHolder>() {
 
         with(holder.itemView) {
             repoNameText.text = item.name
+        }
+    }
+
+}
+
+class FollowerViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_follower, parent, false)
+)
+
+class FollowerListAdapter : RecyclerView.Adapter<FollowerViewHolder>() {
+    var items: List<GithubFollowers> = emptyList()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowerViewHolder {
+        return FollowerViewHolder(parent)
+    }
+
+    override fun getItemCount(): Int {
+        return items.count()
+    }
+
+    override fun onBindViewHolder(holder: FollowerViewHolder, position: Int) {
+        val item = items[position]
+
+        with(holder.itemView) {
+            IDText.text = item.login
+            Glide.with(this).load(item.avatarUrl).into(ownerAvatarImage)
+
+
         }
     }
 
@@ -170,6 +202,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         }, {
 
         })
+
     }
 
     private fun setupViewPager(viewPager: ViewPager) {
@@ -185,11 +218,10 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         item.setChecked(true)
-        drawer_layout.closeDrawer(GravityCompat.START)
 
         when (item.itemId) {
             R.id.nav_profile-> {
-                // Handle the camera action
+                startActivity<ProfileActivity>()
             }
             R.id.nav_pullrequest -> {
 
@@ -205,6 +237,8 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
 
             }
         }
+
+//        drawer_layout.closeDrawer(GravityCompat.START)
 
         return true
     }
@@ -233,7 +267,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
                 drawer_layout.openDrawer(GravityCompat.START)
                 return true}
             R.id.action_settings -> {
-                Log.i(TAG, "WWWWWWW")
+               startActivity<MainActivity>()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

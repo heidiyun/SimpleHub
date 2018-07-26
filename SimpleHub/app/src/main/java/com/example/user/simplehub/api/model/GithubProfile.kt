@@ -8,3 +8,13 @@ data class GithubProfile(@field:SerializedName("name") val name: String,
                          @field:SerializedName("avatar_url") val avatarUrl: String)
 
 data class GithubRepo(val name: String)
+
+data class GithubFollowers(val login: String,
+                           @field:SerializedName("avatar_url") val avatarUrl: String,
+                           @field:SerializedName("html_url") val address: String)
+
+data class GithubFollowing(val login: String,
+                         @field:SerializedName("avatar_url") val avatarUrl: String,
+                         @field:SerializedName("html_url") val address: String)
+
+data class GithubStarred(@field:SerializedName("full_name") val fullName: String)

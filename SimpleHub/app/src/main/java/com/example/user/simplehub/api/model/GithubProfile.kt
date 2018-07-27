@@ -17,4 +17,4 @@ data class GithubFollowing(val login: String,
                          @field:SerializedName("avatar_url") val avatarUrl: String,
                          @field:SerializedName("html_url") val address: String)
 
-data class GithubStarred(@field:SerializedName("full_name") val fullName: String)
+data class GithubStarring(@field:SerializedName("full_name") val fullName: String)

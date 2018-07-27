@@ -32,5 +32,5 @@ interface FollowingApi {
 interface StarringApi {
     @GET("user/starred")
     @Headers("Accept: application/json")
-    fun getFollowerInfo() : Call<List<GithubStarred>>
+    fun getStarredInfo() : Call<List<GithubStarring>>
 }

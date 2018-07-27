@@ -2,11 +2,10 @@ package com.example.user.simplehub.ui
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,25 +16,23 @@ import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.model.GithubFollowers
 import com.example.user.simplehub.api.model.GithubRepo
-import com.example.user.simplehub.api.provideFollowerApi
-import com.example.user.simplehub.api.provideGithubApi
 import com.example.user.simplehub.api.provideUserApi
+import com.example.user.simplehub.api.removeToken
 import com.example.user.simplehub.fragment.*
 import com.example.user.simplehub.utils.enqueue
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_profile_tab.*
-import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.item_follower.view.*
-import kotlinx.android.synthetic.main.profile_tab_repository.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.android.synthetic.main.repo_item.view.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 //class MyAdapter(val fm: FragmentManager): FragmentPagerAdapter(fm) {
-//     var mFragments = arrayListOf<Fragment>()
-//     var mFragmentTitles = arrayListOf<String>()
+//     var mFragmentTitles = arrayListOf<String>()//     var mFragments = arrayListOf<Fragment>()
+
 //
 //    fun addFragment(fragment: Fragment, title: String) {
 //        mFragments.add(fragment)
@@ -134,8 +131,13 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         supportActionBar!!.title = null
 
 
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
+//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        val toggle = ActionBarDrawerToggle(
+                this, profileDrawerLayout, navigationBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        profileDrawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
 
@@ -167,7 +169,6 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
 //        })
 
 
-
         setupViewPager(pager)
         tabLayout.setupWithViewPager(pager)
         toast("ProfileActivity")
@@ -183,6 +184,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
 //        tabLayout.setupWithViewPager(viewPager)
 
 
+
         val userApi = provideUserApi(this)
         val userCall = userApi.getUserInfo()
         userCall.enqueue({ response ->
@@ -193,10 +195,11 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
                     nameText.text = it.name
                     IDText.text = it.login
                     emailText.text = it.email
+                    nameText_drawer.text = it.name
+                    IDText_drawer.text = it.login
 
                     Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
-
-
+                    Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage_drawer)
                 }
             }
         }, {
@@ -204,6 +207,8 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         })
 
     }
+
+
 
     private fun setupViewPager(viewPager: ViewPager) {
         val adapter = SectionsPageAdapter(supportFragmentManager)
@@ -214,6 +219,8 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         adapter.addFragment(FollowingTab(), "Following")
         viewPager.adapter = adapter
     }
+
+
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -238,14 +245,14 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
             }
         }
 
-//        drawer_layout.closeDrawer(GravityCompat.START)
+        profileDrawerLayout.closeDrawer(GravityCompat.START)
 
         return true
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (profileDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            profileDrawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
@@ -253,6 +260,10 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
+        signoutButton.setOnClickListener {
+            removeToken(this)
+            Log.i(TAG, "sign out button")
+        }
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
@@ -262,10 +273,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.home -> {
-                Log.i(TAG, "TTTTTT")
-                drawer_layout.openDrawer(GravityCompat.START)
-                return true}
+
             R.id.action_settings -> {
                startActivity<MainActivity>()
                 return true

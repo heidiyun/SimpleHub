@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/starringView"
         android:layout_width="match_parent"
@@ -17,5 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_starred" />
+
 
 </android.support.constraint.ConstraintLayout>

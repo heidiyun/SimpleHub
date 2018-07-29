@@ -20,17 +20,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/repo_item" />
 
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:layout_behavior="" />
-
-    </android.support.design.widget.CoordinatorLayout>
 </android.support.constraint.ConstraintLayout>
 

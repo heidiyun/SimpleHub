@@ -21,8 +21,6 @@ import com.example.user.simplehub.api.removeToken
 import com.example.user.simplehub.fragment.*
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.item_follower.view.*
 import kotlinx.android.synthetic.main.nav_header_main.*
@@ -234,7 +232,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
 
             }
             R.id.nav_issue-> {
-
+                startActivity<IssueActivity>()
             }
 
             R.id.nav_share -> {

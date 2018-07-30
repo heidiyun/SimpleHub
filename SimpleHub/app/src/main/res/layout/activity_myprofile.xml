@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profileDrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/profileBar"
@@ -47,7 +48,7 @@
                         android:id="@+id/nameText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Goo"
                         android:textSize="25dp"
@@ -58,46 +59,42 @@
                         android:id="@+id/IDText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="18dp"
                         android:text="hyun"
                         android:textSize="20dp"
                         app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
-                        tools:layout_editor_absoluteY="58dp" />
+                        app:layout_constraintTop_toBottomOf="@+id/nameText" />
 
                     <TextView
                         android:id="@+id/emailText"
-                        android:layout_width="108dp"
+                        android:layout_width="200dp"
                         android:layout_height="19dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="16dp"
                         android:text="heidi@gmail.com"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
                         app:layout_constraintTop_toBottomOf="@+id/IDText" />
 
-
                 </android.support.constraint.ConstraintLayout>
-
 
             </android.support.v7.widget.Toolbar>
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
         </android.support.design.widget.AppBarLayout>
 
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-        </android.support.v4.widget.NestedScrollView>
-
-        <include
-            layout="@layout/activity_profile_tab"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="127dp"
-            tools:layout_editor_absoluteY="383dp" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -118,6 +115,4 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 
-
 </android.support.v4.widget.DrawerLayout>
-

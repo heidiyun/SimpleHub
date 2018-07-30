@@ -72,3 +72,9 @@ fun provideStarringApi(context: Context) = Retrofit.Builder().apply {
     client(authHttpClient(context))
     addConverterFactory(GsonConverterFactory.create())
 }.build().create(StarringApi::class.java)
+
+fun provideIssueApi(context: Context) = Retrofit.Builder().apply {
+    baseUrl("https://api.github.com/")
+    client(authHttpClient(context))
+    addConverterFactory(GsonConverterFactory.create())
+}.build().create(IssueApi::class.java)

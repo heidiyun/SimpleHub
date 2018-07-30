@@ -25,6 +25,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/imageView"
                     android:layout_width="104dp"
                     android:layout_height="105dp"
                     android:layout_marginBottom="8dp"
@@ -37,32 +38,36 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Goo"
                     android:textSize="25dp"
-                    app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="16dp"
                     android:text="hyun"
                     android:textSize="20dp"
-                    app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
-                    tools:layout_editor_absoluteY="58dp" />
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
 
                 <TextView
                     android:layout_width="108dp"
                     android:layout_height="19dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:text="heidi@gmail.com"
-                    app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
-                    app:layout_constraintTop_toBottomOf="@+id/IDText" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
             </android.support.constraint.ConstraintLayout>

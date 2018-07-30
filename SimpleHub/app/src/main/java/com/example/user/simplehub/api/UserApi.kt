@@ -4,6 +4,7 @@ import com.example.user.simplehub.api.model.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Query
 
 interface UserApi {
     @GET("user")
@@ -33,4 +34,11 @@ interface StarringApi {
     @GET("user/starred")
     @Headers("Accept: application/json")
     fun getStarredInfo() : Call<List<GithubStarring>>
+}
+
+interface IssueApi {
+    @GET("user/issues")
+    @Headers("Accept: application/json")
+    fun getIssue(@Query("filter") filter: String,
+                 @Query("state") state: String) : Call<List<GithubIssue>>
 }

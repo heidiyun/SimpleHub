@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.ProfileActivity" />
-
+        <activity android:name=".ui.IssueActivity" />
 
     </application>
 

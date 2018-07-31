@@ -27,27 +27,12 @@ data class GithubIssue(@field:SerializedName("title") val title: String,
                        val repository: IssueRepo)
 
 
+data class PullsRepo(@field:SerializedName("full_name") val fullName: String)
 
-data class PullUser(val login: String)
+data class PullsUser(val login: String)
 
-data class PullHead(val ref: String)
-//master to
-
-data class PullBase(val ref: String,
-                    val repo: PullBaseRepo)
-
-// to master
-
-data class PullBaseRepo(val name: String)
-//repo name
-
-data class GithubPulls(val number: Int,
-                       val state: String,
-                       val title: String,
-                       val user: PullUser,
-                       val head: PullHead,
-                       val base: String
-                       )
-
-// number는 줄.
-//
+data class GithubPulls(val title: String,
+                       val number: Int,
+                       val user: PullsUser,
+                       val repository: PullsRepo,
+                       @field:SerializedName("created_at") val createdDate: String)

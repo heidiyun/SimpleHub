@@ -83,4 +83,4 @@ fun providePullsApi(context: Context) = Retrofit.Builder().apply {
     baseUrl("https://api.github.com/")
     client(authHttpClient(context))
     addConverterFactory(GsonConverterFactory.create())
-}.build()
+}.build().create(PullsApi::class.java)

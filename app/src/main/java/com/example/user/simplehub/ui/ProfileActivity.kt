@@ -229,7 +229,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
                 startActivity<ProfileActivity>()
             }
             R.id.nav_pullrequest -> {
-
+                startActivity<PullsActivity>()
             }
             R.id.nav_issue-> {
                 startActivity<IssueActivity>()

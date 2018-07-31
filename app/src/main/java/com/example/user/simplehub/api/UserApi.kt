@@ -43,3 +43,10 @@ interface IssueApi {
     fun getIssue(@Query("filter") filter: String,
                  @Query("state") state: String) : Call<List<GithubIssue>>
 }
+
+interface PullsApi {
+    @GET("user/issues")
+    @Headers("Accept: application/json")
+    fun getPulls(@Query("filter") filter: String,
+                 @Query("state") state: String) : Call<List<GithubPulls>>
+}

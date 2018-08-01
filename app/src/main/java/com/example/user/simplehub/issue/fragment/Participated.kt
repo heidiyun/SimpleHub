@@ -1,4 +1,4 @@
-package com.example.user.simplehub.issueFragment
+package com.example.user.simplehub.issue.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

@@ -1,4 +1,4 @@
-package com.example.user.simplehub.pullsFragment
+package com.example.user.simplehub.pulls.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,7 +11,7 @@ import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
 
-class CreatedClosed : Fragment() {
+class AssignedClosed: Fragment() {
     lateinit var issueListAdapter: PullsListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -23,7 +23,7 @@ class CreatedClosed : Fragment() {
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssuePulls("created", "closed")
+        val call = issueApi.getIssuePulls("assigned", "closed")
         call.enqueue({ response ->
             val result = response.body()
             result?.let {

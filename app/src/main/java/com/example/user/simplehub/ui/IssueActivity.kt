@@ -14,9 +14,9 @@ import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
 import com.example.user.simplehub.fragment.SectionsPageAdapter
-import com.example.user.simplehub.issueFragment.Assigned
-import com.example.user.simplehub.issueFragment.Created
-import com.example.user.simplehub.issueFragment.Mentioned
+import com.example.user.simplehub.issue.fragment.Assigned
+import com.example.user.simplehub.issue.fragment.Created
+import com.example.user.simplehub.issue.fragment.Mentioned
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_issue.*
 import kotlinx.android.synthetic.main.activity_profile_tab.*

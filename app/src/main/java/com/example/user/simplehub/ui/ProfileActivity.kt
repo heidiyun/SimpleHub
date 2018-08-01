@@ -63,30 +63,6 @@ import org.jetbrains.anko.toast
 //    }
 //}
 
-class RepoViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.repo_item, parent, false)
-)
-
-class SearchListAdapter : RecyclerView.Adapter<RepoViewHolder>() {
-    var items: List<GithubRepo> = emptyList()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
-        return RepoViewHolder(parent)
-    }
-
-    override fun getItemCount(): Int {
-        return items.count()
-    }
-
-    override fun onBindViewHolder(holder: RepoViewHolder, position: Int) {
-        val item = items[position]
-
-        with(holder.itemView) {
-            repoNameText.text = item.name
-        }
-    }
-
-}
 
 class FollowerViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_follower, parent, false)

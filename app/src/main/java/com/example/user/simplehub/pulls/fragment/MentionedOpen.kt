@@ -1,10 +1,8 @@
-package com.example.user.simplehub.issueFragment
+package com.example.user.simplehub.pulls.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,28 +11,28 @@ import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
 
-
-
-
-class MentionedClosed: Fragment() {
-
-    lateinit var issueListAdapter: IssueListAdapter
+class MentionedOpen : Fragment() {
+    lateinit var issueListAdapter: PullsListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view =  inflater.inflate(R.layout.created_tab_closed, container, false)
+        val view = inflater.inflate(R.layout.created_tab_closed, container, false)
 
 
-        issueListAdapter = IssueListAdapter()
+        issueListAdapter = PullsListAdapter()
         view.created_closed_view.adapter = issueListAdapter
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssue("mentioned", "closed")
+        val call = issueApi.getIssuePulls("mentioned", "open")
         call.enqueue({ response ->
             val result = response.body()
             result?.let {
-                issueListAdapter.items = it
-                issueListAdapter.notifyDataSetChanged()
+                for (i in 0 .. it.size-1) {
+                    if (it[i].pullRequest != null) {
+                        issueListAdapter.items = it
+                        issueListAdapter.notifyDataSetChanged()
+                    }
+                }
             }
         }, {
 

@@ -1,7 +1,6 @@
 package com.example.user.simplehub.api
 
 import com.example.user.simplehub.api.model.*
-import com.example.user.simplehub.issueFragment.CreatedOpen
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers

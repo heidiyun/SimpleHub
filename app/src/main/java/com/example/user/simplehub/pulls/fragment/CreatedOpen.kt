@@ -1,4 +1,4 @@
-package com.example.user.simplehub.pullsFragment
+package com.example.user.simplehub.pulls.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

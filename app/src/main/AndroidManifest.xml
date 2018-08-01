@@ -33,6 +33,7 @@
         <activity android:name=".ui.ProfileActivity" />
         <activity android:name=".ui.IssueActivity" />
         <activity android:name=".ui.PullsActivity" />
+        <activity android:name=".ui.RepoActivity" />
     </application>
 
 </manifest>

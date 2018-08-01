@@ -14,40 +14,32 @@ import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
 import com.example.user.simplehub.fragment.SectionsPageAdapter
-import com.example.user.simplehub.issueFragment.Assigned
-import com.example.user.simplehub.issueFragment.Created
-import com.example.user.simplehub.issueFragment.Mentioned
+import com.example.user.simplehub.pullsFragment.Assigned
+import com.example.user.simplehub.pullsFragment.Created
+import com.example.user.simplehub.pullsFragment.Mentioned
 import com.example.user.simplehub.utils.enqueue
-import kotlinx.android.synthetic.main.activity_issue.*
 import kotlinx.android.synthetic.main.activity_profile_tab.*
-import kotlinx.android.synthetic.main.app_bar_issue.*
+import kotlinx.android.synthetic.main.activity_pull_request.*
+import kotlinx.android.synthetic.main.app_bar_pulls.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
 
-
-
-class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+class PullsActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_issue)
-        setSupportActionBar(bar_issue)
+        setContentView(R.layout.activity_pull_request)
+        setSupportActionBar(bar_pulls)
         supportActionBar!!.title = null
-        // 원래 적용되는 이름이 있다. 없애주는 역할.
-
-        val toggle = ActionBarDrawerToggle(
-                this, issue_drawer, bar_issue, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        issue_drawer.addDrawerListener(toggle)
-        toggle.syncState()
-
-        navView_issue.setNavigationItemSelectedListener(this)
-
-
-//        setupSubViewPager(pager_issue_created)
-//        tab_issue_crated.setupWithViewPager(pager_issue_created)
 
         setupViewPager(pager_issue)
         tab_issue.setupWithViewPager(pager_issue)
+
+        val toggle = ActionBarDrawerToggle(
+                this, pulls_drawer, bar_pulls, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        pulls_drawer.addDrawerListener(toggle)
+        toggle.syncState()
+
+        navView_pulls.setNavigationItemSelectedListener(this)
 
         val githubApi = provideUserApi(this)
         val call = githubApi.getUserInfo()
@@ -63,7 +55,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         })
 
-
     }
 
 
@@ -74,8 +65,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         adapter.addFragment(Mentioned(), "Mentioned")
         viewPager.adapter = adapter
     }
-
-
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         item.setChecked(true)
@@ -100,14 +89,14 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             }
         }
 
-        issue_drawer.closeDrawer(GravityCompat.START)
+        pulls_drawer.closeDrawer(GravityCompat.START)
 
         return true
     }
 
     override fun onBackPressed() {
-        if (issue_drawer.isDrawerOpen(GravityCompat.START)) {
-            issue_drawer.closeDrawer(GravityCompat.START)
+        if (pulls_drawer.isDrawerOpen(GravityCompat.START)) {
+            pulls_drawer.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }

@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.model.GithubIssue
-import com.example.user.simplehub.api.provideIssueApi
+import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.IssueActivity
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_opend.view.*
@@ -69,7 +69,7 @@ class CreatedOpen: Fragment() {
         view.created_open_view.adapter = issueListAdapter
         view.created_open_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
-        val issueApi = provideIssueApi(activity!!.applicationContext)
+        val issueApi = provideUserApi(activity!!.applicationContext)
         val call = issueApi.getIssue("created", "open")
         call.enqueue({ response ->
             val result = response.body()

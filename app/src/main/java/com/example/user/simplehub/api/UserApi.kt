@@ -11,35 +11,33 @@ interface UserApi {
     @GET("user")
     @Headers("Accept: application/json")
     fun getUserInfo(): Call<GithubProfile>
-}
 
-interface RepoApi {
     @GET("user/repos")
     @Headers("Accept: application/json")
-    fun getUserInfo(): Call<List<GithubRepo>>
-}
+    fun getRepoInfo(): Call<List<GithubRepo>>
 
-interface FollowerApi {
     @GET("user/followers")
     @Headers("Accept: application/json")
     fun getFollowerInfo() : Call<List<GithubFollowers>>
-}
 
-interface FollowingApi {
     @GET("user/following")
     @Headers("Accept: application/json")
-    fun getFollowerInfo() : Call<List<GithubFollowing>>
-}
+    fun getFollowingInfo() : Call<List<GithubFollowing>>
 
-interface StarringApi {
     @GET("user/starred")
     @Headers("Accept: application/json")
     fun getStarredInfo() : Call<List<GithubStarring>>
-}
 
-interface IssueApi {
     @GET("user/issues")
     @Headers("Accept: application/json")
     fun getIssue(@Query("filter") filter: String,
                  @Query("state") state: String) : Call<List<GithubIssue>>
+
+    @GET("user/issues")
+    @Headers("Accept: application/json")
+    fun getIssuePulls(@Query("filter") filter: String,
+                 @Query("state") state: String) : Call<List<GithubPulls>>
 }
+
+
+

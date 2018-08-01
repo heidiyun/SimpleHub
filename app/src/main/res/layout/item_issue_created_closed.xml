@@ -13,36 +13,67 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/issueNameText"
+            android:id="@+id/pullsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="title"
+            app:layout_constraintStart_toEndOf="@+id/pullsRepo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/pullsUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="heideeee"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/pullsNumber" />
+
+        <TextView
+            android:id="@+id/pullsRepo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="code picture"
+            android:text="imguru/kotlin-lecture"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/issueOwner"
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="imguru/kotlin-lecture"
+            android:text="#"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/issueNameText" />
+            app:layout_constraintTop_toBottomOf="@+id/pullsRepo" />
 
         <TextView
-            android:id="@+id/issueDate"
+            android:id="@+id/pullsNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:text="2018-02-30"
+            android:layout_marginStart="4dp"
+            android:text="122"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/issueOwner" />
+            app:layout_constraintStart_toEndOf="@+id/textView3" />
+
+
+        <TextView
+            android:id="@+id/pullsDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="2018-02-02-201920309"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/pullsUser" />
 
 
     </android.support.constraint.ConstraintLayout>

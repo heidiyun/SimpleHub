@@ -7,10 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.user.simplehub.R
-import com.example.user.simplehub.api.provideIssueApi
+import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
-import kotlinx.android.synthetic.main.issue_tab_assigned.view.*
 
 class AssignedClosed: Fragment() {
 
@@ -22,7 +21,7 @@ class AssignedClosed: Fragment() {
         view.created_closed_view.adapter = issueListAdapter
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
-        val issueApi = provideIssueApi(activity!!.applicationContext)
+        val issueApi = provideUserApi(activity!!.applicationContext)
         val call = issueApi.getIssue("assigned", "closed")
         call.enqueue({
             response ->

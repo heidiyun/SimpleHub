@@ -7,10 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.user.simplehub.R
-import com.example.user.simplehub.api.provideGithubApi
+import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.SearchListAdapter
 import com.example.user.simplehub.utils.enqueue
-import kotlinx.android.synthetic.main.profile_tab_repository.*
 import kotlinx.android.synthetic.main.profile_tab_repository.view.*
 
 class RepositoryTab: Fragment() {
@@ -22,9 +21,9 @@ class RepositoryTab: Fragment() {
         view.repositoryView.adapter = listAdapter
         view.repositoryView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
-        val githubApi = provideGithubApi(activity!!.applicationContext)
+        val githubApi = provideUserApi(activity!!.applicationContext)
 
-        val call = githubApi.getUserInfo()
+        val call = githubApi.getRepoInfo()
         call.enqueue({ response ->
             val statusCode = response.code()
             if (statusCode == 200) {

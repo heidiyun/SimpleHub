@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.item_follower.view.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.android.synthetic.main.repo_item.*
 import kotlinx.android.synthetic.main.repo_item.view.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -122,15 +123,12 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
     }
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_myprofile)
         setSupportActionBar(navigationBar)
         supportActionBar!!.title = null
-
-
-//        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val toggle = ActionBarDrawerToggle(
                 this, profileDrawerLayout, navigationBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -139,49 +137,9 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
 
         navView.setNavigationItemSelectedListener(this)
 
-
-//        val tabLayout: TabLayout = findViewById(R.id.tabLayout)
-//        tabLayout.addTab(tabLayout.newTab().setText("Overview"))
-//        tabLayout.addTab(tabLayout.newTab().setText("Repository"))
-//        tabLayout.addTab(tabLayout.newTab().setText("Stars"))
-//        tabLayout.addTab(tabLayout.newTab().setText("Following"))
-//        tabLayout.addTab(tabLayout.newTab().setText("Followers"))
-//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL)
-
-
-//        val pagerAdapter = TabPagerAdapter(supportFragmentManager, tabLayout.tabCount)
-//        pager.adapter = pagerAdapter
-//        pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-//
-//        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabReselected(tab: TabLayout.Tab) {
-//                pager.setCurrentItem(tab.position)
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//            }
-//
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-//            }
-//
-//        })
-
-
         setupViewPager(pager)
         tabLayout.setupWithViewPager(pager)
         toast("ProfileActivity")
-
-//        val viewPager: ViewPager = findViewById(R.id.viewpager)
-//        val adapter: MyAdapter = MyAdapter(getSupportFragmentManager())
-//        adapter.addFragment(MyFragment(), "Overview")
-//        adapter.addFragment(MyFragment(), "Repository")
-//        adapter.addFragment(MyFragment(), "Follow")
-//        adapter.addFragment(MyFragment(), "Stars")
-//
-//        val tabLayout: TabLayout = findViewById(R.id.tabs)
-//        tabLayout.setupWithViewPager(viewPager)
-
-
 
         val userApi = provideUserApi(this)
         val userCall = userApi.getUserInfo()
@@ -203,6 +161,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         }, {
 
         })
+
 
     }
 
@@ -229,6 +188,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
                 startActivity<ProfileActivity>()
             }
             R.id.nav_pullrequest -> {
+                startActivity<PullsActivity>()
 
             }
             R.id.nav_issue-> {

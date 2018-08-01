@@ -9,15 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
-import com.example.user.simplehub.api.model.GithubFollowers
 import com.example.user.simplehub.api.model.GithubFollowing
-import com.example.user.simplehub.api.provideFollowerApi
-import com.example.user.simplehub.api.provideFollowingApi
-import com.example.user.simplehub.ui.FollowerListAdapter
+import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.item_follower.view.*
 import kotlinx.android.synthetic.main.profile_tab_follow.view.*
-import kotlinx.android.synthetic.main.profile_tab_follower.view.*
 
 class FollowingViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_follower, parent, false)
@@ -60,8 +56,8 @@ class FollowingTab : Fragment() {
         view.followingView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
 
-        val followingApi = provideFollowingApi(activity!!.applicationContext)
-        val followerCall = followingApi.getFollowerInfo()
+        val followingApi = provideUserApi(activity!!.applicationContext)
+        val followerCall = followingApi.getFollowingInfo()
         followerCall.enqueue({ response ->
             val result = response.body()
             result?.let {

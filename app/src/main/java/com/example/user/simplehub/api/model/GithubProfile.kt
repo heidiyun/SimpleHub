@@ -7,7 +7,11 @@ data class GithubProfile(@field:SerializedName("name") val name: String,
                          @field:SerializedName("email") val email: String,
                          @field:SerializedName("avatar_url") val avatarUrl: String)
 
-data class GithubRepo(val name: String)
+data class RepoOwner(val login: String)
+
+data class GithubRepo(val name: String,
+                      @field:SerializedName("full_name") val fullName: String,
+                      val owner: RepoOwner)
 
 data class GithubFollowers(val login: String,
                            @field:SerializedName("avatar_url") val avatarUrl: String,
@@ -40,3 +44,6 @@ data class GithubPulls(@field:SerializedName("pull_request") val pullRequest: Pu
                        @field:SerializedName("created_at") val PullsDate: String,
                        val repository: PullsRepo
 )
+
+data class GithubRepoContents(val name: String, val type: String)
+

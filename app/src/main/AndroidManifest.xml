@@ -34,6 +34,7 @@
         <activity android:name=".ui.IssueActivity" />
         <activity android:name=".ui.PullsActivity" />
         <activity android:name=".ui.RepoActivity" />
+        <activity android:name=".ui.DirActivity" />
     </application>
 
 </manifest>

@@ -89,8 +89,10 @@ class Code : Fragment() {
         return view
     }
 
+
+
     fun startAct(dirName: String) {
-        DirActivity.dirName = dirName
+        DirActivity.dirName.add(dirName)
         val intent = Intent(activity, DirActivity::class.java)
         startActivity(intent)
     }

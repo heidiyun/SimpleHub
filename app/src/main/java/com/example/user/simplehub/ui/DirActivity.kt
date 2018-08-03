@@ -15,13 +15,9 @@ import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_dir.*
 import kotlinx.android.synthetic.main.app_bar_dir.*
 import kotlinx.android.synthetic.main.item_repo_contents.view.*
-import kotlinx.android.synthetic.main.repo_tab_code.*
 
 
-
-
-
-class DirActivity: AppCompatActivity() {
+class DirActivity : AppCompatActivity() {
 
 
     class DirContentsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
@@ -64,17 +60,17 @@ class DirActivity: AppCompatActivity() {
 
     }
 
-    lateinit var listAdapter : DirListAdapter
+    lateinit var listAdapter: DirListAdapter
 
     companion object {
-        var dirName: String = ""
+        var dirName= mutableListOf<String>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dir)
 
-        bar_dir_text.text = dirName
+        bar_dir_text.text = dirName[dirName.size - 1]
 
         listAdapter = DirListAdapter()
 
@@ -82,7 +78,7 @@ class DirActivity: AppCompatActivity() {
         dirContentsView.layoutManager = LinearLayoutManager(this)
 
         val repoApi = provideUserApi(this)
-        val call = repoApi.getDirContents(RepoActivity.ownerName, RepoActivity.repoName, dirName)
+        val call = repoApi.getDirContents(RepoActivity.ownerName, RepoActivity.repoName, dirName.joinToString(separator = "/"))
         call.enqueue({ response ->
             val result = response.body()
             result?.let {
@@ -97,8 +93,14 @@ class DirActivity: AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        dirName.removeAt(dirName.size-1)
+
+    }
+
     fun startAct(dirName: String) {
-        DirActivity.dirName = dirName
+        DirActivity.dirName.add(dirName)
         val intent = Intent(this, DirActivity::class.java)
         startActivity(intent)
     }

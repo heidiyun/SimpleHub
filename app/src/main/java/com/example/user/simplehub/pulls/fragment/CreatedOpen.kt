@@ -71,7 +71,7 @@ class CreatedOpen : Fragment() {
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssuePulls("created", "open")
+        val call = issueApi.getIssue("created", "open")
         call.enqueue({ response ->
             val result = response.body()
             result?.let {

@@ -31,12 +31,8 @@ interface UserApi {
     @GET("user/issues")
     @Headers("Accept: application/json")
     fun getIssue(@Query("filter") filter: String,
-                 @Query("state") state: String): Call<List<GithubIssue>>
+                 @Query("state") state: String): Call<List<GithubPulls>>
 
-    @GET("user/issues")
-    @Headers("Accept: application/json")
-    fun getIssuePulls(@Query("filter") filter: String,
-                      @Query("state") state: String): Call<List<GithubPulls>>
 
     @GET("repos/{owner}/{repoName}/contents/{dirName}?ref=master")
     @Headers("Accept: application/json")
@@ -51,6 +47,15 @@ interface UserApi {
                        @Path("dirName") dirName: String): Call<GithubRepoContents>
 
 
+
+
+
+    @GET("repos/{owner}/{repoName}/issues")
+    @Headers("Accept: application/json")
+    fun getRepoPulls(@Path("owner") owner: String,
+                      @Path("repoName") repoName: String,
+                      @Query("filter") filter: String,
+                      @Query("state") state: String): Call<List<GithubPulls>>
 
 }
 

@@ -28,8 +28,12 @@ class MentionedOpen: Fragment() {
             response ->
             val result = response.body()
             result?.let {
-                issueListAdapter.items = it
-                issueListAdapter.notifyDataSetChanged()
+                for (i in 0..it.size - 1) {
+                    if (it[i].pullRequest == null) {
+                        issueListAdapter.items = it
+                        issueListAdapter.notifyDataSetChanged()
+                    }
+                }
             }
         }, {
 

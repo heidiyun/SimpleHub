@@ -23,7 +23,7 @@ class MentionedOpen : Fragment() {
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssuePulls("mentioned", "open")
+        val call = issueApi.getIssue("mentioned", "open")
         call.enqueue({ response ->
             val result = response.body()
             result?.let {

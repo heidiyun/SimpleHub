@@ -2,6 +2,7 @@ package com.example.user.simplehub.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
@@ -22,6 +23,7 @@ class FileActivity : AppCompatActivity() {
 
         toast("file Activity")
 
+        file.setMovementMethod(ScrollingMovementMethod.getInstance())
 
         bar_repo_text.text = DirActivity.dirName[DirActivity.dirName.size - 1]
 
@@ -38,7 +40,6 @@ class FileActivity : AppCompatActivity() {
             result?.let {
                 bar_repo_text.text = it.name
 
-
                 Thread {
                     var fullString = ""
                     val url = URL(it.url)
@@ -52,6 +53,7 @@ class FileActivity : AppCompatActivity() {
                         line = reader.readLine()
                         if (line == null) break
                         fullString += line
+                        fullString += "\n"
                     }
 
                     reader.close()
@@ -74,7 +76,7 @@ class FileActivity : AppCompatActivity() {
         DirActivity.dirName.removeAt(DirActivity.dirName.size - 1)
     }
 
-    private fun downloadFiles(url: String) {
 
-    }
+
+
 }

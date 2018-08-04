@@ -26,10 +26,6 @@ data class GithubStarring(@field:SerializedName("full_name") val fullName: Strin
 
 data class IssueRepo(@field:SerializedName("full_name") val fullName: String)
 
-data class GithubIssue(@field:SerializedName("title") val title: String,
-                       @field:SerializedName("closed_at") val closedDate: String,
-                       @field:SerializedName("pulls_url") val pullUrl: String,
-                       val repository: IssueRepo)
 
 data class PullsUser(val login: String)
 
@@ -46,4 +42,3 @@ data class GithubPulls(@field:SerializedName("pull_request") val pullRequest: Pu
 )
 
 data class GithubRepoContents(val name: String, val type: String, @field:SerializedName("download_url") val url: String)
-

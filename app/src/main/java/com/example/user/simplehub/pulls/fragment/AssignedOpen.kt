@@ -23,7 +23,7 @@ class AssignedOpen: Fragment() {
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssuePulls("assigned", "open")
+        val call = issueApi.getIssue("assigned", "open")
         call.enqueue({ response ->
             val result = response.body()
             result?.let {

@@ -6,10 +6,11 @@ import android.util.Log
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
+import kotlinx.android.synthetic.main.activity_file.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
 import org.jetbrains.anko.toast
 import java.io.BufferedReader
-import java.io.InputStream
+import java.io.File
 import java.io.InputStreamReader
 import java.net.URL
 
@@ -27,6 +28,7 @@ class FileActivity : AppCompatActivity() {
         val repoApi = provideUserApi(this)
         val call = repoApi.getDirContents(RepoActivity.ownerName,
                 RepoActivity.repoName, DirActivity.dirName.joinToString(separator = "/"))
+
         Log.i(FileActivity::class.java.simpleName,
                 "이름 : ${DirActivity
                         .dirName.joinToString(separator = "/")}")
@@ -35,7 +37,31 @@ class FileActivity : AppCompatActivity() {
             val result = response.body()
             result?.let {
                 bar_repo_text.text = it.name
-                downloadFiles(it.url)
+
+
+                Thread {
+                    var fullString = ""
+                    val url = URL(it.url)
+                    Log.i(FileActivity::class.java.simpleName, "url text: ${it.url}")
+                    val urlOpenStream = url.openStream()
+                    Log.i(FileActivity::class.java.simpleName, "url openstream, $urlOpenStream")
+                    val reader = BufferedReader(InputStreamReader(url.openStream()))
+
+                    var line: String?
+                    while (true) {
+                        line = reader.readLine()
+                        if (line == null) break
+                        fullString += line
+                    }
+
+                    reader.close()
+
+                    Log.i(FileActivity::class.java.simpleName, "url textd : ${fullString}")
+                    runOnUiThread{
+                        file.text = fullString
+                    }
+                }.start()
+
             }
         }, {
 
@@ -49,19 +75,6 @@ class FileActivity : AppCompatActivity() {
     }
 
     private fun downloadFiles(url: String) {
-        var fullString = ""
-        val url = URL(url)
 
-        val reader = BufferedReader(InputStreamReader(url.openStream()))
-        var line: String
-        while(true) {
-            line = reader.readLine()
-            if (line == null) break;
-            fullString += line
-        }
-
-        reader.close()
-
-        Log.i(FileActivity::class.java.simpleName, "text : ${fullString}")
     }
 }

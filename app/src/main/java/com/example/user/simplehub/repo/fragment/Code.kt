@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.example.user.simplehub.R
 import com.example.user.simplehub.api.model.GithubRepoContents
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.DirActivity
+import com.example.user.simplehub.ui.FileActivity
 import com.example.user.simplehub.ui.RepoActivity
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.item_repo_contents.view.*
@@ -53,9 +55,15 @@ class Code : Fragment() {
                     }
                 }
 
-                if (item.type == "file")
+                if (item.type == "file") {
                     Glide.with(this).load(R.drawable.ic_book).into(content_repo_image)
 
+                    card_repo.setOnClickListener {
+                        Log.i(DirActivity::class.java.simpleName, "click dir!!!")
+
+                        startFileAct(item.name)
+                    }
+                }
 
             }
         }
@@ -90,10 +98,15 @@ class Code : Fragment() {
     }
 
 
-
     fun startAct(dirName: String) {
         DirActivity.dirName.add(dirName)
         val intent = Intent(activity, DirActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun startFileAct(fileName: String) {
+        DirActivity.dirName.add(fileName)
+        val intent = Intent(activity, FileActivity::class.java)
         startActivity(intent)
     }
 }

@@ -45,5 +45,5 @@ data class GithubPulls(@field:SerializedName("pull_request") val pullRequest: Pu
                        val repository: PullsRepo
 )
 
-data class GithubRepoContents(val name: String, val type: String)
+data class GithubRepoContents(val name: String, val type: String, @field:SerializedName("download_url") val url: String)
 

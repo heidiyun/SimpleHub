@@ -73,7 +73,7 @@ class Code : Fragment() {
         view.repoContentsView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val repoApi = provideUserApi(activity!!.applicationContext)
-        val call = repoApi.getRepoContents(RepoActivity.ownerName, RepoActivity.repoName)
+        val call = repoApi.getRepoContents(RepoActivity.ownerName, RepoActivity.repoName, DirActivity.dirName.joinToString(separator = "/"))
         call.enqueue({ response ->
             val result = response.body()
             result?.let {

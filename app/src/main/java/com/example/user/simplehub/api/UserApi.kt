@@ -38,16 +38,19 @@ interface UserApi {
     fun getIssuePulls(@Query("filter") filter: String,
                       @Query("state") state: String): Call<List<GithubPulls>>
 
-    @GET("repos/{owner}/{repoName}/contents")
+    @GET("repos/{owner}/{repoName}/contents/{dirName}?ref=master")
     @Headers("Accept: application/json")
     fun getRepoContents(@Path("owner") owner: String,
-                        @Path("repoName") repoName: String): Call<List<GithubRepoContents>>
+                        @Path("repoName") repoName: String,
+                        @Path("dirName") dirName: String): Call<List<GithubRepoContents>>
 
     @GET("repos/{owner}/{repoName}/contents/{dirName}?ref=master")
     @Headers("Accept: application/json")
     fun getDirContents(@Path("owner") owner: String,
                        @Path("repoName") repoName: String,
-                       @Path("dirName") dirName: String): Call<List<GithubRepoContents>>
+                       @Path("dirName") dirName: String): Call<GithubRepoContents>
+
+
 
 }
 

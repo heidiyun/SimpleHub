@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -43,15 +44,24 @@ class DirActivity : AppCompatActivity() {
                 content_repo_name.text = item.name
 
 
+                if (item.type == "file") {
+                    Glide.with(this).load(R.drawable.ic_book).into(content_repo_image)
+                    card_repo.setOnClickListener {
+                        Log.i(DirActivity::class.java.simpleName, "click!!!")
+                        startFileAct(item.name)
+                    }
+                }
+
                 if (item.type == "dir") {
                     Glide.with(this).load(R.drawable.ic_baseline_folder_24px).into(content_repo_image)
                     card_repo.setOnClickListener {
+                        Log.i(DirActivity::class.java.simpleName, "click dir!!!")
+
                         startAct(item.name)
                     }
                 }
 
-                if (item.type == "file")
-                    Glide.with(this).load(R.drawable.ic_book).into(content_repo_image)
+
 
 
             }
@@ -63,7 +73,7 @@ class DirActivity : AppCompatActivity() {
     lateinit var listAdapter: DirListAdapter
 
     companion object {
-        var dirName= mutableListOf<String>()
+        var dirName = mutableListOf<String>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +88,7 @@ class DirActivity : AppCompatActivity() {
         dirContentsView.layoutManager = LinearLayoutManager(this)
 
         val repoApi = provideUserApi(this)
-        val call = repoApi.getDirContents(RepoActivity.ownerName, RepoActivity.repoName, dirName.joinToString(separator = "/"))
+        val call = repoApi.getRepoContents(RepoActivity.ownerName, RepoActivity.repoName, dirName.joinToString(separator = "/"))
         call.enqueue({ response ->
             val result = response.body()
             result?.let {
@@ -95,13 +105,19 @@ class DirActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        dirName.removeAt(dirName.size-1)
+        dirName.removeAt(dirName.size - 1)
 
     }
 
     fun startAct(dirName: String) {
         DirActivity.dirName.add(dirName)
         val intent = Intent(this, DirActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun startFileAct(fileName: String) {
+        DirActivity.dirName.add(fileName)
+        val intent = Intent(this, FileActivity::class.java)
         startActivity(intent)
     }
 }

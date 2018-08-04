@@ -184,6 +184,8 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         return true
     }
 
+
+
     override fun onBackPressed() {
         if (profileDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             profileDrawerLayout.closeDrawer(GravityCompat.START)

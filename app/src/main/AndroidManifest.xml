@@ -35,6 +35,7 @@
         <activity android:name=".ui.PullsActivity" />
         <activity android:name=".ui.RepoActivity" />
         <activity android:name=".ui.DirActivity" />
+        <activity android:name=".ui.FileActivity" />
     </application>
 
 </manifest>

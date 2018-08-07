@@ -16,7 +16,6 @@ import com.example.user.simplehub.api.model.GithubRepoContents
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.DirActivity
 import com.example.user.simplehub.ui.FileActivity
-import com.example.user.simplehub.ui.RepoActivity
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.item_repo_contents.view.*
 import kotlinx.android.synthetic.main.repo_tab_code.view.*
@@ -50,7 +49,7 @@ class Code : Fragment() {
                 if (item.type == "dir") {
                     Glide.with(this).load(R.drawable.ic_baseline_folder_24px).into(content_repo_image)
                     card_repo.setOnClickListener {
-                        startAct(item.name)
+                        startAct(item.name, repoName, ownerName)
 
                     }
                 }
@@ -61,7 +60,7 @@ class Code : Fragment() {
                     card_repo.setOnClickListener {
                         Log.i(DirActivity::class.java.simpleName, "click dir!!!")
 
-                        startFileAct(item.name)
+                        startFileAct(item.name, repoName, ownerName)
                     }
                 }
 
@@ -73,15 +72,27 @@ class Code : Fragment() {
 
     lateinit var listAdapter: RepoListAdapter
 
+    var repoName = ""
+    var ownerName = ""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.repo_tab_code, container, false)
         listAdapter = RepoListAdapter()
+        val bundle = arguments
+        arguments?.let {
+            Log.i("Arguments", "arguments: ${it.getString("repoName")}")
+            repoName = it.getString("repoName")
+            ownerName = it.getString("ownerName")
+
+        }
 
         view.repoContentsView.adapter = listAdapter
         view.repoContentsView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val repoApi = provideUserApi(activity!!.applicationContext)
-        val call = repoApi.getRepoContents(RepoActivity.ownerName, RepoActivity.repoName, DirActivity.dirName.joinToString(separator = "/"))
+
+        val call = repoApi.getRepoContents(ownerName, repoName, "")
+
         call.enqueue({ response ->
             val result = response.body()
             result?.let {
@@ -94,19 +105,28 @@ class Code : Fragment() {
 
         })
 
+
         return view
     }
 
 
-    fun startAct(dirName: String) {
-        DirActivity.dirName.add(dirName)
+    fun startAct(dirName: String, repoName: String, ownerName: String) {
         val intent = Intent(activity, DirActivity::class.java)
+        DirActivity.dirName.add(dirName)
+//        val dirNameList: ArrayList<String> = arrayListOf()
+//        dirNameList.add(dirName)
+//        intent.putExtra("dirName", dirNameList)
+        intent.putExtra("repoName", repoName)
+        intent.putExtra("ownerName", ownerName)
         startActivity(intent)
     }
 
-    fun startFileAct(fileName: String) {
-        DirActivity.dirName.add(fileName)
+    fun startFileAct(fileName: String, repoName: String, ownerName: String) {
         val intent = Intent(activity, FileActivity::class.java)
+        DirActivity.dirName.add(fileName)
+        intent.putExtra("fileName", fileName)
+        intent.putExtra("repoName", repoName)
+        intent.putExtra("ownerName", ownerName)
         startActivity(intent)
     }
 }

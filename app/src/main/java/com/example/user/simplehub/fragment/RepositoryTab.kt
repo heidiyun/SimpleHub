@@ -89,10 +89,10 @@ class RepositoryTab : Fragment() {
     }
 
     fun startAct(repoName: String, fullName: String, ownerName: String) {
-        RepoActivity.fullName = fullName
-        RepoActivity.repoName = repoName
-        RepoActivity.ownerName = ownerName
         val intent = Intent(activity, RepoActivity::class.java)
+        intent.putExtra("repoName", repoName)
+        intent.putExtra("fullName", fullName)
+        intent.putExtra("ownerName", ownerName)
         startActivity(intent)
     }
 

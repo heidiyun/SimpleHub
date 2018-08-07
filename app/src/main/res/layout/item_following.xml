@@ -25,33 +25,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/nameText"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
-            android:text="Goo"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/IDText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="72dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
             android:text="hyun"
             android:textColor="@color/IDtext"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/nameText"
+            app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 

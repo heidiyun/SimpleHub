@@ -19,52 +19,63 @@ import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
 import kotlinx.android.synthetic.main.item_issue_created_closed.view.*
 
-class RepoPullsListAdapter : RecyclerView.Adapter<PullsViewHolder>() {
-    var items: List<GithubPulls> = emptyList()
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PullsViewHolder {
-        return PullsViewHolder(parent)
-    }
-
-    override fun getItemCount(): Int {
-        return items.count()
-    }
-
-    override fun onBindViewHolder(holder: PullsViewHolder, position: Int) {
-        val item = items[position]
-
-        with(holder.itemView) {
-            if (item.pullRequest != null) {
-
-
-                pullsTitle.text = item.title
-                pullsDate.text = item.PullsDate
-                pullsNumber.text = item.number.toString()
-                pullsRepo.text = RepoActivity.ownerName + "/" + RepoActivity.repoName
-                pullsUser.text = item.user.login
-            } else {
-
-            }
-        }
-    }
-
-
-}
 
 
 class PullRequest: Fragment() {
 
+    inner class RepoPullsListAdapter : RecyclerView.Adapter<PullsViewHolder>() {
+        var items: List<GithubPulls> = emptyList()
+
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PullsViewHolder {
+            return PullsViewHolder(parent)
+        }
+
+        override fun getItemCount(): Int {
+            return items.count()
+        }
+
+        override fun onBindViewHolder(holder: PullsViewHolder, position: Int) {
+            val item = items[position]
+
+            with(holder.itemView) {
+                if (item.pullRequest != null) {
+
+
+                    pullsTitle.text = item.title
+                    pullsDate.text = item.PullsDate
+                    pullsNumber.text = item.number.toString()
+                    pullsRepo.text = ownerName + "/" + repoName
+                    pullsUser.text = item.user.login
+                } else {
+
+                }
+            }
+        }
+
+
+    }
+
     lateinit var pullsListAdapter: RepoPullsListAdapter
+    var repoName = ""
+    var ownerName = ""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.created_tab_closed, container, false)
+
+        arguments?.let {
+            repoName = it.getString("repoName")
+            ownerName = it.getString("ownerName")
+
+        }
 
         pullsListAdapter = RepoPullsListAdapter()
         view.created_closed_view.adapter = pullsListAdapter
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getRepoPulls(RepoActivity.ownerName, RepoActivity.repoName, "all", "all")
+        val call = issueApi.getRepoPulls(ownerName, repoName, "all", "all")
         call.enqueue({ response ->
             val result = response.body()
             result?.let {

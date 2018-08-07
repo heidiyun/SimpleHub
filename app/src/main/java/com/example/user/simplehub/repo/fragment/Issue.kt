@@ -54,16 +54,24 @@ class RepoIssueListAdapter : RecyclerView.Adapter<RepoIssuesViewHolder>() {
 class Issue : Fragment() {
 
     lateinit var issueListAdapter: RepoIssueListAdapter
+    var repoName = ""
+    var ownerName = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.issue_tab_mentioned, container, false)
+
+        arguments?.let {
+            repoName = it.getString("repoName")
+            ownerName = it.getString("ownerName")
+
+        }
 
         issueListAdapter = RepoIssueListAdapter()
         view.repo_issue_view.adapter = issueListAdapter
         view.repo_issue_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getRepoPulls(RepoActivity.ownerName, RepoActivity.repoName, "all", "all")
+        val call = issueApi.getRepoPulls(ownerName, repoName, "all", "all")
         call.enqueue({ response ->
             val result = response.body()
             result?.let {

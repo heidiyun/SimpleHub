@@ -62,25 +62,28 @@ class DirActivity : AppCompatActivity() {
                 }
 
 
-
-
             }
         }
 
 
     }
 
-    lateinit var listAdapter: DirListAdapter
-
     companion object {
-        var dirName = mutableListOf<String>()
+        var dirName: MutableList<String> = mutableListOf()
     }
+
+    lateinit var listAdapter: DirListAdapter
+    var repoName = ""
+    var ownerName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dir)
 
-        bar_dir_text.text = dirName[dirName.size - 1]
+        val bundle = intent.extras
+        repoName = bundle.getString("repoName")
+        ownerName = bundle.getString("ownerName")
+
 
         listAdapter = DirListAdapter()
 
@@ -88,36 +91,50 @@ class DirActivity : AppCompatActivity() {
         dirContentsView.layoutManager = LinearLayoutManager(this)
 
         val repoApi = provideUserApi(this)
-        val call = repoApi.getRepoContents(RepoActivity.ownerName, RepoActivity.repoName, dirName.joinToString(separator = "/"))
-        call.enqueue({ response ->
-            val result = response.body()
-            result?.let {
-                listAdapter.items = it
-                listAdapter.notifyDataSetChanged()
+
+        dirName?.let {
+            bar_dir_text.text = dirName[dirName.size - 1]
+
+            val call = repoApi.getRepoContents(ownerName, repoName, dirName.joinToString(separator = "/"))
+
+            call.enqueue({ response ->
+                val result = response.body()
+                result?.let {
+                    listAdapter.items = it
+                    listAdapter.notifyDataSetChanged()
 //                for(i in 0..result.size-1)
 //                    Log.i(RepoActivity::class.java.simpleName, "repo name: ${it[i].name}")
-            }
-        }, {
+                }
+            }, {
 
-        })
-
+            })
+        }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        dirName.removeAt(dirName.size - 1)
 
-    }
+        override fun onBackPressed() {
+            super.onBackPressed()
+            dirName.removeAt(dirName.size - 1)
 
-    fun startAct(dirName: String) {
-        DirActivity.dirName.add(dirName)
-        val intent = Intent(this, DirActivity::class.java)
-        startActivity(intent)
-    }
+        }
 
-    fun startFileAct(fileName: String) {
-        DirActivity.dirName.add(fileName)
-        val intent = Intent(this, FileActivity::class.java)
-        startActivity(intent)
-    }
+        fun startAct(dirName: String) {
+            DirActivity.dirName.add(dirName)
+            val intent = Intent(this, DirActivity::class.java)
+//            intent.putStringArrayListExtra("dirName", dirName)
+            intent.putExtra("ownerName", ownerName)
+            intent.putExtra("repoName", repoName)
+            startActivity(intent)
+        }
+
+        fun startFileAct(fileName: String) {
+//            this.dirName.add(fileName)
+            DirActivity.dirName.add(fileName)
+            val intent = Intent(this, FileActivity::class.java)
+//            intent.putStringArrayListExtra("dirName", this.dirName)
+            intent.putExtra("ownerName", ownerName)
+            intent.putExtra("repoName", repoName)
+            startActivity(intent)
+        }
+
 }

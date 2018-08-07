@@ -36,6 +36,8 @@
         <activity android:name=".ui.RepoActivity" />
         <activity android:name=".ui.DirActivity" />
         <activity android:name=".ui.FileActivity" />
+        <activity android:name=".ui.ContributorActivity" />
+        <activity android:name=".ui.CommitActivity" />
     </application>
 
 </manifest>

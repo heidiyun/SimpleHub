@@ -85,8 +85,6 @@ class FollowerListAdapter : RecyclerView.Adapter<FollowerViewHolder>() {
         with(holder.itemView) {
             IDText.text = item.login
             Glide.with(this).load(item.avatarUrl).into(ownerAvatarImage)
-
-
         }
     }
 

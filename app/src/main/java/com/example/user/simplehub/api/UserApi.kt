@@ -57,6 +57,16 @@ interface UserApi {
                       @Query("filter") filter: String,
                       @Query("state") state: String): Call<List<GithubPulls>>
 
+    @GET("repos/{owner}/{repoName}/contributors")
+    @Headers("Accept: application/json")
+    fun getRepoContributors(@Path("owner") owner: String,
+                            @Path("repoName") repoName: String): Call<List<GithubRepoContributors>>
+
+    @GET("repos/{owner}/{repoName}/commits")
+    @Headers("Accept: application/json")
+    fun getRepoCommits(@Path("owner") owner: String,
+                       @Path("repoName") repoName: String): Call<List<GithubRepoCommits>>
+
 }
 
 

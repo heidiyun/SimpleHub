@@ -41,4 +41,15 @@ data class GithubPulls(@field:SerializedName("pull_request") val pullRequest: Pu
                        val repository: PullsRepo
 )
 
-data class GithubRepoContents(val name: String, val type: String, @field:SerializedName("download_url") val url: String)
+data class GithubRepoContents(val name: String, val type: String,
+                              @field:SerializedName("download_url") val url: String)
+
+data class GithubRepoContributors(val login: String,
+                                  @field:SerializedName("avatar_url") val avatarUrl: String,
+                                  val contributions: Int)
+
+
+data class Committer(val login: String, val avatar_url: String)
+data class CommitCommitter(val date: String)
+data class Commit(val message: String, val committer: CommitCommitter)
+data class GithubRepoCommits(val commit: Commit, val committer: Committer)

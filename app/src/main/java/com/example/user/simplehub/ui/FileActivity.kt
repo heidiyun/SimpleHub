@@ -9,27 +9,29 @@ import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_file.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
-import org.jetbrains.anko.toast
 import java.io.BufferedReader
-import java.io.File
 import java.io.InputStreamReader
 import java.net.URL
 
 class FileActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file)
 
-        toast("file Activity")
+        val bundle = intent.extras
+        val repoName = bundle.getString("repoName")
+        val ownerName = bundle.getString("ownerName")
+
 
         file.setMovementMethod(ScrollingMovementMethod.getInstance())
 
         bar_repo_text.text = DirActivity.dirName[DirActivity.dirName.size - 1]
 
         val repoApi = provideUserApi(this)
-        val call = repoApi.getDirContents(RepoActivity.ownerName,
-                RepoActivity.repoName, DirActivity.dirName.joinToString(separator = "/"))
+        val call = repoApi.getDirContents(ownerName,
+                repoName, DirActivity.dirName.joinToString(separator = "/"))
 
         Log.i(FileActivity::class.java.simpleName,
                 "이름 : ${DirActivity
@@ -59,7 +61,7 @@ class FileActivity : AppCompatActivity() {
                     reader.close()
 
                     Log.i(FileActivity::class.java.simpleName, "url textd : ${fullString}")
-                    runOnUiThread{
+                    runOnUiThread {
                         file.text = fullString
                     }
                 }.start()
@@ -75,8 +77,6 @@ class FileActivity : AppCompatActivity() {
         super.onBackPressed()
         DirActivity.dirName.removeAt(DirActivity.dirName.size - 1)
     }
-
-
 
 
 }

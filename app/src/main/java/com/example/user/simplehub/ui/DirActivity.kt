@@ -68,13 +68,14 @@ class DirActivity : AppCompatActivity() {
 
     }
 
-    companion object {
-        var dirName: MutableList<String> = mutableListOf()
-    }
+//    companion object {
+//        var dirName: MutableList<String> = mutableListOf()
+//    }
 
     lateinit var listAdapter: DirListAdapter
     var repoName = ""
     var ownerName = ""
+    var dirName = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +84,7 @@ class DirActivity : AppCompatActivity() {
         val bundle = intent.extras
         repoName = bundle.getString("repoName")
         ownerName = bundle.getString("ownerName")
-
+        dirName = bundle.getStringArrayList("dirName")
 
         listAdapter = DirListAdapter()
 
@@ -92,49 +93,71 @@ class DirActivity : AppCompatActivity() {
 
         val repoApi = provideUserApi(this)
 
-        dirName?.let {
-            bar_dir_text.text = dirName[dirName.size - 1]
+//        dirName?.let {
+        bar_dir_text.text = dirName[dirName.size - 1]
 
-            val call = repoApi.getRepoContents(ownerName, repoName, dirName.joinToString(separator = "/"))
+        val call = repoApi.getRepoContents(ownerName, repoName, dirName.joinToString(separator = "/"))
 
-            call.enqueue({ response ->
-                val result = response.body()
-                result?.let {
-                    listAdapter.items = it
-                    listAdapter.notifyDataSetChanged()
+        call.enqueue({ response ->
+            val result = response.body()
+            result?.let {
+                listAdapter.items = it
+                listAdapter.notifyDataSetChanged()
 //                for(i in 0..result.size-1)
 //                    Log.i(RepoActivity::class.java.simpleName, "repo name: ${it[i].name}")
-                }
-            }, {
+            }
+        }, {
 
-            })
-        }
+        })
+//        }
     }
 
 
-        override fun onBackPressed() {
-            super.onBackPressed()
-            dirName.removeAt(dirName.size - 1)
+    override fun onBackPressed() {
+        dirName.removeAt(dirName.size - 1)
+        val intent = getIntent()
+        intent.putStringArrayListExtra("dirName", dirName)
+        setResult(RESULT_OK, intent)
+        finish()
+    }
 
-        }
+    fun startAct(dirName: String) {
+        this.dirName.add(dirName)
+        val intent = Intent(this, DirActivity::class.java)
+        intent.putStringArrayListExtra("dirName", this.dirName)
+        intent.putExtra("ownerName", ownerName)
+        intent.putExtra("repoName", repoName)
+        startActivityForResult(intent, 123)
+//        startActivity(intent)
+//        this.dirName.removeAt(this.dirName.size - 1)
+    }
 
-        fun startAct(dirName: String) {
-            DirActivity.dirName.add(dirName)
-            val intent = Intent(this, DirActivity::class.java)
-//            intent.putStringArrayListExtra("dirName", dirName)
-            intent.putExtra("ownerName", ownerName)
-            intent.putExtra("repoName", repoName)
-            startActivity(intent)
-        }
-
-        fun startFileAct(fileName: String) {
+    fun startFileAct(fileName: String) {
 //            this.dirName.add(fileName)
-            DirActivity.dirName.add(fileName)
-            val intent = Intent(this, FileActivity::class.java)
-//            intent.putStringArrayListExtra("dirName", this.dirName)
-            intent.putExtra("ownerName", ownerName)
-            intent.putExtra("repoName", repoName)
-            startActivity(intent)
-        }
+        this.dirName.add(fileName)
+        val intent = Intent(this, FileActivity::class.java)
+        intent.putStringArrayListExtra("dirName", this.dirName)
+        intent.putExtra("ownerName", ownerName)
+        intent.putExtra("repoName", repoName)
+//        startActivity(intent)
+        startActivityForResult(intent, 123)
+//        this.dirName.removeAt(this.dirName.size - 1)
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.i("dirActivity", "dirName22: $requestCode, $resultCode, $data")
+
+
+        if (requestCode == 123 || resultCode == RESULT_OK) {
+            Log.i("dirActivity", "dirName33")
+            data?.let {
+                this.dirName = it.getStringArrayListExtra("dirName")
+                for(i in 0..dirName.size-1) {
+                    Log.i("dirActivity", "dirName: ${dirName[i]}")
+                }
+            }
+        }
+    }
 }
+

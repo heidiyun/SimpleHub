@@ -162,7 +162,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
                 startActivity<ProfileActivity>()
             }
             R.id.nav_pullrequest -> {
-                startActivity<PullsActivity>()
+                startActivity<SearchActivity>()
 
             }
             R.id.nav_issue-> {

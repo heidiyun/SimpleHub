@@ -1,5 +1,6 @@
 package com.example.user.simplehub.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
@@ -15,6 +16,7 @@ import java.net.URL
 
 class FileActivity : AppCompatActivity() {
 
+    var dirName = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,19 +25,19 @@ class FileActivity : AppCompatActivity() {
         val bundle = intent.extras
         val repoName = bundle.getString("repoName")
         val ownerName = bundle.getString("ownerName")
+        dirName = bundle.getStringArrayList("dirName")
 
 
         file.setMovementMethod(ScrollingMovementMethod.getInstance())
 
-        bar_repo_text.text = DirActivity.dirName[DirActivity.dirName.size - 1]
+        bar_repo_text.text = dirName[dirName.size - 1]
 
         val repoApi = provideUserApi(this)
         val call = repoApi.getDirContents(ownerName,
-                repoName, DirActivity.dirName.joinToString(separator = "/"))
+                repoName, dirName.joinToString(separator = "/"))
 
         Log.i(FileActivity::class.java.simpleName,
-                "이름 : ${DirActivity
-                        .dirName.joinToString(separator = "/")}")
+                "이름 : ${dirName.joinToString(separator = "/")}")
 
         call.enqueue({ response ->
             val result = response.body()
@@ -74,8 +76,11 @@ class FileActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        DirActivity.dirName.removeAt(DirActivity.dirName.size - 1)
+        dirName.removeAt(dirName.size - 1)
+        val intent = getIntent()
+        intent.putStringArrayListExtra("dirName", dirName)
+        setResult(RESULT_OK, intent)
+        finish()
     }
 
 

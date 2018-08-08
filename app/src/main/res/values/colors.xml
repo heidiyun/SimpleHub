@@ -6,5 +6,6 @@
     <color name="buttonText">#FFF</color>
     <color name="IDtext">#2D87B0</color>
     <color name="tabBackground">#E5F1F7</color>
+    <color name="transparent">#1A000000</color>
 
 </resources>

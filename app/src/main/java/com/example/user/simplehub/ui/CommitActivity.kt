@@ -14,6 +14,8 @@ import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_repo_commits.*
 import kotlinx.android.synthetic.main.activity_repo_contributor.*
 import kotlinx.android.synthetic.main.item_repo_commits.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class CommitViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
@@ -36,8 +38,11 @@ class CommitListAdapter : RecyclerView.Adapter<CommitViewHolder>() {
         val item = items[position]
 
         with(holder.itemView) {
+            val dateFormat = SimpleDateFormat("MMM d YYYY HH:mm", Locale.getDefault())
+
+
             commitMessage.text = item.commit.message
-            commitDate.text = item.commit.committer.date
+            commitDate.text = getSimpleDate(item.commit.committer.date, dateFormat)
             committer.text = item.committer.login
             Glide.with(this).load(item.committer.avatar_url).into(commiterAvatarImage)
         }
@@ -77,4 +82,14 @@ class CommitActivity : AppCompatActivity() {
         })
 
     }
+}
+
+fun getSimpleDate(date: String, dateFormat: SimpleDateFormat): String {
+    val timeZone = TimeZone.getTimeZone("Africa/Casablanca")
+    val splitDate = date.replace("Z", ".000" + timeZone.displayName)
+    println(splitDate)
+    val givenDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
+    val parsedDate = givenDateFormat.parse(splitDate)
+//        val simpleDate = SimpleDateFormat("EEE, MMM d, HH:mm", Locale.getDefault())
+    return dateFormat.format(parsedDate)
 }

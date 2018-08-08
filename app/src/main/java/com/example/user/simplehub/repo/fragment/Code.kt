@@ -112,10 +112,9 @@ class Code : Fragment() {
 
     fun startAct(dirName: String, repoName: String, ownerName: String) {
         val intent = Intent(activity, DirActivity::class.java)
-        DirActivity.dirName.add(dirName)
-//        val dirNameList: ArrayList<String> = arrayListOf()
-//        dirNameList.add(dirName)
-//        intent.putExtra("dirName", dirNameList)
+        val dirNameList: ArrayList<String> = arrayListOf()
+        dirNameList.add(dirName)
+        intent.putExtra("dirName", dirNameList)
         intent.putExtra("repoName", repoName)
         intent.putExtra("ownerName", ownerName)
         startActivity(intent)
@@ -123,8 +122,9 @@ class Code : Fragment() {
 
     fun startFileAct(fileName: String, repoName: String, ownerName: String) {
         val intent = Intent(activity, FileActivity::class.java)
-        DirActivity.dirName.add(fileName)
-        intent.putExtra("fileName", fileName)
+        val dirNameList: ArrayList<String> = arrayListOf()
+        dirNameList.add(fileName)
+        intent.putExtra("dirName", dirNameList)
         intent.putExtra("repoName", repoName)
         intent.putExtra("ownerName", ownerName)
         startActivity(intent)

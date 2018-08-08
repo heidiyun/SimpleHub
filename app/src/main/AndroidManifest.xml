@@ -3,6 +3,8 @@
     package="com.example.user.simplehub">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
 
     <application
         android:allowBackup="true"
@@ -38,6 +40,7 @@
         <activity android:name=".ui.FileActivity" />
         <activity android:name=".ui.ContributorActivity" />
         <activity android:name=".ui.CommitActivity" />
+        <activity android:name=".ui.SearchActivity" />
     </application>
 
 </manifest>

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/repoMenu"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:background="#080808">
-
+    android:layout_height="match_parent">
 
     <include
         layout="@layout/app_bar_repo"
@@ -24,14 +21,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#BF000000"
+        android:visibility="invisible" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_contributor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -52,6 +53,7 @@
         android:layout_marginBottom="108dp"
         android:layout_marginEnd="5dp"
         android:text="contributor"
+        android:textColor="#ffff"
         android:textSize="18dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,12 +69,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="220dp"
         android:text="commit"
+        android:textColor="#ffff"
         android:textSize="18dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/contributor_button"
@@ -110,6 +112,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="310dp" />
-
 
 </android.support.constraint.ConstraintLayout>

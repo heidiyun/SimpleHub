@@ -1,13 +1,12 @@
 package com.example.user.simplehub.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.example.user.simplehub.R
@@ -18,8 +17,6 @@ import com.example.user.simplehub.repo.fragment.PullRequest
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
-import kotlinx.android.synthetic.main.view_background.*
-import kotlinx.android.synthetic.main.view_background.view.*
 
 class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -66,10 +63,11 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         when (id) {
             R.id.fab -> {
                 anim()
+                if (view.visibility == VISIBLE)
+                    view.visibility = INVISIBLE
+                else view.visibility = VISIBLE
             }
             R.id.contributor_button -> {
-//               setContentView(R.layout.view_background)
-
                 val intent = Intent(this, ContributorActivity::class.java)
                 intent.putExtra("repoName", repoName)
                 intent.putExtra("ownerName", ownerName)

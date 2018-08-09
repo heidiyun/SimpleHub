@@ -67,6 +67,10 @@ interface UserApi {
     fun getRepoCommits(@Path("owner") owner: String,
                        @Path("repoName") repoName: String): Call<List<GithubRepoCommits>>
 
+    @GET("search/users")
+    @Headers("Accept: application/json")
+    fun getUsers(@Query("q") query: String): Call<GithubUserItem>
+
 }
 
 

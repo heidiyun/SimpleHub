@@ -53,3 +53,8 @@ data class Committer(val login: String, val avatar_url: String)
 data class CommitCommitter(val date: String)
 data class Commit(val message: String, val committer: CommitCommitter)
 data class GithubRepoCommits(val commit: Commit, val committer: Committer)
+
+data class GithubUsers(val login: String,
+                       @field:SerializedName("avatar_url") val avatarUrl: String)
+
+data class GithubUserItem(val items: List<GithubUsers>)

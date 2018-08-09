@@ -92,6 +92,8 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         args.putString("repoName", repoName)
         args.putString("ownerName", ownerName)
         code.arguments = args
+        issue.arguments = args
+        pullRequest.arguments = args
         adapter.addFragment(code, "code")
         adapter.addFragment(issue, "Issue")
         adapter.addFragment(pullRequest, "Pull Request")

@@ -1,5 +1,7 @@
 package com.example.user.simplehub.ui
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -7,6 +9,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -104,12 +107,14 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         setSupportActionBar(navigationBar)
         supportActionBar!!.title = null
 
+
         val toggle = ActionBarDrawerToggle(
                 this, profileDrawerLayout, navigationBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         profileDrawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
+
 
         setupViewPager(pager)
         tabLayout.setupWithViewPager(pager)
@@ -162,8 +167,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
                 startActivity<ProfileActivity>()
             }
             R.id.nav_pullrequest -> {
-                startActivity<SearchActivity>()
-
+                startActivity<PullsActivity>()
             }
             R.id.nav_issue-> {
                 startActivity<IssueActivity>()
@@ -192,14 +196,25 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        signoutButton.setOnClickListener {
-            removeToken(this)
-            Log.i(TAG, "sign out button")
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        signoutButton.setOnClickListener {
+//            removeToken(this)
+//            Log.i(TAG, "sign out button")
+//        }
+//        menuInflater.inflate(R.menu.main, menu)
+//        return true
+//    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.fragment_search, menu)
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu?.findItem(R.id.menuItemSearch)?.actionView as SearchView).apply {
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
-        menuInflater.inflate(R.menu.main, menu)
+
         return true
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -215,6 +230,7 @@ class ProfileActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSel
             else -> return super.onOptionsItemSelected(item)
         }
     }
+
 
 
 

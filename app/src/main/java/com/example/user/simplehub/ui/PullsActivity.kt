@@ -119,7 +119,6 @@ class PullsActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
 
             R.id.action_settings -> {
-                startActivity<MainActivity>()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

@@ -12,6 +12,7 @@ import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
 
 class MentionedOpen : Fragment() {
+
     lateinit var issueListAdapter: PullsListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

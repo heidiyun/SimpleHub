@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ownerAvatarImage_drawer"
         android:layout_width="81dp"
         android:layout_height="83dp"

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View.VISIBLE
 import android.view.ViewGroup
@@ -17,8 +16,6 @@ import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.item_follower.view.*
-import kotlinx.android.synthetic.main.item_repo_contents.view.*
-
 
 class SearchViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_follower, parent, false)
@@ -82,12 +79,14 @@ class SearchActivity : Activity() {
                         noResult.visibility = VISIBLE
                     }
                     listAdapter.notifyDataSetChanged()
-
                 }
             }, {
                 println("error!!!!! ${it.localizedMessage}")
             })
         }
     }
+
+
+
 
 }

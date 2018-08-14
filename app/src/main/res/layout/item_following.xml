@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    android:id="@+id/followingCard"
     >
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ownerAvatarImage"
             android:layout_width="62dp"
             android:layout_height="49dp"

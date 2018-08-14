@@ -21,8 +21,12 @@ data class GithubFollowing(val login: String,
                            @field:SerializedName("avatar_url") val avatarUrl: String,
                            @field:SerializedName("html_url") val address: String)
 
+
 data class GithubStarring(@field:SerializedName("full_name") val fullName: String,
-                          @field:SerializedName("stargazers_count") val starNumber: Int)
+                          @field:SerializedName("stargazers_count") val starNumber: Int,
+                          val name: String,
+                          val owner: RepoOwner)
+
 
 data class IssueRepo(@field:SerializedName("full_name") val fullName: String)
 

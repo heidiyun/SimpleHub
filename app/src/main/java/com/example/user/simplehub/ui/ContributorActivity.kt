@@ -12,6 +12,7 @@ import com.example.user.simplehub.api.model.GithubRepoContributors
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_repo_contributor.*
+import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.item_repo_contributor.view.*
 
 class ContributorViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
@@ -39,18 +40,17 @@ class ContributorListAdapter : RecyclerView.Adapter<ContributorViewHolder>() {
             Glide.with(this).load(item.avatarUrl).into(loginAvatarImage)
         }
     }
-
-
 }
 
 class ContributorActivity: AppCompatActivity() {
-
 
     lateinit var listAdapter: ContributorListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repo_contributor)
+
+        profile.text = "contributor"
 
         listAdapter = ContributorListAdapter()
 

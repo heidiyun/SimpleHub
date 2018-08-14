@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline" />
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/commiterAvatarImage"
             android:layout_width="62dp"
             android:layout_height="49dp"
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_percent="0.56" />
 
 
     </android.support.constraint.ConstraintLayout>

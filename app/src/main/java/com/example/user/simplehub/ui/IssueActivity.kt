@@ -20,7 +20,7 @@ import com.example.user.simplehub.issue.fragment.Mentioned
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_issue.*
 import kotlinx.android.synthetic.main.activity_profile_tab.*
-import kotlinx.android.synthetic.main.app_bar_issue.*
+import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
 
@@ -31,17 +31,18 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_issue)
-        setSupportActionBar(bar_issue)
+        setSupportActionBar(navigationBar)
         supportActionBar!!.title = null
         // 원래 적용되는 이름이 있다. 없애주는 역할.
 
         val toggle = ActionBarDrawerToggle(
-                this, issue_drawer, bar_issue, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+                this, issue_drawer, navigationBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         issue_drawer.addDrawerListener(toggle)
         toggle.syncState()
 
         navView_issue.setNavigationItemSelectedListener(this)
 
+        profile.text = "issue"
 
 //        setupSubViewPager(pager_issue_created)
 //        tab_issue_crated.setupWithViewPager(pager_issue_created)
@@ -130,7 +131,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         when (item.itemId) {
 
             R.id.action_settings -> {
-                startActivity<MainActivity>()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

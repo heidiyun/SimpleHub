@@ -12,21 +12,21 @@ interface UserApi {
     @Headers("Accept: application/json")
     fun getUserInfo(): Call<GithubProfile>
 
-    @GET("user/repos")
+    @GET("users/{username}/repos?type=all")
     @Headers("Accept: application/json")
-    fun getRepoInfo(): Call<List<GithubRepo>>
+    fun getRepoInfo(@Path("username") userName: String): Call<List<GithubRepo>>
 
-    @GET("user/followers")
+    @GET("users/{username}/followers")
     @Headers("Accept: application/json")
-    fun getFollowerInfo(): Call<List<GithubFollowers>>
+    fun getFollowerInfo(@Path("username") userName: String): Call<List<GithubFollowers>>
 
-    @GET("user/following")
+    @GET("users/{username}/following")
     @Headers("Accept: application/json")
-    fun getFollowingInfo(): Call<List<GithubFollowing>>
+    fun getFollowingInfo(@Path("username") userName: String): Call<List<GithubFollowing>>
 
-    @GET("user/starred")
+    @GET("users/{username}/starred")
     @Headers("Accept: application/json")
-    fun getStarredInfo(): Call<List<GithubStarring>>
+    fun getStarredInfo(@Path("username") userName: String): Call<List<GithubStarring>>
 
     @GET("user/issues")
     @Headers("Accept: application/json")
@@ -45,9 +45,6 @@ interface UserApi {
     fun getDirContents(@Path("owner") owner: String,
                        @Path("repoName") repoName: String,
                        @Path("dirName") dirName: String): Call<GithubRepoContents>
-
-
-
 
 
     @GET("repos/{owner}/{repoName}/issues")
@@ -70,6 +67,10 @@ interface UserApi {
     @GET("search/users")
     @Headers("Accept: application/json")
     fun getUsers(@Query("q") query: String): Call<GithubUserItem>
+
+    @GET("users/{userName}")
+    @Headers("Accept: application/json")
+    fun getUser(@Path("userName") userName: String): Call<GithubProfile>
 
 }
 

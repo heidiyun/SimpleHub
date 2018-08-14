@@ -12,7 +12,9 @@ import com.example.user.simplehub.R
 import com.example.user.simplehub.api.model.GithubPulls
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.PullsActivity
+import com.example.user.simplehub.utils.dateFormat
 import com.example.user.simplehub.utils.enqueue
+import com.example.user.simplehub.utils.getSimpleDate
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
 import kotlinx.android.synthetic.main.item_issue_created_closed.view.*
 
@@ -45,7 +47,7 @@ class PullsListAdapter : RecyclerView.Adapter<PullsViewHolder>() {
                 Log.i(PullsActivity::class.java.simpleName, "pullsUser: ${item.user.login}")
 
                 pullsTitle.text = item.title
-                pullsDate.text = item.PullsDate
+                pullsDate.text = getSimpleDate(item.PullsDate, dateFormat)
                 pullsNumber.text = item.number.toString()
                 pullsRepo.text = item.repository.repoName
                 pullsUser.text = item.user.login

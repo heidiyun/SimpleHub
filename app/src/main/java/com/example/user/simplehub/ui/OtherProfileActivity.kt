@@ -20,88 +20,52 @@ import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
-//class MyAdapter(val fm: FragmentManager): FragmentPagerAdapter(fm) {
-//     var mFragmentTitles = arrayListOf<String>()//     var mFragments = arrayListOf<Fragment>()
-
-//
-//    fun addFragment(fragment: Fragment, title: String) {
-//        mFragments.add(fragment)
-//        mFragmentTitles.add(title)
-//    }
-//
-//    override fun getPageTitle(position: Int): CharSequence {
-//        return mFragmentTitles.get(position)
-//    }
-//
-//    override fun getItem(position: Int): Fragment {
-//        return mFragments.get(position)
-//    }
-//
-//    override fun getCount(): Int {
-//        return mFragments.size
-//    }
-//
-//}
-//
-//class MyFragment: Fragment() {
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        val resId: Int = R.layout.activity_profile
-//        return inflater.inflate(resId, null)
-//    }
-//
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//    }
-//}
-
-
-class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    companion object {
-        val TAG = ProfileActivity::class.java.simpleName
-    }
+class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_myprofile)
+
+        val bundle = intent.extras
+        val login = bundle.getString("login")
+
+        profile.text = "Profile"
         setSupportActionBar(navigationBar)
         supportActionBar!!.title = null
 
         val toggle = ActionBarDrawerToggle(
                 this, profileDrawerLayout, navigationBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+
         profileDrawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
-        toast("ProfileActivity")
+
+//        setupViewPager(pager)
 
         val userApi = provideUserApi(this)
-        val userCall = userApi.getUserInfo()
-        userCall.enqueue({ response ->
-            val statusCode = response.code()
-            if (statusCode == 200) {
-                val result = response.body()
-                result?.let {
-                    nameText.text = it.name
-                    IDText.text = it.login
-                    emailText.text = it.email
-                    nameText_drawer.text = it.name
-                    IDText_drawer.text = it.login
+        val userCall = userApi.getUser(login)
+        userCall.enqueue({
+            response ->
+            val result = response.body()
+            result?.let {
+                nameText.text = it.name
+                IDText.text = it.login
+                emailText.text = it.email
+                nameText_drawer.text = it.name
+                IDText_drawer.text = it.login
 
-                    Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
-                    Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage_drawer)
+                Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
+                Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage_drawer)
 
-                    setupViewPager(pager, it.login)
-                }
+                setupViewPager(pager, it.login)
             }
         }, {
 
         })
 
         tabLayout.setupWithViewPager(pager)
-
     }
 
     private fun setupViewPager(viewPager: ViewPager, login: String) {
@@ -178,4 +142,13 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            R.id.action_settings -> {
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
 }

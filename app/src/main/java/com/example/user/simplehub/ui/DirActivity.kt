@@ -14,7 +14,7 @@ import com.example.user.simplehub.api.model.GithubRepoContents
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_dir.*
-import kotlinx.android.synthetic.main.app_bar_dir.*
+import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.item_repo_contents.view.*
 
 
@@ -60,12 +60,8 @@ class DirActivity : AppCompatActivity() {
                         startAct(item.name)
                     }
                 }
-
-
             }
         }
-
-
     }
 
 //    companion object {
@@ -93,8 +89,7 @@ class DirActivity : AppCompatActivity() {
 
         val repoApi = provideUserApi(this)
 
-//        dirName?.let {
-        bar_dir_text.text = dirName[dirName.size - 1]
+        profile.text = dirName[dirName.size - 1]
 
         val call = repoApi.getRepoContents(ownerName, repoName, dirName.joinToString(separator = "/"))
 
@@ -109,7 +104,6 @@ class DirActivity : AppCompatActivity() {
         }, {
 
         })
-//        }
     }
 
 

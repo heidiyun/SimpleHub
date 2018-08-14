@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <include
-        layout="@layout/app_bar_contributor"
+        layout="@layout/app_bar_navigation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"

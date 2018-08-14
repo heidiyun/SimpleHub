@@ -18,9 +18,10 @@ import kotlinx.android.synthetic.main.profile_tab_repository.view.*
 import kotlinx.android.synthetic.main.repo_item.view.*
 
 
-
-
 class RepositoryTab : Fragment() {
+
+
+    var login = ""
 
     class RepoViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.repo_item, parent, false)
@@ -57,10 +58,6 @@ class RepositoryTab : Fragment() {
     }
 
 
-
-
-
-
     lateinit var listAdapter: SearchListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,9 +65,14 @@ class RepositoryTab : Fragment() {
         listAdapter = SearchListAdapter(activity!!.applicationContext)
         view.repositoryView.adapter = listAdapter
         view.repositoryView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+        val bundle = arguments
+
+        bundle?.let {
+            login = it.getString("login")
+        }
 
         val githubApi = provideUserApi(activity!!.applicationContext)
-        val call = githubApi.getRepoInfo()
+        val call = githubApi.getRepoInfo(login)
         call.enqueue({ response ->
             val statusCode = response.code()
             if (statusCode == 200) {
@@ -84,6 +86,7 @@ class RepositoryTab : Fragment() {
         }, {
 
         })
+
 
         return view
     }

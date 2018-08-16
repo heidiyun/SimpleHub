@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
+import com.example.user.simplehub.FragmentExample
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.fragment.*
 import com.example.user.simplehub.utils.enqueue
@@ -20,42 +21,6 @@ import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
-
-//class MyAdapter(val fm: FragmentManager): FragmentPagerAdapter(fm) {
-//     var mFragmentTitles = arrayListOf<String>()//     var mFragments = arrayListOf<Fragment>()
-
-//
-//    fun addFragment(fragment: Fragment, title: String) {
-//        mFragments.add(fragment)
-//        mFragmentTitles.add(title)
-//    }
-//
-//    override fun getPageTitle(position: Int): CharSequence {
-//        return mFragmentTitles.get(position)
-//    }
-//
-//    override fun getItem(position: Int): Fragment {
-//        return mFragments.get(position)
-//    }
-//
-//    override fun getCount(): Int {
-//        return mFragments.size
-//    }
-//
-//}
-//
-//class MyFragment: Fragment() {
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        val resId: Int = R.layout.activity_profile
-//        return inflater.inflate(resId, null)
-//    }
-//
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//    }
-//}
-
 
 class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -75,7 +40,7 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
-        toast("ProfileActivity")
+
 
         val userApi = provideUserApi(this)
         val userCall = userApi.getUserInfo()
@@ -107,7 +72,7 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private fun setupViewPager(viewPager: ViewPager, login: String) {
         val adapter = SectionsPageAdapter(supportFragmentManager)
         val overview = OverviewTab()
-        val repository = RepositoryTab()
+        val repository: RepositoryTab = RepositoryTab()
         val star = StarTab()
         val follower = FollowerTab()
         val following = FollowingTab()
@@ -173,9 +138,20 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         menuInflater.inflate(R.menu.fragment_search, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu?.findItem(R.id.menuItemSearch)?.actionView as SearchView).apply {
+            setOnSearchClickListener {
+                val fragmentManager = fragmentManager
+                val fragmentTransaction = fragmentManager.beginTransaction()
+                val fragment = FragmentExample()
+                fragmentTransaction.add(R.id.contents, fragment)
+                fragmentTransaction.commit()
+            }
+
+
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return true
     }
-
 }
+
+
+

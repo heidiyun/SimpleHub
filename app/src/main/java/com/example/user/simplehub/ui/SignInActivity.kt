@@ -56,7 +56,6 @@ class SignInActivity : AppCompatActivity() {
         val code = uri?.getQueryParameter("code") ?: throw IllegalStateException("no code!")
 
         getAccessToken(code)
-        toast("onNewIntent")
 
     }
 
@@ -65,10 +64,8 @@ class SignInActivity : AppCompatActivity() {
 
         call.enqueue({
             it.body()?.let {
-                toast(it.toString())
                 Log.i(TAG, "code = ${it.accessToken}")
                 updateToken(this, it.accessToken)
-                toast("startActivity")
 
                 startActivity<ProfileActivity>()
             }

@@ -50,9 +50,9 @@ interface UserApi {
     @GET("repos/{owner}/{repoName}/issues")
     @Headers("Accept: application/json")
     fun getRepoPulls(@Path("owner") owner: String,
-                      @Path("repoName") repoName: String,
-                      @Query("filter") filter: String,
-                      @Query("state") state: String): Call<List<GithubPulls>>
+                     @Path("repoName") repoName: String,
+                     @Query("filter") filter: String,
+                     @Query("state") state: String): Call<List<GithubPulls>>
 
     @GET("repos/{owner}/{repoName}/contributors")
     @Headers("Accept: application/json")

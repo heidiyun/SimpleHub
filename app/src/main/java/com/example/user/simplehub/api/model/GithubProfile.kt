@@ -10,8 +10,8 @@ data class GithubProfile(@field:SerializedName("name") val name: String,
 data class RepoOwner(val login: String)
 
 data class GithubRepo(val name: String,
-                      @field:SerializedName("full_name") val fullName: String,
-                      val owner: RepoOwner)
+                      val owner: RepoOwner,
+                      @field:SerializedName("full_name") val fullName: String)
 
 data class GithubFollowers(val login: String,
                            @field:SerializedName("avatar_url") val avatarUrl: String,
@@ -21,15 +21,10 @@ data class GithubFollowing(val login: String,
                            @field:SerializedName("avatar_url") val avatarUrl: String,
                            @field:SerializedName("html_url") val address: String)
 
-
 data class GithubStarring(@field:SerializedName("full_name") val fullName: String,
                           @field:SerializedName("stargazers_count") val starNumber: Int,
                           val name: String,
                           val owner: RepoOwner)
-
-
-data class IssueRepo(@field:SerializedName("full_name") val fullName: String)
-
 
 data class PullsUser(val login: String)
 
@@ -38,12 +33,11 @@ data class PullsRepo(@field:SerializedName("full_name") val repoName: String)
 data class Pulls(val url: String)
 
 data class GithubPulls(@field:SerializedName("pull_request") val pullRequest: Pulls?,
+                       @field:SerializedName("created_at") val PullsDate: String,
                        val title: String,
                        val number: Int,
                        val user: PullsUser,
-                       @field:SerializedName("created_at") val PullsDate: String,
-                       val repository: PullsRepo
-)
+                       val repository: PullsRepo)
 
 data class GithubRepoContents(val name: String, val type: String,
                               @field:SerializedName("download_url") val url: String)
@@ -52,10 +46,12 @@ data class GithubRepoContributors(val login: String,
                                   @field:SerializedName("avatar_url") val avatarUrl: String,
                                   val contributions: Int)
 
-
 data class Committer(val login: String, val avatar_url: String)
+
 data class CommitCommitter(val date: String)
+
 data class Commit(val message: String, val committer: CommitCommitter)
+
 data class GithubRepoCommits(val commit: Commit, val committer: Committer)
 
 data class GithubUsers(val login: String,

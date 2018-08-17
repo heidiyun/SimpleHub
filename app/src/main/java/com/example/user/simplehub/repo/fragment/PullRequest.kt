@@ -46,7 +46,8 @@ class PullRequest: Fragment() {
                     pullsTitle.text = item.title
                     pullsDate.text = item.PullsDate
                     pullsNumber.text = item.number.toString()
-                    pullsRepo.text = ownerName + "/" + repoName
+                    val name = "$ownerName/$repoName"
+                    pullsRepo.text = name
                     pullsUser.text = item.user.login
                 } else {
 

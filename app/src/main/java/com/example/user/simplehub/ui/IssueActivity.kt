@@ -32,7 +32,7 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_issue)
         setSupportActionBar(navigationBar)
-        supportActionBar!!.title = null
+        supportActionBar?.title = null
         // 원래 적용되는 이름이 있다. 없애주는 역할.
 
         val toggle = ActionBarDrawerToggle(
@@ -43,7 +43,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         navView_issue.setNavigationItemSelectedListener(this)
 
         profile.text = "issue"
-
 //        setupSubViewPager(pager_issue_created)
 //        tab_issue_crated.setupWithViewPager(pager_issue_created)
 
@@ -63,8 +62,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }, {
 
         })
-
-
     }
 
 
@@ -79,16 +76,17 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        item.setChecked(true)
+        item.isChecked = true
 
         when (item.itemId) {
             R.id.nav_profile-> {
                 startActivity<ProfileActivity>()
             }
+
             R.id.nav_pullrequest -> {
                 startActivity<PullsActivity>()
-
             }
+
             R.id.nav_issue-> {
                 startActivity<IssueActivity>()
             }
@@ -96,6 +94,7 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             R.id.nav_share -> {
 
             }
+
             R.id.nav_send -> {
 
             }
@@ -128,12 +127,12 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
+        return when (item.itemId) {
 
             R.id.action_settings -> {
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

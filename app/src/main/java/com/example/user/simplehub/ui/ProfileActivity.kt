@@ -12,13 +12,14 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
-import com.example.user.simplehub.R
 import com.example.user.simplehub.FragmentExample
+import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.fragment.*
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
+import kotlinx.android.synthetic.main.fragment_example.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
 
@@ -40,7 +41,6 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
-
 
         val userApi = provideUserApi(this)
         val userCall = userApi.getUserInfo()
@@ -92,7 +92,7 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        item.setChecked(true)
+        item.isChecked = true
 
         when (item.itemId) {
             R.id.nav_profile -> {
@@ -101,6 +101,7 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             R.id.nav_pullrequest -> {
                 startActivity<PullsActivity>()
             }
+
             R.id.nav_issue -> {
                 startActivity<IssueActivity>()
             }
@@ -108,6 +109,7 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             R.id.nav_share -> {
 
             }
+
             R.id.nav_send -> {
 
             }
@@ -119,7 +121,8 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     override fun onBackPressed() {
         if (profileDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             profileDrawerLayout.closeDrawer(GravityCompat.START)
-        } else {
+        }
+        else {
             super.onBackPressed()
         }
     }
@@ -138,20 +141,35 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         menuInflater.inflate(R.menu.fragment_search, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu?.findItem(R.id.menuItemSearch)?.actionView as SearchView).apply {
+            val fragment = FragmentExample()
+
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    println("newText $newText")
+                    newText?.let {
+                        fragment.setApi(it)
+                    }
+                    return true
+                }
+            })
+
             setOnSearchClickListener {
-                val fragmentManager = fragmentManager
-                val fragmentTransaction = fragmentManager.beginTransaction()
-                val fragment = FragmentExample()
-                fragmentTransaction.add(R.id.contents, fragment)
-                fragmentTransaction.commit()
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.contents, fragment)
+                        .commit()
             }
 
-
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            setOnCloseListener {
+                supportFragmentManager.beginTransaction().remove(fragment).commit()
+                println("close click!")
+                false
+            }
+//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return true
     }
 }
-
-
-

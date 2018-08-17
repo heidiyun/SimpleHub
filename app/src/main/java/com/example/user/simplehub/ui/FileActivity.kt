@@ -28,7 +28,7 @@ class FileActivity : AppCompatActivity() {
         dirName = bundle.getStringArrayList("dirName")
 
 
-        file.setMovementMethod(ScrollingMovementMethod.getInstance())
+        file.movementMethod = ScrollingMovementMethod.getInstance()
 
         bar_repo_text.text = dirName[dirName.size - 1]
 
@@ -62,7 +62,7 @@ class FileActivity : AppCompatActivity() {
 
                     reader.close()
 
-                    Log.i(FileActivity::class.java.simpleName, "url textd : ${fullString}")
+                    Log.i(FileActivity::class.java.simpleName, "url textd : $fullString")
                     runOnUiThread {
                         file.text = fullString
                     }
@@ -77,7 +77,7 @@ class FileActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         dirName.removeAt(dirName.size - 1)
-        val intent = getIntent()
+        val intent = intent
         intent.putStringArrayListExtra("dirName", dirName)
         setResult(RESULT_OK, intent)
         finish()

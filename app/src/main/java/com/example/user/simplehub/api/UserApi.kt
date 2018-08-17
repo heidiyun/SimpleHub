@@ -8,6 +8,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserApi {
+
     @GET("user")
     @Headers("Accept: application/json")
     fun getUserInfo(): Call<GithubProfile>
@@ -33,7 +34,6 @@ interface UserApi {
     fun getIssue(@Query("filter") filter: String,
                  @Query("state") state: String): Call<List<GithubPulls>>
 
-
     @GET("repos/{owner}/{repoName}/contents/{dirName}?ref=master")
     @Headers("Accept: application/json")
     fun getRepoContents(@Path("owner") owner: String,
@@ -45,7 +45,6 @@ interface UserApi {
     fun getDirContents(@Path("owner") owner: String,
                        @Path("repoName") repoName: String,
                        @Path("dirName") dirName: String): Call<GithubRepoContents>
-
 
     @GET("repos/{owner}/{repoName}/issues")
     @Headers("Accept: application/json")
@@ -73,6 +72,3 @@ interface UserApi {
     fun getUser(@Path("userName") userName: String): Call<GithubProfile>
 
 }
-
-
-

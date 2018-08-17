@@ -67,7 +67,7 @@ class PullsActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        item.setChecked(true)
+        item.isChecked = true
 
         when (item.itemId) {
             R.id.nav_profile-> {
@@ -116,12 +116,12 @@ class PullsActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
+        return when (item.itemId) {
 
             R.id.action_settings -> {
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

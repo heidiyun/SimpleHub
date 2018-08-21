@@ -133,14 +133,16 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     }
 
     override fun onBackPressed() {
+
         if (profileDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             println("drawer open")
             profileDrawerLayout.closeDrawer(GravityCompat.START)
         } else if (fragment.isVisible) {
             println("fragment visible")
 //            supportFragmentManager.beginTransaction().remove(fragment).commit()
-            listener.onClose()
+            // listener.onClose()
             searchview?.isIconified = true
+            searchview!!.clearFocus()
 
         } else {
             println("super")
@@ -184,14 +186,7 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                         .commit()
             }
             searchview = this
-
             setOnCloseListener(listener)
-
-//            setOnCloseListener {
-//                supportFragmentManager.beginTransaction().remove(fragment).commit()
-//                println("close click!")
-//                false
-//            }
 //            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return true

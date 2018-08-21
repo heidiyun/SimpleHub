@@ -17,6 +17,7 @@ import com.example.user.simplehub.repo.fragment.PullRequest
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
+import kotlinx.android.synthetic.main.head_repo.*
 
 class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -48,6 +49,13 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         setupWithViewpager(pager_issue, repoName, ownerName)
         tab_issue.setupWithViewPager(pager_issue)
 
+        starButton.setOnClickListener {
+            starButton.setImageResource(R.drawable.ic_yellow_star)
+        }
+
+        eyeButton.setOnClickListener {
+            eyeButton.setImageResource(R.drawable.ic_yellow_eye)
+        }
 
         fab_open = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)
         fab_close = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)
@@ -55,7 +63,6 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         fab.setOnClickListener(this)
         commit_feed_button.setOnClickListener(this)
         contributor_button.setOnClickListener(this)
-
     }
 
     override fun onClick(v: View) {
@@ -80,6 +87,7 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
                 intent.putExtra("ownerName", ownerName)
                 startActivity(intent)
             }
+
         }
     }
 

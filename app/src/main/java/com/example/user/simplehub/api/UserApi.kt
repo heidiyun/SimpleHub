@@ -79,4 +79,9 @@ interface UserApi {
     @PUT("user/following/{username}")
     @Headers("Accept: application/json")
     fun putFollowing(@Path("username") userName: String): Call<GithubFollowing>
+
+    @PUT("user/starred/{owner}/{repo}")
+    fun putStarring(@Path("owner") userName: String,
+                    @Path("repo") repoName: String): Call<GithubFollowing>
+
 }

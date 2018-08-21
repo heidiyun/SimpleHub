@@ -37,8 +37,7 @@ class SignInActivity : AppCompatActivity() {
                     .appendPath("oauth")
                     .appendPath("authorize")
                     .appendQueryParameter("client_id", CLIENT_ID)
-                    .appendQueryParameter("scope", "repo")
-                    .appendQueryParameter("scope", "user:follow")
+                    .appendQueryParameter("scope", "user:follow & repo")
                     .build()
 
             val intent = CustomTabsIntent.Builder().build()

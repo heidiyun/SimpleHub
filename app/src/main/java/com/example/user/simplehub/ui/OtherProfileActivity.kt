@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
@@ -19,6 +20,7 @@ import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.android.synthetic.main.profile_tab_follow.*
 import org.jetbrains.anko.startActivity
 
 class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -44,7 +46,10 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
 //        setupViewPager(pager)
 
+
         val userApi = provideUserApi(this)
+        val userFollowingCall = userApi.getAuthFollowingInfo()
+
         val userCall = userApi.getUser(login)
         userCall.enqueue({
             response ->
@@ -52,20 +57,63 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
             result?.let {
                 nameText.text = it.name
                 IDText.text = it.login
-                emailText.text = it.email
-                nameText_drawer.text = it.name
+                if (it.email == null) {
+                    emailText.visibility = View.GONE
+                } else {
+                    emailText.text = it.email
+                }
+                 nameText_drawer.text = it.name
                 IDText_drawer.text = it.login
 
                 Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
                 Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage_drawer)
 
                 setupViewPager(pager, it.login)
+
+                userFollowingCall.enqueue({
+                    response ->
+                    val result2 = response.body()
+                    result2?.let { following ->
+                        for (i in 0 until following.size) {
+                            println("following name: ${following[i].login}")
+                            if (following[i].login == IDText.text) {
+                                followButton.text = "Unfollow"
+                            }
+                        }
+                    }
+                }, {
+                    exception ->
+
+                })
             }
         }, {
 
         })
 
         tabLayout.setupWithViewPager(pager)
+
+        followButton.setOnClickListener {
+            if(followButton.text == "Unfollow") {
+                val call = userApi.deleteFollowing(IDText.text as String)
+                call.enqueue({
+                    response ->
+                    followButton.text = "Follow"
+
+                }, {
+                    exception ->
+                    exception.printStackTrace()
+                })
+            } else {
+                val call = userApi.putFollowing(IDText.text as String)
+                call.enqueue({
+                    response ->
+                    followButton.text = "Unfollow"
+                }, {
+                    exception ->
+                    exception.printStackTrace()
+                })
+            }
+        }
     }
 
     private fun setupViewPager(viewPager: ViewPager, login: String) {

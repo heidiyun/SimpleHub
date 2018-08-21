@@ -58,3 +58,10 @@ data class GithubUsers(val login: String,
                        @field:SerializedName("avatar_url") val avatarUrl: String)
 
 data class GithubUserItem(val items: List<GithubUsers>)
+
+//
+//data class UserEventsActor(val login: String)
+//data class UserEventsRepo(val name: String)
+//data class UserEvnetsPayload()
+//data class UserEvents(val type: String,
+//                      val actor: )

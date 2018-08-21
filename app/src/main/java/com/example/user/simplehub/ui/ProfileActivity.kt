@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.bumptech.glide.Glide
 import com.example.user.simplehub.FragmentExample
 import com.example.user.simplehub.R
@@ -19,7 +20,6 @@ import com.example.user.simplehub.fragment.*
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
-import kotlinx.android.synthetic.main.fragment_example.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
 
@@ -28,6 +28,14 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     companion object {
         val TAG = ProfileActivity::class.java.simpleName
     }
+
+    val fragment = FragmentExample()
+    var listener: SearchView.OnCloseListener = SearchView.OnCloseListener {
+        supportFragmentManager.beginTransaction().remove(fragment).commit()
+        false
+    }
+
+    var searchview: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +50,8 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
         navView.setNavigationItemSelectedListener(this)
 
+        followButton.visibility = View.GONE
+
         val userApi = provideUserApi(this)
         val userCall = userApi.getUserInfo()
         userCall.enqueue({ response ->
@@ -51,7 +61,11 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 result?.let {
                     nameText.text = it.name
                     IDText.text = it.login
-                    emailText.text = it.email
+                    if (it.email == null) {
+                        emailText.visibility = View.GONE
+                    } else {
+                        emailText.text = it.email
+                    }
                     nameText_drawer.text = it.name
                     IDText_drawer.text = it.login
 
@@ -120,9 +134,16 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
     override fun onBackPressed() {
         if (profileDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            println("drawer open")
             profileDrawerLayout.closeDrawer(GravityCompat.START)
-        }
-        else {
+        } else if (fragment.isVisible) {
+            println("fragment visible")
+//            supportFragmentManager.beginTransaction().remove(fragment).commit()
+            listener.onClose()
+            searchview?.isIconified = true
+
+        } else {
+            println("super")
             super.onBackPressed()
         }
     }
@@ -141,7 +162,6 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         menuInflater.inflate(R.menu.fragment_search, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu?.findItem(R.id.menuItemSearch)?.actionView as SearchView).apply {
-            val fragment = FragmentExample()
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -150,24 +170,28 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     println("newText $newText")
-                    newText?.let {
-                        fragment.setApi(it)
-                    }
+                    fragment.setApi(newText)
+
                     return true
                 }
             })
+
+            queryHint = "Search User"
 
             setOnSearchClickListener {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.contents, fragment)
                         .commit()
             }
+            searchview = this
 
-            setOnCloseListener {
-                supportFragmentManager.beginTransaction().remove(fragment).commit()
-                println("close click!")
-                false
-            }
+            setOnCloseListener(listener)
+
+//            setOnCloseListener {
+//                supportFragmentManager.beginTransaction().remove(fragment).commit()
+//                println("close click!")
+//                false
+//            }
 //            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return true

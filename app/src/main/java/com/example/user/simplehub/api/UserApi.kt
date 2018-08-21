@@ -2,10 +2,7 @@ package com.example.user.simplehub.api
 
 import com.example.user.simplehub.api.model.*
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface UserApi {
 
@@ -20,6 +17,10 @@ interface UserApi {
     @GET("users/{username}/followers")
     @Headers("Accept: application/json")
     fun getFollowerInfo(@Path("username") userName: String): Call<List<GithubFollowers>>
+
+    @GET("user/following")
+    @Headers("Accept: application/json")
+    fun getAuthFollowingInfo(): Call<List<GithubFollowing>>
 
     @GET("users/{username}/following")
     @Headers("Accept: application/json")
@@ -65,10 +66,17 @@ interface UserApi {
 
     @GET("search/users")
     @Headers("Accept: application/json")
-    fun getUsers(@Query("q") query: String): Call<GithubUserItem>
+    fun getUsers(@Query("q") query: String?): Call<GithubUserItem>
 
     @GET("users/{userName}")
     @Headers("Accept: application/json")
     fun getUser(@Path("userName") userName: String): Call<GithubProfile>
 
+    @DELETE("user/following/{username}")
+    @Headers("Accept: application/json")
+    fun deleteFollowing(@Path("username") userName: String): Call<GithubFollowing>
+
+    @PUT("user/following/{username}")
+    @Headers("Accept: application/json")
+    fun putFollowing(@Path("username") userName: String): Call<GithubFollowing>
 }

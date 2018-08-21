@@ -13,6 +13,7 @@ import com.example.user.simplehub.api.model.GithubUsers
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.OtherProfileActivity
 import com.example.user.simplehub.utils.enqueue
+import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_example.view.*
 import kotlinx.android.synthetic.main.item_follower.view.*
 
@@ -20,15 +21,10 @@ class FragmentHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_follower, parent, false)
 )
 
-
-
-
-
 class FragmentExample : Fragment() {
 
-    inner class ListAdapter : RecyclerView.Adapter<FragmentHolder>() {
+    inner class ListAdapter() : RecyclerView.Adapter<FragmentHolder>() {
         var items: List<GithubUsers> = emptyList()
-
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FragmentHolder {
             return FragmentHolder(parent)
@@ -59,10 +55,11 @@ class FragmentExample : Fragment() {
         view.searchView.adapter = listAdapter
         view.searchView.layoutManager = LinearLayoutManager(requireActivity().applicationContext)
 //        setApi("")
+
         return view
     }
 
-    fun setApi(query: String) {
+    fun setApi(query: String?) {
         val searchApi = provideUserApi(activity!!.applicationContext)
         val call = searchApi.getUsers(query)
         call.enqueue({ response ->
@@ -83,6 +80,6 @@ class FragmentExample : Fragment() {
         intent.putExtra("login", login)
         startActivity(intent)
     }
+
+
 }
-
-

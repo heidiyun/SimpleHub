@@ -84,4 +84,9 @@ interface UserApi {
     fun putStarring(@Path("owner") userName: String,
                     @Path("repo") repoName: String): Call<GithubFollowing>
 
+    @DELETE("user/starred/{owner}/{repo}")
+    fun deleteStarring(@Path("owner") userName: String,
+                       @Path("repo") repoName: String): Call<GithubFollowers>
+
+
 }

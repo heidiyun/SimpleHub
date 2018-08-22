@@ -8,13 +8,13 @@ class SectionsPageAdapter(fn: FragmentManager) : FragmentPagerAdapter(fn) {
     val fragmentList : ArrayList<Fragment> = arrayListOf()
     val fragmentTitleList : ArrayList<String> = arrayListOf()
 
+    override fun getPageTitle(position: Int): CharSequence? {
+        return fragmentTitleList.get(position)
+    }
+
     fun addFragment(fragment: Fragment, title: String) {
         fragmentList.add(fragment)
         fragmentTitleList.add(title)
-    }
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return fragmentTitleList.get(position)
     }
 
     override fun getItem(position: Int): Fragment {

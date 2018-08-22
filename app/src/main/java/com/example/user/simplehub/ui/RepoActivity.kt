@@ -4,20 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.example.user.simplehub.R
+import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.fragment.SectionsPageAdapter
 import com.example.user.simplehub.repo.fragment.Code
 import com.example.user.simplehub.repo.fragment.Issue
 import com.example.user.simplehub.repo.fragment.PullRequest
+import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
 import kotlinx.android.synthetic.main.head_repo.*
+import kotlinx.android.synthetic.main.head_repo.view.*
 
 class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -26,6 +30,11 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
     var fab_close: Animation? = null
     var repoName = ""
     var ownerName = ""
+
+    companion object {
+        var starNameList = mutableListOf<String>()
+        val starRepoList = mutableListOf<String>()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,8 +58,38 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         setupWithViewpager(pager_issue, repoName, ownerName)
         tab_issue.setupWithViewPager(pager_issue)
 
-        starButton.setOnClickListener {
+        Log.i("RepoActivity", "ownerName ${ownerName}")
+        Log.i("RepoActivity", "repoName ${repoName}")
+
+
+        if (checkStarred()) {
             starButton.setImageResource(R.drawable.ic_yellow_star)
+            Log.i("RepoActivity", "checkStarred")
+
+        }
+        val userApi = provideUserApi(this)
+
+        starButton.setOnClickListener {
+            if (checkStarred()) {
+                val call = userApi.deleteStarring(ownerName, repoName)
+                call.enqueue({
+                    starButton.setImageResource(R.drawable.ic_star)
+                    starNameList.remove(ownerName)
+                    starRepoList.remove(repoName)
+                }, {
+
+                })
+            } else {
+                val call = userApi.putStarring(ownerName, repoName)
+                call.enqueue({
+                    starButton.setImageResource(R.drawable.ic_yellow_star)
+                    starNameList.add(ownerName)
+                    starRepoList.add(repoName)
+                }, {
+
+                })
+
+            }
         }
 
         eyeButton.setOnClickListener {
@@ -89,6 +128,20 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         }
+    }
+
+    private fun checkStarred(): Boolean {
+        for (i in 0 until starNameList.size) {
+            Log.i("RepoActivity", "starNameList : ${starNameList[i]}")
+            if (starNameList[i] == ownerName) {
+                for (i in 0 until starRepoList.size) {
+                    Log.i("RepoActivity", "starNameList : ${starRepoList[i]}")
+                    if(starRepoList[i] == repoName)
+                        return true
+                }
+            }
+        }
+        return false
     }
 
     private fun setupWithViewpager(viewPager: ViewPager, repoName: String, ownerName: String) {

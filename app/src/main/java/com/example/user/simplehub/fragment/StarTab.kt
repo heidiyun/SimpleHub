@@ -40,7 +40,9 @@ class StarTab : Fragment() {
             with(holder.itemView) {
                 //            Log.i(TAG, "item name : $item.fullName")
                 starringText.text = item.fullName
+                RepoActivity.starRepoList.add(item.name)
                 starNumger.text = item.starNumber.toString()
+                RepoActivity.starNameList.add(item.owner.login)
 
                 starredCardView.setOnClickListener {
                     startAct(item.name, item.fullName, item.owner.login)

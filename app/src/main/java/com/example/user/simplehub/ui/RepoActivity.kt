@@ -30,6 +30,7 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
     var fab_close: Animation? = null
     var repoName = ""
     var ownerName = ""
+    var subscribed: Boolean = false
 
     companion object {
         var starNameList = mutableListOf<String>()
@@ -46,28 +47,25 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         repoName = bundle.getString("repoName")
         ownerName = bundle.getString("ownerName")
 
-//        val bundle2 = Bundle(2)
-//        bundle2.putString("repoName", repoName)
-//        bundle2.putString("ownerName", ownerName)
-//        val code : Fragment = Code()
-//        code.arguments = bundle2
-//        Issue().arguments = bundle2
-//        PullRequest().arguments = bundle2
-
         bar_repo_text.text = fullName
         setupWithViewpager(pager_issue, repoName, ownerName)
         tab_issue.setupWithViewPager(pager_issue)
 
-        Log.i("RepoActivity", "ownerName ${ownerName}")
-        Log.i("RepoActivity", "repoName ${repoName}")
-
-
         if (checkStarred()) {
             starButton.setImageResource(R.drawable.ic_yellow_star)
-            Log.i("RepoActivity", "checkStarred")
 
         }
         val userApi = provideUserApi(this)
+        val subscriptionCall = userApi.checkSubscription(ownerName, repoName)
+        subscriptionCall.enqueue({
+            val result = it.body()
+            result?.let {
+                eyeButton.setImageResource(R.drawable.ic_yellow_eye)
+                subscribed = true
+            }
+        }, {
+            Log.i("RepoActivity", "exception : ${it.localizedMessage}")
+        })
 
         starButton.setOnClickListener {
             if (checkStarred()) {
@@ -93,7 +91,28 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         eyeButton.setOnClickListener {
-            eyeButton.setImageResource(R.drawable.ic_yellow_eye)
+            if (subscribed) {
+                val call = userApi.deleteSubscription(ownerName, repoName)
+                call.enqueue({
+                        eyeButton.setImageResource(R.drawable.ic_black_eye)
+                        subscribed = false
+                }, {
+
+                })
+            } else {
+                val call = userApi.putSubscription(ownerName, repoName)
+                call.enqueue({ response ->
+                    val result = response.body()
+                    result?.let {
+                        if (it.subscribed) {
+                            eyeButton.setImageResource(R.drawable.ic_yellow_eye)
+                            subscribed = true
+                        }
+                    }
+                }, {
+
+                })
+            }
         }
 
         fab_open = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)
@@ -135,8 +154,8 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
             Log.i("RepoActivity", "starNameList : ${starNameList[i]}")
             if (starNameList[i] == ownerName) {
                 for (i in 0 until starRepoList.size) {
-                    Log.i("RepoActivity", "starNameList : ${starRepoList[i]}")
-                    if(starRepoList[i] == repoName)
+                    Log.i("RepoActivity", "repoNameList : ${starRepoList[i]}")
+                    if (starRepoList[i] == repoName)
                         return true
                 }
             }

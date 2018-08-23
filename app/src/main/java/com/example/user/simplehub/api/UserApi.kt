@@ -88,5 +88,17 @@ interface UserApi {
     fun deleteStarring(@Path("owner") userName: String,
                        @Path("repo") repoName: String): Call<GithubFollowers>
 
+    @GET("repos/{owner}/{repo}/subscription")
+    @Headers("Accept: application/json")
+    fun checkSubscription(@Path("owner") userName: String,
+                          @Path("repo") repoName: String): Call<GithubSubscription>
+
+    @PUT("repos/{owner}/{repo}/subscription")
+    fun putSubscription(@Path("owner") userName: String,
+                        @Path("repo") repoName: String): Call<GithubSubscription>
+
+    @DELETE("repos/{owner}/{repo}/subscription")
+    fun deleteSubscription(@Path("owner") userName: String,
+                        @Path("repo") repoName: String): Call<GithubFollowers>
 
 }

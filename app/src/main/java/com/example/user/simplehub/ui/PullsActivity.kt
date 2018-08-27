@@ -81,12 +81,6 @@ class PullsActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity<IssueActivity>()
 
             }
-
-            R.id.nav_share -> {
-            }
-            R.id.nav_send -> {
-
-            }
         }
 
         pulls_drawer.closeDrawer(GravityCompat.START)

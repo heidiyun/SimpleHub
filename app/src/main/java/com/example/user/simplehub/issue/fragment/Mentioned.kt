@@ -12,11 +12,27 @@ import kotlinx.android.synthetic.main.issue_tab_created.view.*
 
 class Mentioned : Fragment() {
 
+    val mentionedOpen = Open()
+    val mentionedClosed = Closed()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.issue_tab_created, container, false)
         setupSubViewPager(view.pager_issue_created)
         view.tab_issue_created.setupWithViewPager(view.pager_issue_created)
+
+        mentionedOpen.setOnListener(object: Listener {
+            override fun getFilter(): String = "mentioned"
+
+            override fun getState(): String = "open"
+
+        })
+
+        mentionedClosed.setOnListener(object: Listener {
+            override fun getFilter(): String = "mentioned"
+
+            override fun getState(): String = "closed"
+
+        })
 
         return view
 
@@ -24,8 +40,8 @@ class Mentioned : Fragment() {
 
     private fun setupSubViewPager(viewPager: ViewPager) {
         val adpater = SectionsPageAdapter(childFragmentManager)
-        adpater.addFragment(MentionedOpen(), "Open")
-        adpater.addFragment(MentionedClosed(), "Closed")
+        adpater.addFragment(mentionedOpen, "Open")
+        adpater.addFragment(mentionedClosed, "Closed")
         viewPager.adapter = adpater
     }
 }

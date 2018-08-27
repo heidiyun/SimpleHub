@@ -9,6 +9,12 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.google.gson.GsonBuilder
+
+
+val gson2 = GsonBuilder()
+        .setLenient()
+        .create()!!
 
 val loggingInterceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -21,7 +27,7 @@ val httpClient: OkHttpClient = OkHttpClient.Builder().apply {
 val authApi: AuthApi = Retrofit.Builder().apply {
     baseUrl("https://github.com/")
     client(httpClient)
-    addConverterFactory(GsonConverterFactory.create())
+    addConverterFactory(GsonConverterFactory.create(gson2))
 }.build().create(AuthApi::class.java)
 
 class AuthInterceptor(private val context: Context): Interceptor {
@@ -44,5 +50,5 @@ class AuthInterceptor(private val context: Context): Interceptor {
 fun provideUserApi(context: Context) = Retrofit.Builder().apply {
     baseUrl("https://api.github.com/")
     client(authHttpClient(context))
-    addConverterFactory(GsonConverterFactory.create())
+    addConverterFactory(GsonConverterFactory.create(gson2))
 }.build().create(UserApi::class.java)

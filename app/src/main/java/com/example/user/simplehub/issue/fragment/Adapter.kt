@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.model.GithubPulls
 import com.example.user.simplehub.api.provideUserApi
+import com.example.user.simplehub.utils.dateFormat
 import com.example.user.simplehub.utils.enqueue
+import com.example.user.simplehub.utils.getSimpleDate
 import kotlinx.android.synthetic.main.created_tab_opend.view.*
 import kotlinx.android.synthetic.main.item_issue_created.view.*
 
@@ -35,45 +37,11 @@ class IssueListAdapter : RecyclerView.Adapter<IssueViewHolder>() {
 
         with(holder.itemView) {
 
-
             issueNameText.text = item.title
-            issueDate.text = item.PullsDate
+            issueDate.text = getSimpleDate(item.PullsDate, dateFormat)
             issueOwner.text = item.repository.repoName
         }
     }
 
 
-}
-
-
-class CreatedOpen : Fragment() {
-    lateinit var issueListAdapter: IssueListAdapter
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.created_tab_opend, container, false)
-
-
-        issueListAdapter = IssueListAdapter()
-        view.created_open_view.adapter = issueListAdapter
-        view.created_open_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
-
-        val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssue("created", "open")
-        call.enqueue({ response ->
-            val result = response.body()
-            result?.let {
-                for (i in 0..it.size - 1) {
-                    if (it[i].pullRequest == null) {
-                        issueListAdapter.items = it
-                        issueListAdapter.notifyDataSetChanged()
-
-                    }
-                }
-            }
-        }, {
-
-        })
-
-        return view
-    }
 }

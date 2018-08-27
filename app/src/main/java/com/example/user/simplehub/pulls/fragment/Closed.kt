@@ -11,8 +11,14 @@ import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
 
-class CreatedClosed : Fragment() {
+interface PullListener {
+    fun getFilter(): String
+    fun getState(): String
+}
+
+class Closed: Fragment() {
     lateinit var issueListAdapter: PullsListAdapter
+    lateinit var listener: PullListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.created_tab_closed, container, false)
@@ -23,7 +29,7 @@ class CreatedClosed : Fragment() {
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssue("created", "closed")
+        val call = issueApi.getIssue(listener.getFilter(), listener.getState())
         call.enqueue({ response ->
             val result = response.body()
             result?.let {
@@ -39,5 +45,9 @@ class CreatedClosed : Fragment() {
         })
 
         return view
+    }
+
+    fun setOnListener(listener: PullListener) {
+        this.listener = listener
     }
 }

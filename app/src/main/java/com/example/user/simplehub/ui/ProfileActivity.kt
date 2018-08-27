@@ -23,7 +23,9 @@ import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
 
-class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ProfileActivity : AppCompatActivity(),
+        NavigationView.OnNavigationItemSelectedListener{
+
 
     companion object {
         val TAG = ProfileActivity::class.java.simpleName
@@ -61,11 +63,13 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 result?.let {
                     nameText.text = it.name
                     IDText.text = it.login
+
                     if (it.email == null) {
                         emailText.visibility = View.GONE
                     } else {
                         emailText.text = it.email
                     }
+
                     nameText_drawer.text = it.name
                     IDText_drawer.text = it.login
 
@@ -85,19 +89,16 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 
     private fun setupViewPager(viewPager: ViewPager, login: String) {
         val adapter = SectionsPageAdapter(supportFragmentManager)
-        val overview = OverviewTab()
         val repository: RepositoryTab = RepositoryTab()
         val star = StarTab()
         val follower = FollowerTab()
         val following = FollowingTab()
         val args = Bundle()
         args.putString("login", login)
-        overview.arguments = args
         repository.arguments = args
         star.arguments = args
         follower.arguments = args
         following.arguments = args
-        adapter.addFragment(overview, "Overview")
         adapter.addFragment(repository, "Repository")
         adapter.addFragment(star, "Star")
         adapter.addFragment(follower, "Follower")
@@ -120,13 +121,6 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 startActivity<IssueActivity>()
             }
 
-            R.id.nav_share -> {
-
-            }
-
-            R.id.nav_send -> {
-
-            }
         }
         profileDrawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -191,4 +185,5 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         }
         return true
     }
+
 }

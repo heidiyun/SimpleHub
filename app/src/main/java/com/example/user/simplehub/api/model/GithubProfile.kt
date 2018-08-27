@@ -11,6 +11,7 @@ data class RepoOwner(val login: String)
 
 data class GithubRepo(val name: String,
                       val owner: RepoOwner,
+                      val language: String,
                       @field:SerializedName("full_name") val fullName: String)
 
 data class GithubFollowers(val login: String,

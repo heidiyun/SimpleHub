@@ -91,13 +91,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 startActivity<IssueActivity>()
             }
 
-            R.id.nav_share -> {
-
-            }
-
-            R.id.nav_send -> {
-
-            }
         }
 
         issue_drawer.closeDrawer(GravityCompat.START)

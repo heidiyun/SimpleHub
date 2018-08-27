@@ -86,7 +86,6 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
                 }, {
 
                 })
-
             }
         }
 

@@ -39,13 +39,6 @@ class PullsListAdapter : RecyclerView.Adapter<PullsViewHolder>() {
 
         with(holder.itemView) {
             if (item.pullRequest != null) {
-                Log.i(PullsActivity::class.java.simpleName, "들어옴")
-                Log.i(PullsActivity::class.java.simpleName, "pullsTitle: ${item.title}")
-                Log.i(PullsActivity::class.java.simpleName, "pullsDate: ${item.PullsDate}")
-                Log.i(PullsActivity::class.java.simpleName, "pullsNumber: ${item.number}")
-                Log.i(PullsActivity::class.java.simpleName, "pullsRepo: ${item.repository.repoName}")
-                Log.i(PullsActivity::class.java.simpleName, "pullsUser: ${item.user.login}")
-
                 pullsTitle.text = item.title
                 pullsDate.text = getSimpleDate(item.PullsDate, dateFormat)
                 pullsNumber.text = item.number.toString()
@@ -58,36 +51,4 @@ class PullsListAdapter : RecyclerView.Adapter<PullsViewHolder>() {
     }
 
 
-}
-
-
-class CreatedOpen : Fragment() {
-    lateinit var issueListAdapter: PullsListAdapter
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.created_tab_closed, container, false)
-
-
-        issueListAdapter = PullsListAdapter()
-        view.created_closed_view.adapter = issueListAdapter
-        view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
-
-        val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssue("created", "open")
-        call.enqueue({ response ->
-            val result = response.body()
-            result?.let {
-                for (i in 0 .. it.size-1) {
-                    if (it[i].pullRequest != null) {
-                        issueListAdapter.items = it
-                        issueListAdapter.notifyDataSetChanged()
-                    }
-                }
-            }
-        }, {
-
-        })
-
-        return view
-    }
 }

@@ -1,4 +1,4 @@
-package com.example.user.simplehub.pulls.fragment
+package com.example.user.simplehub.issue.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,27 +9,28 @@ import android.view.ViewGroup
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
-import kotlinx.android.synthetic.main.created_tab_closed.view.*
+import kotlinx.android.synthetic.main.created_tab_opend.view.*
 
-class MentionedOpen : Fragment() {
+class Open: Fragment() {
 
-    lateinit var issueListAdapter: PullsListAdapter
+    lateinit var issueListAdapter: IssueListAdapter
+    lateinit var listener: Listener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.created_tab_closed, container, false)
+        val view = inflater.inflate(R.layout.created_tab_opend, container, false)
 
-
-        issueListAdapter = PullsListAdapter()
-        view.created_closed_view.adapter = issueListAdapter
-        view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+        issueListAdapter = IssueListAdapter()
+        view.created_open_view.adapter = issueListAdapter
+        view.created_open_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
-        val call = issueApi.getIssue("mentioned", "open")
-        call.enqueue({ response ->
+        val call = issueApi.getIssue(listener.getFilter(), listener.getState())
+        call.enqueue({
+            response ->
             val result = response.body()
             result?.let {
-                for (i in 0 .. it.size-1) {
-                    if (it[i].pullRequest != null) {
+                for (i in 0..it.size - 1) {
+                    if (it[i].pullRequest == null) {
                         issueListAdapter.items = it
                         issueListAdapter.notifyDataSetChanged()
                     }
@@ -41,4 +42,9 @@ class MentionedOpen : Fragment() {
 
         return view
     }
+
+    fun setOnListener(listener: Listener) {
+        this.listener = listener
+    }
+
 }

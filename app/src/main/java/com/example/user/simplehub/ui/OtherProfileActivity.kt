@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
+import com.example.user.simplehub.FragmentExample
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.fragment.*
@@ -24,6 +25,14 @@ import kotlinx.android.synthetic.main.profile_tab_follow.*
 import org.jetbrains.anko.startActivity
 
 class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    val fragment = FragmentExample()
+    var listener: SearchView.OnCloseListener = SearchView.OnCloseListener {
+        supportFragmentManager.beginTransaction().remove(fragment).commit()
+        false
+    }
+
+    var searchview: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +60,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         val userFollowingCall = userApi.getAuthFollowingInfo()
 
         val userCall = userApi.getUser(login)
-        userCall.enqueue({
-            response ->
+        userCall.enqueue({ response ->
             val result = response.body()
             result?.let {
                 nameText.text = it.name
@@ -62,7 +70,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                 } else {
                     emailText.text = it.email
                 }
-                 nameText_drawer.text = it.name
+                nameText_drawer.text = it.name
                 IDText_drawer.text = it.login
 
                 Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
@@ -70,8 +78,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
                 setupViewPager(pager, it.login)
 
-                userFollowingCall.enqueue({
-                    response ->
+                userFollowingCall.enqueue({ response ->
                     val result2 = response.body()
                     result2?.let { following ->
                         for (i in 0 until following.size) {
@@ -81,8 +88,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                             }
                         }
                     }
-                }, {
-                    exception ->
+                }, { exception ->
 
                 })
             }
@@ -93,23 +99,19 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         tabLayout.setupWithViewPager(pager)
 
         followButton.setOnClickListener {
-            if(followButton.text == "Unfollow") {
+            if (followButton.text == "Unfollow") {
                 val call = userApi.deleteFollowing(IDText.text as String)
-                call.enqueue({
-                    response ->
+                call.enqueue({ response ->
                     followButton.text = "Follow"
 
-                }, {
-                    exception ->
+                }, { exception ->
                     exception.printStackTrace()
                 })
             } else {
                 val call = userApi.putFollowing(IDText.text as String)
-                call.enqueue({
-                    response ->
+                call.enqueue({ response ->
                     followButton.text = "Unfollow"
-                }, {
-                    exception ->
+                }, { exception ->
                     exception.printStackTrace()
                 })
             }
@@ -151,13 +153,6 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
             R.id.nav_issue -> {
                 startActivity<IssueActivity>()
             }
-
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
-            }
         }
         profileDrawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -165,8 +160,17 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
     override fun onBackPressed() {
         if (profileDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            println("drawer open")
             profileDrawerLayout.closeDrawer(GravityCompat.START)
+        } else if (fragment.isVisible) {
+            println("fragment visible")
+//            supportFragmentManager.beginTransaction().remove(fragment).commit()
+            // listener.onClose()
+            searchview?.isIconified = true
+            searchview!!.clearFocus()
+
         } else {
+            println("super")
             super.onBackPressed()
         }
     }
@@ -185,9 +189,33 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         menuInflater.inflate(R.menu.fragment_search, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu?.findItem(R.id.menuItemSearch)?.actionView as SearchView).apply {
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    println("newText $newText")
+                    fragment.setApi(newText)
+
+                    return true
+                }
+            })
+
+            queryHint = "Search User"
+
+            setOnSearchClickListener {
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.contents, fragment)
+                        .commit()
+            }
+            searchview = this
+            setOnCloseListener(listener)
+//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return true
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

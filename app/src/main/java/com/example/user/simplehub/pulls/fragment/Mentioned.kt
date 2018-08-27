@@ -11,19 +11,37 @@ import com.example.user.simplehub.fragment.SectionsPageAdapter
 import kotlinx.android.synthetic.main.issue_tab_assigned.view.*
 
 class Mentioned : Fragment() {
+
+    val mentionedOpen = Open()
+    val mentionedClosed = Closed()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.issue_tab_assigned, container, false)
 
         setupSubViewPager(view.pager_issue_assigned)
         view.tab_issue_assigned.setupWithViewPager(view.pager_issue_assigned)
+        
+        mentionedOpen.setOnListener(object: PullListener {
+            override fun getFilter(): String = "mentioned"
+
+            override fun getState(): String = "open"
+
+        })
+
+        mentionedClosed.setOnListener(object: PullListener {
+            override fun getFilter(): String = "mentioned"
+
+            override fun getState(): String = "closed"
+
+        })
 
         return view
     }
 
     private fun setupSubViewPager(viewPager: ViewPager) {
         val adapter = SectionsPageAdapter(childFragmentManager)
-        adapter.addFragment(MentionedOpen(), "Open")
-        adapter.addFragment(MentionedClosed(), "Closed")
+        adapter.addFragment(mentionedOpen, "Open")
+        adapter.addFragment(mentionedClosed, "Closed")
         viewPager.adapter = adapter
     }
 }

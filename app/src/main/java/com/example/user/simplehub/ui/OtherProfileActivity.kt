@@ -120,19 +120,16 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
     private fun setupViewPager(viewPager: ViewPager, login: String) {
         val adapter = SectionsPageAdapter(supportFragmentManager)
-        val overview = OverviewTab()
         val repository = RepositoryTab()
         val star = StarTab()
         val follower = FollowerTab()
         val following = FollowingTab()
         val args = Bundle()
         args.putString("login", login)
-        overview.arguments = args
         repository.arguments = args
         star.arguments = args
         follower.arguments = args
         following.arguments = args
-        adapter.addFragment(overview, "Overview")
         adapter.addFragment(repository, "Repository")
         adapter.addFragment(star, "Star")
         adapter.addFragment(follower, "Follower")

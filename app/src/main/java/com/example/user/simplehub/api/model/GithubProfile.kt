@@ -12,6 +12,8 @@ data class RepoOwner(val login: String)
 data class GithubRepo(val name: String,
                       val owner: RepoOwner,
                       val language: String,
+                      @field:SerializedName("watchers_count") val watcherCount: Int,
+                      @field:SerializedName("stargazers_count") val starCount: Int,
                       @field:SerializedName("full_name") val fullName: String)
 
 data class GithubFollowers(val login: String,
@@ -24,6 +26,7 @@ data class GithubFollowing(val login: String,
 
 data class GithubStarring(@field:SerializedName("full_name") val fullName: String,
                           @field:SerializedName("stargazers_count") val starNumber: Int,
+                          val language: String,
                           val name: String,
                           val owner: RepoOwner)
 
@@ -61,6 +64,8 @@ data class GithubUsers(val login: String,
 data class GithubUserItem(val items: List<GithubUsers>)
 
 data class GithubSubscription(val subscribed: Boolean, val message: String)
+
+data class GithubSubscribers(val login: String)
 
 //
 //data class UserEventsActor(val login: String)

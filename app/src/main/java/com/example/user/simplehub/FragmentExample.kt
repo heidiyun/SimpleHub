@@ -14,6 +14,7 @@ import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.OtherProfileActivity
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.fragment_example.*
 import kotlinx.android.synthetic.main.fragment_example.view.*
 import kotlinx.android.synthetic.main.item_follower.view.*
 

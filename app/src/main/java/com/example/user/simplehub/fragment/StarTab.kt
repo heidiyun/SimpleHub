@@ -1,6 +1,7 @@
 package com.example.user.simplehub.fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +14,9 @@ import com.example.user.simplehub.api.model.GithubStarring
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.RepoActivity
 import com.example.user.simplehub.utils.enqueue
+import com.example.user.simplehub.utils.getAssetJsonDate
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.item_starred.view.*
 import kotlinx.android.synthetic.main.profile_tab_stars.view.*
 
@@ -44,6 +48,17 @@ class StarTab : Fragment() {
                 starNumger.text = item.starNumber.toString()
                 RepoActivity.starNameList.add(item.owner.login)
 
+                if (item.language != null) {
+                    langText.text = item.language
+                    val languageColor = jsonObject.get(item.language)
+                    if (languageColor != null) {
+                        val color: Int = Color.parseColor(languageColor.asString)
+                        langColor.setColorFilter(color)
+
+                    }
+                }
+
+
                 starredCardView.setOnClickListener {
                     startAct(item.name, item.fullName, item.owner.login)
                 }
@@ -54,6 +69,7 @@ class StarTab : Fragment() {
 
 
     lateinit var listAdapter: StarringListAdapter
+    lateinit var jsonObject: JsonObject
 
 
     var login = ""
@@ -69,6 +85,11 @@ class StarTab : Fragment() {
         bundle?.let {
             login = it.getString("login")
         }
+
+        val json = getAssetJsonDate(requireContext())
+        val parser = JsonParser()
+        jsonObject = parser.parse(json) as JsonObject
+
 
         val starringApi = provideUserApi(activity!!.applicationContext)
         println("login id: $login")

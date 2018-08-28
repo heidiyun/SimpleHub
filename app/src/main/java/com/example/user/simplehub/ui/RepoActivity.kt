@@ -26,10 +26,11 @@ import kotlinx.android.synthetic.main.head_repo.view.*
 class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
     var isFabOpen = false
-    var fab_open: Animation? = null
-    var fab_close: Animation? = null
-    var repoName = ""
-    var ownerName = ""
+    lateinit var fab_open: Animation
+    lateinit var fab_close: Animation
+    lateinit var repoName: String
+    lateinit var ownerName: String
+    var watchCount = 0
     var subscribed: Boolean = false
 
     companion object {
@@ -46,8 +47,12 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         val fullName = bundle.getString("fullName")
         repoName = bundle.getString("repoName")
         ownerName = bundle.getString("ownerName")
+        val watcherCount = bundle.getInt("watcherCount")
+        val starCount = bundle.getInt("starCount")
 
         bar_repo_text.text = fullName
+        watchCountText.text = watcherCount.toString()
+        starCountText.text = starCount.toString()
         setupWithViewpager(pager_issue, repoName, ownerName)
         tab_issue.setupWithViewPager(pager_issue)
 
@@ -56,12 +61,28 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
         }
         val userApi = provideUserApi(this)
+
+        val call = userApi.getSubscribers(ownerName, repoName)
+        call.enqueue({
+            response ->
+            val result = response.body()
+            result?.let {
+                runOnUiThread {
+                    watchCountText.text = it.size.toString()
+                    watchCount = it.size
+                }
+            }
+        }, {
+
+        })
+
         val subscriptionCall = userApi.checkSubscription(ownerName, repoName)
         subscriptionCall.enqueue({
             val result = it.body()
             result?.let {
                 eyeButton.setImageResource(R.drawable.ic_yellow_eye)
                 subscribed = true
+
             }
         }, {
             Log.i("RepoActivity", "exception : ${it.localizedMessage}")
@@ -95,6 +116,7 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
                 call.enqueue({
                         eyeButton.setImageResource(R.drawable.ic_black_eye)
                         subscribed = false
+                    watchCountText.text = (--watchCount).toString()
                 }, {
 
                 })
@@ -106,6 +128,7 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
                         if (it.subscribed) {
                             eyeButton.setImageResource(R.drawable.ic_yellow_eye)
                             subscribed = true
+                            watchCountText.text = (++watchCount).toString()
                         }
                     }
                 }, {

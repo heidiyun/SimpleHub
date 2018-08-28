@@ -101,4 +101,11 @@ interface UserApi {
     fun deleteSubscription(@Path("owner") userName: String,
                         @Path("repo") repoName: String): Call<GithubFollowers>
 
+    @GET("repos/{owner}/{repo}/subscribers")
+    fun getSubscribers(@Path("owner") userName: String,
+                       @Path("repo") repoName: String): Call<List<GithubSubscribers>>
+
+    @GET("users/heidiyun/received_events")
+    @Headers("Accept: application/json")
+    fun getEvent()
 }

@@ -114,7 +114,6 @@ class ProfileActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        item.isChecked = true
 
         when (item.itemId) {
             R.id.nav_profile -> {
@@ -130,7 +129,7 @@ class ProfileActivity : AppCompatActivity(),
 
         }
         profileDrawerLayout.closeDrawer(GravityCompat.START)
-        return true
+        return false
     }
 
     override fun onBackPressed() {

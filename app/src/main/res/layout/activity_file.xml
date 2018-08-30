@@ -6,12 +6,22 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <include
+        android:id="@+id/include"
         layout="@layout/app_bar_repo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/fileProgressBar"
+        android:layout_width="385dp"
+        android:layout_height="72dp"
+        app:layout_constraintBottom_toBottomOf="@+id/include"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/include" />
 
    <TextView
        android:id="@+id/file"

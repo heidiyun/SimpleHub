@@ -20,6 +20,22 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_issue_created_closed" />
 
+    <TextView
+        android:id="@+id/issueTextClosed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="issue가 없습니다."
+        android:textSize="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/created_closed_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="@+id/created_closed_view"
+        app:layout_constraintTop_toTopOf="@+id/created_closed_view"
+        app:layout_constraintVertical_bias="0.404" />
+
+
 
 </android.support.constraint.ConstraintLayout>
 

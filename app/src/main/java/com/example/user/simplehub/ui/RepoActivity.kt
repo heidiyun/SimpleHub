@@ -31,7 +31,6 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var fab_close: Animation
     lateinit var repoName: String
     lateinit var ownerName: String
-    var watchCount = 0
     var subscribed: Boolean = false
 
     companion object {
@@ -51,19 +50,17 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         val fullName = bundle.getString("fullName")
         repoName = bundle.getString("repoName")
         ownerName = bundle.getString("ownerName")
-        val watcherCount = bundle.getInt("watcherCount")
         val starCount = bundle.getInt("starCount")
 
         bar_repo_text.text = fullName
-        watchCountText.text = watcherCount.toString()
         starCountText.text = starCount.toString()
         setupWithViewpager(pager_issue, repoName, ownerName)
         tab_issue.setupWithViewPager(pager_issue)
 
         if (checkStarred()) {
             starButton.setImageResource(R.drawable.ic_yellow_star)
-
         }
+
         val userApi = provideUserApi(this)
 
         val call = userApi.getSubscribers(ownerName, repoName)
@@ -72,7 +69,6 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
             result?.let {
                 runOnUiThread {
                     watchCountText.text = it.size.toString()
-                    watchCount = it.size
                 }
             }
         }, {
@@ -168,7 +164,6 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
                 intent.putExtra("ownerName", ownerName)
                 startActivity(intent)
             }
-
         }
     }
 

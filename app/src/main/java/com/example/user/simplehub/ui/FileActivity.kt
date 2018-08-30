@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
+import android.view.View
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
@@ -63,17 +64,17 @@ class FileActivity : AppCompatActivity() {
 
                     reader.close()
 
-                    Log.i(FileActivity::class.java.simpleName, "url textd : $fullString")
+                    Log.i(FileActivity::class.java.simpleName, "url text : $fullString")
                     runOnUiThread {
                         file.text = fullString
+                        fileProgressBar.visibility = View.GONE
                     }
-                }.start()
 
+                }.start()
             }
         }, {
 
         })
-
     }
 
     override fun onBackPressed() {

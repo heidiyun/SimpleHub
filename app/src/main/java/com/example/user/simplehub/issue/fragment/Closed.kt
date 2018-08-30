@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
+import kotlinx.android.synthetic.main.created_tab_closed.*
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
+import kotlinx.android.synthetic.main.created_tab_opend.*
 
 interface Listener {
     fun getFilter(): String
@@ -38,6 +40,11 @@ class Closed: Fragment() {
                         issueListAdapter.items = it
                         issueListAdapter.notifyDataSetChanged()
                     }
+                }
+
+
+                if (issueListAdapter.items.isEmpty()) {
+                    issueTextClosed.visibility = View.VISIBLE
                 }
             }
         }, {

@@ -60,7 +60,7 @@ class StarTab : Fragment() {
 
 
                 starredCardView.setOnClickListener {
-                    startAct(item.name, item.fullName, item.owner.login)
+                    startAct(item.name, item.fullName, item.owner.login, item.starNumber)
                 }
             }
         }
@@ -108,11 +108,12 @@ class StarTab : Fragment() {
         return view
     }
 
-    fun startAct(repoName: String, fullName: String, ownerName: String) {
+    fun startAct(repoName: String, fullName: String, ownerName: String, starCount: Int) {
         val intent = Intent(activity, RepoActivity::class.java)
         intent.putExtra("repoName", repoName)
         intent.putExtra("fullName", fullName)
         intent.putExtra("ownerName", ownerName)
+        intent.putExtra("starCount", starCount)
         startActivity(intent)
     }
 

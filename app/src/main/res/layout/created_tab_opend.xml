@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,6 +19,20 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_issue_created" />
 
+    <TextView
+        android:id="@+id/issueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="issue가 없습니다."
+        android:textSize="20dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/created_open_view"
+        app:layout_constraintEnd_toEndOf="@+id/created_open_view"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="@+id/created_open_view"
+        app:layout_constraintTop_toTopOf="@+id/created_open_view"
+        app:layout_constraintVertical_bias="0.444" />
 
 </android.support.constraint.ConstraintLayout>
 

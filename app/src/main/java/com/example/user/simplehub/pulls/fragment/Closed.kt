@@ -3,12 +3,14 @@ package com.example.user.simplehub.pulls.fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
+import kotlinx.android.synthetic.main.created_tab_closed.*
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
 
 interface PullListener {
@@ -38,6 +40,11 @@ class Closed: Fragment() {
                         issueListAdapter.items = it
                         issueListAdapter.notifyDataSetChanged()
                     }
+                }
+
+                if (issueListAdapter.items.isEmpty()) {
+                    Log.i("Pull Closed", "here")
+                    issueTextClosed.visibility = View.VISIBLE
                 }
             }
         }, {

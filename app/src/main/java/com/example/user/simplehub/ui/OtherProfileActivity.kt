@@ -69,6 +69,23 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         userCall.enqueue({ response ->
             val result = response.body()
             result?.let {
+
+                userFollowingCall.enqueue({ response ->
+                    val result2 = response.body()
+                    result2?.let { following ->
+                        for (i in 0 until following.size) {
+                            println("following name: ${following[i].login}")
+                            if (IDText.text == ProfileActivity.ownerName) {
+                                followButton.visibility = View.GONE
+                            } else if (following[i].login == IDText.text) {
+                                followButton.text = "Unfollow"
+                            }
+                        }
+                    }
+                }, { exception ->
+
+                })
+
                 nameText.text = it.name
                 IDText.text = it.login
                 if (it.email == null) {
@@ -84,19 +101,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
                 setupViewPager(pager, it.login)
 
-                userFollowingCall.enqueue({ response ->
-                    val result2 = response.body()
-                    result2?.let { following ->
-                        for (i in 0 until following.size) {
-                            println("following name: ${following[i].login}")
-                            if (following[i].login == IDText.text) {
-                                followButton.text = "Unfollow"
-                            }
-                        }
-                    }
-                }, { exception ->
 
-                })
             }
             progressBar.visibility = View.GONE
 

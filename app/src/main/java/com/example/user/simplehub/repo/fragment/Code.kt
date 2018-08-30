@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.repo_tab_code.view.*
 
 class Code : Fragment() {
 
-
     class RepoContentsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_repo_contents, parent, false)
     )

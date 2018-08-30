@@ -67,6 +67,7 @@ data class GithubSubscription(val subscribed: Boolean, val message: String)
 
 data class GithubSubscribers(val login: String)
 
+
 //
 //data class UserEventsActor(val login: String)
 //data class UserEventsRepo(val name: String)

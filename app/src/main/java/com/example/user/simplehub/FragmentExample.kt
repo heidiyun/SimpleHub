@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.user.simplehub.api.model.GithubUsers
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.OtherProfileActivity
+import com.example.user.simplehub.ui.ProfileActivity
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_example.*
@@ -24,7 +26,7 @@ class FragmentHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
 class FragmentExample : Fragment() {
 
-    inner class ListAdapter() : RecyclerView.Adapter<FragmentHolder>() {
+    inner class ListAdapter : RecyclerView.Adapter<FragmentHolder>() {
         var items: List<GithubUsers> = emptyList()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FragmentHolder {
@@ -57,6 +59,8 @@ class FragmentExample : Fragment() {
         view.searchView.layoutManager = LinearLayoutManager(requireActivity().applicationContext)
 //        setApi("")
 
+
+
         return view
     }
 
@@ -77,10 +81,14 @@ class FragmentExample : Fragment() {
     }
 
     fun startAct(login: String) {
-        val intent = Intent(activity, OtherProfileActivity::class.java)
-        intent.putExtra("login", login)
+        val intent: Intent
+        if (login == ProfileActivity.ownerName) {
+            intent = Intent(activity, ProfileActivity::class.java)
+        } else {
+            intent = Intent(activity, OtherProfileActivity::class.java)
+            intent.putExtra("login", login)
+        }
         startActivity(intent)
     }
-
 
 }

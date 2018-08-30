@@ -19,6 +19,7 @@ import com.example.user.simplehub.repo.fragment.PullRequest
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_repository.*
+import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
 import kotlinx.android.synthetic.main.head_repo.*
 import kotlinx.android.synthetic.main.head_repo.view.*
@@ -42,6 +43,9 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repository)
+        setSupportActionBar(bar_pulls)
+        supportActionBar!!.title = null
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val bundle = intent.extras
         val fullName = bundle.getString("fullName")
@@ -63,8 +67,7 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         val userApi = provideUserApi(this)
 
         val call = userApi.getSubscribers(ownerName, repoName)
-        call.enqueue({
-            response ->
+        call.enqueue({ response ->
             val result = response.body()
             result?.let {
                 runOnUiThread {
@@ -114,9 +117,8 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
             if (subscribed) {
                 val call = userApi.deleteSubscription(ownerName, repoName)
                 call.enqueue({
-                        eyeButton.setImageResource(R.drawable.ic_black_eye)
-                        subscribed = false
-                    watchCountText.text = (--watchCount).toString()
+                    eyeButton.setImageResource(R.drawable.ic_black_eye)
+                    subscribed = false
                 }, {
 
                 })
@@ -128,7 +130,6 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
                         if (it.subscribed) {
                             eyeButton.setImageResource(R.drawable.ic_yellow_eye)
                             subscribed = true
-                            watchCountText.text = (++watchCount).toString()
                         }
                     }
                 }, {
@@ -208,16 +209,16 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
             text_contributor.startAnimation(fab_close)
             contributor_button.startAnimation(fab_close)
             commit_feed_button.startAnimation(fab_close)
-            contributor_button.setClickable(false)
-            commit_feed_button.setClickable(false)
+            contributor_button.isClickable = false
+            commit_feed_button.isClickable = false
             isFabOpen = false
         } else {
             text_commit.startAnimation(fab_open)
             text_contributor.startAnimation(fab_open)
             contributor_button.startAnimation(fab_open)
             commit_feed_button.startAnimation(fab_open)
-            contributor_button.setClickable(true)
-            commit_feed_button.setClickable(true)
+            contributor_button.isClickable = true
+            commit_feed_button.isClickable = true
             isFabOpen = true
         }
     }

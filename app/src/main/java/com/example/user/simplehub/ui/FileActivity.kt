@@ -9,6 +9,7 @@ import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_file.*
+import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
 import java.io.BufferedReader
 import java.io.InputStreamReader

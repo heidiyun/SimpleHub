@@ -9,13 +9,16 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ProgressBar
 import com.bumptech.glide.Glide
 import com.example.user.simplehub.FragmentExample
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
+import com.example.user.simplehub.api.removeToken
 import com.example.user.simplehub.fragment.*
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
@@ -24,11 +27,12 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
 
 class ProfileActivity : AppCompatActivity(),
-        NavigationView.OnNavigationItemSelectedListener{
+        NavigationView.OnNavigationItemSelectedListener {
 
 
     companion object {
         val TAG = ProfileActivity::class.java.simpleName
+        lateinit var ownerName: String
     }
 
     val fragment = FragmentExample()
@@ -72,11 +76,14 @@ class ProfileActivity : AppCompatActivity(),
 
                     nameText_drawer.text = it.name
                     IDText_drawer.text = it.login
+                    ownerName = it.login
 
                     Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
                     Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage_drawer)
 
                     setupViewPager(pager, it.login)
+
+                    progressBar.visibility = View.GONE
                 }
             }
         }, {
@@ -183,6 +190,12 @@ class ProfileActivity : AppCompatActivity(),
             setOnCloseListener(listener)
 //            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
+
+        signoutButton.setOnClickListener {
+            removeToken(this)
+            Log.i(TAG, "sign out button")
+        }
+        menuInflater.inflate(R.menu.main, menu)
         return true
     }
 

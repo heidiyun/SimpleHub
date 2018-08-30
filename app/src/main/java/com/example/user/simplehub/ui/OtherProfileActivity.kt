@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.user.simplehub.FragmentExample
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
+import com.example.user.simplehub.api.removeToken
 import com.example.user.simplehub.fragment.*
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
@@ -40,6 +42,10 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
         val bundle = intent.extras
         val login = bundle.getString("login")
+
+//        if (login == ProfileActivity.ownerName) {
+//            followButton.visibility = View.GONE
+//        }
 
         profile.text = "Profile"
         setSupportActionBar(navigationBar)
@@ -92,6 +98,8 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
                 })
             }
+            progressBar.visibility = View.GONE
+
         }, {
 
         })
@@ -211,6 +219,13 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
             setOnCloseListener(listener)
 //            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
+
+        signoutButton.setOnClickListener {
+            removeToken(this)
+            Log.i(ProfileActivity.TAG, "sign out button")
+        }
+        menuInflater.inflate(R.menu.main, menu)
+
         return true
 
     }

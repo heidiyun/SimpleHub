@@ -18,6 +18,7 @@ import com.example.user.simplehub.utils.enqueue
 import com.example.user.simplehub.utils.getAssetJsonDate
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import kotlinx.android.synthetic.main.profile_tab_repository.*
 import kotlinx.android.synthetic.main.profile_tab_repository.view.*
 import kotlinx.android.synthetic.main.repo_item.view.*
 import java.io.IOException
@@ -109,6 +110,7 @@ class RepositoryTab : Fragment() {
                     listAdapter.items = it
                     listAdapter.notifyDataSetChanged()
 
+                    repoProgressBar.visibility = View.GONE
                 }
             }
         }, {

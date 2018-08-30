@@ -44,9 +44,37 @@
         </activity>
         <activity android:name=".ui.IssueActivity" />
         <activity android:name=".ui.PullsActivity" />
-        <activity android:name=".ui.RepoActivity" />
-        <activity android:name=".ui.DirActivity" />
-        <activity android:name=".ui.FileActivity" />
+        <activity
+            android:name=".ui.RepoActivity"
+            android:parentActivityName=".ui.ProfileActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.ProfileActivity" />
+
+        </activity>
+
+        <activity
+            android:name=".ui.DirActivity"
+            android:parentActivityName=".ui.RepoActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.RepoActivity" />
+
+        </activity>
+
+        <activity
+            android:name=".ui.FileActivity"
+            android:parentActivityName=".ui.DirActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.DirActivity" />
+
+        </activity>
+
+
         <activity android:name=".ui.ContributorActivity" />
         <activity android:name=".ui.CommitActivity" />
         <activity android:name=".ui.OtherProfileActivity" />

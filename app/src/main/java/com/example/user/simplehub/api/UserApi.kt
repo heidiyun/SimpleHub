@@ -66,7 +66,8 @@ interface UserApi {
 
     @GET("search/users")
     @Headers("Accept: application/json")
-    fun getUsers(@Query("q") query: String?): Call<GithubUserItem>
+    fun getUsers(@Query("q") query: String?,
+                 @Query("page") page: Int): Call<GithubUserItem>
 
     @GET("users/{userName}")
     @Headers("Accept: application/json")
@@ -99,7 +100,7 @@ interface UserApi {
 
     @DELETE("repos/{owner}/{repo}/subscription")
     fun deleteSubscription(@Path("owner") userName: String,
-                        @Path("repo") repoName: String): Call<GithubFollowers>
+                           @Path("repo") repoName: String): Call<GithubFollowers>
 
     @GET("repos/{owner}/{repo}/subscribers")
     fun getSubscribers(@Path("owner") userName: String,

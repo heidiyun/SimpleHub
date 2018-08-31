@@ -1,21 +1,12 @@
-package com.example.user.simplehub.pulls.fragment
+package com.example.user.simplehub.fragment.pulls
 
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.model.GithubPulls
-import com.example.user.simplehub.api.provideUserApi
-import com.example.user.simplehub.ui.PullsActivity
 import com.example.user.simplehub.utils.dateFormat
-import com.example.user.simplehub.utils.enqueue
 import com.example.user.simplehub.utils.getSimpleDate
-import kotlinx.android.synthetic.main.created_tab_closed.view.*
 import kotlinx.android.synthetic.main.item_issue_created_closed.view.*
 
 class PullsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
@@ -23,7 +14,7 @@ class PullsViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 )
 
 class PullsListAdapter : RecyclerView.Adapter<PullsViewHolder>() {
-    var items: List<GithubPulls> = emptyList()
+    var items: MutableList<GithubPulls> = mutableListOf()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PullsViewHolder {

@@ -12,26 +12,24 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
-import com.example.user.simplehub.fragment.SectionsPageAdapter
-import com.example.user.simplehub.repo.fragment.Code
-import com.example.user.simplehub.repo.fragment.Issue
-import com.example.user.simplehub.repo.fragment.PullRequest
+import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
+import com.example.user.simplehub.fragment.repo.Code
+import com.example.user.simplehub.fragment.repo.Issue
+import com.example.user.simplehub.fragment.repo.PullRequest
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_repository.*
-import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
 import kotlinx.android.synthetic.main.head_repo.*
-import kotlinx.android.synthetic.main.head_repo.view.*
 
 class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
+    var subscribed: Boolean = false
     var isFabOpen = false
     lateinit var fab_open: Animation
     lateinit var fab_close: Animation
     lateinit var repoName: String
     lateinit var ownerName: String
-    var subscribed: Boolean = false
 
     companion object {
         var starNameList = mutableListOf<String>()
@@ -77,7 +75,8 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
         val subscriptionCall = userApi.checkSubscription(ownerName, repoName)
         subscriptionCall.enqueue({
-            val result = it.body()
+            response ->
+            val result = response.body()
             result?.let {
                 eyeButton.setImageResource(R.drawable.ic_yellow_eye)
                 subscribed = true
@@ -88,9 +87,10 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         })
 
         starButton.setOnClickListener {
+            view ->
             if (checkStarred()) {
-                val call = userApi.deleteStarring(ownerName, repoName)
-                call.enqueue({
+                val deleteCall = userApi.deleteStarring(ownerName, repoName)
+                deleteCall.enqueue({
                     starButton.setImageResource(R.drawable.ic_star)
                     starNameList.remove(ownerName)
                     starRepoList.remove(repoName)
@@ -98,8 +98,8 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
                 })
             } else {
-                val call = userApi.putStarring(ownerName, repoName)
-                call.enqueue({
+                val putCall = userApi.putStarring(ownerName, repoName)
+                putCall.enqueue({
                     starButton.setImageResource(R.drawable.ic_yellow_star)
                     starNameList.add(ownerName)
                     starRepoList.add(repoName)
@@ -109,18 +109,18 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        eyeButton.setOnClickListener {
+        eyeButton.setOnClickListener {view ->
             if (subscribed) {
-                val call = userApi.deleteSubscription(ownerName, repoName)
-                call.enqueue({
+                val deleteCall = userApi.deleteSubscription(ownerName, repoName)
+                deleteCall.enqueue({
                     eyeButton.setImageResource(R.drawable.ic_black_eye)
                     subscribed = false
                 }, {
 
                 })
             } else {
-                val call = userApi.putSubscription(ownerName, repoName)
-                call.enqueue({ response ->
+                val putCall = userApi.putSubscription(ownerName, repoName)
+                putCall.enqueue({ response ->
                     val result = response.body()
                     result?.let {
                         if (it.subscribed) {

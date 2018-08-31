@@ -1,4 +1,4 @@
-package com.example.user.simplehub.issue.fragment
+package com.example.user.simplehub.fragment.issue
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
-import kotlinx.android.synthetic.main.created_tab_closed.*
 import kotlinx.android.synthetic.main.created_tab_opend.*
 import kotlinx.android.synthetic.main.created_tab_opend.view.*
 
@@ -34,7 +33,7 @@ class Open: Fragment() {
 
                 for (i in 0..it.size - 1) {
                     if (it[i].pullRequest == null) {
-                        issueListAdapter.items = it
+                        issueListAdapter.items.add(it[i])
                         issueListAdapter.notifyDataSetChanged()
                     }
                 }

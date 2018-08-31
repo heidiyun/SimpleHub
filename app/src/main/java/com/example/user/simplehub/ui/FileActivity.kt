@@ -29,7 +29,6 @@ class FileActivity : AppCompatActivity() {
         val ownerName = bundle.getString("ownerName")
         dirName = bundle.getStringArrayList("dirName")
 
-
         file.movementMethod = ScrollingMovementMethod.getInstance()
 
         bar_repo_text.text = dirName[dirName.size - 1]
@@ -49,9 +48,6 @@ class FileActivity : AppCompatActivity() {
                 Thread {
                     var fullString = ""
                     val url = URL(it.url)
-                    Log.i(FileActivity::class.java.simpleName, "url text: ${it.url}")
-                    val urlOpenStream = url.openStream()
-                    Log.i(FileActivity::class.java.simpleName, "url openstream, $urlOpenStream")
                     val reader = BufferedReader(InputStreamReader(url.openStream()))
 
                     var line: String?
@@ -64,7 +60,6 @@ class FileActivity : AppCompatActivity() {
 
                     reader.close()
 
-                    Log.i(FileActivity::class.java.simpleName, "url text : $fullString")
                     runOnUiThread {
                         file.text = fullString
                         fileProgressBar.visibility = View.GONE

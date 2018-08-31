@@ -13,13 +13,12 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
 import com.bumptech.glide.Glide
-import com.example.user.simplehub.FragmentExample
+import com.example.user.simplehub.fragment.profile.FragmentExample
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
-import com.example.user.simplehub.fragment.*
+import com.example.user.simplehub.fragment.profile.*
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
@@ -36,12 +35,13 @@ class ProfileActivity : AppCompatActivity(),
     }
 
     val fragment = FragmentExample()
-    var listener: SearchView.OnCloseListener = SearchView.OnCloseListener {
+    val listener: SearchView.OnCloseListener = SearchView.OnCloseListener {
         supportFragmentManager.beginTransaction().remove(fragment).commit()
         false
     }
 
-    var searchview: SearchView? = null
+    lateinit var searchview: SearchView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +96,7 @@ class ProfileActivity : AppCompatActivity(),
 
     private fun setupViewPager(viewPager: ViewPager, login: String) {
         val adapter = SectionsPageAdapter(supportFragmentManager)
-        val repository: RepositoryTab = RepositoryTab()
+        val repository = RepositoryTab()
         val star = StarTab()
         val follower = FollowerTab()
         val following = FollowingTab()
@@ -150,19 +150,9 @@ class ProfileActivity : AppCompatActivity(),
         }
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        signoutButton.setOnClickListener {
-//            removeToken(this)
-//            Log.i(TAG, "sign out button")
-//        }
-//        menuInflater.inflate(R.menu.main, menu)
-//        return true
-//    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.fragment_search, menu)
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+//        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu?.findItem(R.id.menuItemSearch)?.actionView as SearchView).apply {
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -172,7 +162,7 @@ class ProfileActivity : AppCompatActivity(),
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     println("newText $newText")
-                    fragment.setApi(newText)
+                    fragment.setApi(newText, 1)
 
                     return true
                 }

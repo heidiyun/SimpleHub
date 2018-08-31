@@ -1,4 +1,4 @@
-package com.example.user.simplehub.repo.fragment
+package com.example.user.simplehub.fragment.repo
 
 
 import android.content.Intent

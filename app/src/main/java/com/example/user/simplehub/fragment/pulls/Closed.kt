@@ -1,8 +1,9 @@
-package com.example.user.simplehub.pulls.fragment
+package com.example.user.simplehub.fragment.pulls
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,13 @@ import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_closed.*
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
-import kotlinx.android.synthetic.main.created_tab_opend.*
 
-class Open: Fragment() {
+interface PullListener {
+    fun getFilter(): String
+    fun getState(): String
+}
+
+class Closed: Fragment() {
     lateinit var issueListAdapter: PullsListAdapter
     lateinit var listener: PullListener
 
@@ -23,21 +28,23 @@ class Open: Fragment() {
 
         issueListAdapter = PullsListAdapter()
         view.created_closed_view.adapter = issueListAdapter
-        view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+        view.created_closed_view.layoutManager = LinearLayoutManager(requireContext())
 
         val issueApi = provideUserApi(activity!!.applicationContext)
         val call = issueApi.getIssue(listener.getFilter(), listener.getState())
         call.enqueue({ response ->
             val result = response.body()
             result?.let {
+                Log.i("Pull Closed", "${it.size}")
                 for (i in 0 .. it.size-1) {
                     if (it[i].pullRequest != null) {
-                        issueListAdapter.items = it
+                        issueListAdapter.items.add(it[i])
                         issueListAdapter.notifyDataSetChanged()
                     }
                 }
 
                 if (issueListAdapter.items.isEmpty()) {
+                    issueTextClosed.text = "pull request가 없습니다."
                     issueTextClosed.visibility = View.VISIBLE
                 }
             }

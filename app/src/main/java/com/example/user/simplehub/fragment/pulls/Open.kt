@@ -1,4 +1,4 @@
-package com.example.user.simplehub.issue.fragment
+package com.example.user.simplehub.fragment.pulls
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,39 +11,33 @@ import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.created_tab_closed.*
 import kotlinx.android.synthetic.main.created_tab_closed.view.*
-import kotlinx.android.synthetic.main.created_tab_opend.*
 
-interface Listener {
-    fun getFilter(): String
-    fun getState(): String
-}
-
-class Closed: Fragment() {
-
-    lateinit var issueListAdapter: IssueListAdapter
-    lateinit var listener: Listener
+class Open: Fragment() {
+    lateinit var issueListAdapter: PullsListAdapter
+    lateinit var listener: PullListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.created_tab_closed, container, false)
-        issueListAdapter = IssueListAdapter()
+
+
+        issueListAdapter = PullsListAdapter()
         view.created_closed_view.adapter = issueListAdapter
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val issueApi = provideUserApi(activity!!.applicationContext)
         val call = issueApi.getIssue(listener.getFilter(), listener.getState())
-        call.enqueue({
-            response ->
+        call.enqueue({ response ->
             val result = response.body()
             result?.let {
-                for (i in 0..it.size - 1) {
-                    if (it[i].pullRequest == null) {
-                        issueListAdapter.items = it
+                for (i in 0 .. it.size-1) {
+                    if (it[i].pullRequest != null) {
+                        issueListAdapter.items.add(it[i])
                         issueListAdapter.notifyDataSetChanged()
                     }
                 }
 
-
                 if (issueListAdapter.items.isEmpty()) {
+                    issueTextClosed.text = "pull request가 없습니다."
                     issueTextClosed.visibility = View.VISIBLE
                 }
             }
@@ -54,8 +48,7 @@ class Closed: Fragment() {
         return view
     }
 
-    fun setOnListener(listener: Listener) {
+    fun setOnListener(listener: PullListener) {
         this.listener = listener
     }
 }
-

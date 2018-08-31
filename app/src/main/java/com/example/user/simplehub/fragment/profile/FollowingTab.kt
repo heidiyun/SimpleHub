@@ -1,4 +1,4 @@
-package com.example.user.simplehub.fragment
+package com.example.user.simplehub.fragment.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,54 +10,59 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
-import com.example.user.simplehub.api.model.GithubFollowers
+import com.example.user.simplehub.api.model.GithubFollowing
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.ui.OtherProfileActivity
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.item_follower.view.*
-import kotlinx.android.synthetic.main.profile_tab_follower.view.*
+import kotlinx.android.synthetic.main.profile_tab_follow.view.*
 
 
-class FollowerTab : Fragment() {
 
-    class FollowerViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+class FollowingTab : Fragment() {
+
+    class FollowingViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_follower, parent, false)
     )
 
-    inner class FollowerListAdapter : RecyclerView.Adapter<FollowerViewHolder>() {
-        var items: List<GithubFollowers> = emptyList()
+    inner class FollowingListAdapter : RecyclerView.Adapter<FollowingViewHolder>() {
+        var items: List<GithubFollowing> = emptyList()
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowerViewHolder {
-            return FollowerViewHolder(parent)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowingViewHolder {
+            return FollowingViewHolder(parent)
         }
 
         override fun getItemCount(): Int {
             return items.count()
         }
 
-        override fun onBindViewHolder(holder: FollowerViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: FollowingViewHolder, position: Int) {
             val item = items[position]
 
             with(holder.itemView) {
                 IDText.text = item.login
                 Glide.with(this).load(item.avatarUrl).into(ownerAvatarImage)
 
+
                 followerCardView.setOnClickListener {
                     startAct(item.login)
                 }
             }
         }
+
     }
 
-    lateinit var listAdapter: FollowerListAdapter
 
     var login = ""
 
+    lateinit var listAdapter: FollowingListAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.profile_tab_follower, container, false)
-        listAdapter = FollowerListAdapter()
-        view.followerView.adapter = listAdapter
-        view.followerView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
+
+        val view = inflater.inflate(R.layout.profile_tab_follow, container, false)
+        listAdapter = FollowingListAdapter()
+        view.followingView.adapter = listAdapter
+        view.followingView.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
         val bundle = arguments
 
@@ -65,9 +70,8 @@ class FollowerTab : Fragment() {
             login = it.getString("login")
         }
 
-
-        val followerApi = provideUserApi(activity!!.applicationContext)
-            val followerCall = followerApi.getFollowerInfo(login)
+        val followingApi = provideUserApi(activity!!.applicationContext)
+            val followerCall = followingApi.getFollowingInfo(login)
             followerCall.enqueue({ response ->
                 val result = response.body()
                 result?.let {
@@ -79,6 +83,8 @@ class FollowerTab : Fragment() {
             }, {
 
             })
+
+
         return view
     }
 
@@ -87,6 +93,4 @@ class FollowerTab : Fragment() {
         intent.putExtra("login", login)
         startActivity(intent)
     }
-
 }
-

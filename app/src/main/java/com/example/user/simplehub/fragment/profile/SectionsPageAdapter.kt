@@ -1,4 +1,4 @@
-package com.example.user.simplehub.fragment
+package com.example.user.simplehub.fragment.profile
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

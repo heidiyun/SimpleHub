@@ -13,10 +13,10 @@ import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
-import com.example.user.simplehub.fragment.SectionsPageAdapter
-import com.example.user.simplehub.issue.fragment.Assigned
-import com.example.user.simplehub.issue.fragment.Created
-import com.example.user.simplehub.issue.fragment.Mentioned
+import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
+import com.example.user.simplehub.fragment.issue.Assigned
+import com.example.user.simplehub.fragment.issue.Created
+import com.example.user.simplehub.fragment.issue.Mentioned
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_issue.*
 import kotlinx.android.synthetic.main.activity_profile_tab.*
@@ -43,8 +43,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         navView_issue.setNavigationItemSelectedListener(this)
 
         profile.text = "issue"
-//        setupSubViewPager(pager_issue_created)
-//        tab_issue_crated.setupWithViewPager(pager_issue_created)
 
         setupViewPager(pager_issue)
         tab_issue.setupWithViewPager(pager_issue)
@@ -107,7 +105,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         signoutButton.setOnClickListener {
             removeToken(this)
             Log.i(ProfileActivity.TAG, "sign out button")
@@ -115,18 +112,4 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-
-            R.id.action_settings -> {
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
 }

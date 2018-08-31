@@ -69,20 +69,20 @@ class SearchActivity : Activity() {
             searchView.layoutManager = LinearLayoutManager(this)
 
             val githubUser = provideUserApi(this)
-            val call = githubUser.getUsers(query)
-            call.enqueue({ response ->
-                val result = response.body()
-                result?.let {
-
-                    listAdapter.items = it.items
-                    if (it.items.size == 0) {
-                        noResult.visibility = VISIBLE
-                    }
-                    listAdapter.notifyDataSetChanged()
-                }
-            }, {
-                println("error!!!!! ${it.localizedMessage}")
-            })
+//            val call = githubUser.getUsers(query)
+//            call.enqueue({ response ->
+//                val result = response.body()
+//                result?.let {
+//
+//                    listAdapter.items = it.items
+//                    if (it.items.size == 0) {
+//                        noResult.visibility = VISIBLE
+//                    }
+//                    listAdapter.notifyDataSetChanged()
+//                }
+//            }, {
+//                println("error!!!!! ${it.localizedMessage}")
+//            })
         }
     }
 

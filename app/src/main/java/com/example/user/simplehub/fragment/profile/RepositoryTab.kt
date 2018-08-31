@@ -1,4 +1,4 @@
-package com.example.user.simplehub.fragment
+package com.example.user.simplehub.fragment.profile
 
 import android.content.Context
 import android.content.Intent
@@ -21,7 +21,6 @@ import com.google.gson.JsonParser
 import kotlinx.android.synthetic.main.profile_tab_repository.*
 import kotlinx.android.synthetic.main.profile_tab_repository.view.*
 import kotlinx.android.synthetic.main.repo_item.view.*
-import java.io.IOException
 
 
 class RepositoryTab : Fragment() {

@@ -58,16 +58,12 @@ class DirActivity : AppCompatActivity() {
                     card_repo.setOnClickListener {
                         Log.i(DirActivity::class.java.simpleName, "click dir!!!")
 
-                        startAct(item.name)
+                        startDirAct(item.name)
                     }
                 }
             }
         }
     }
-
-//    companion object {
-//        var dirName: MutableList<String> = mutableListOf()
-//    }
 
     lateinit var listAdapter: DirListAdapter
     var repoName = ""
@@ -99,8 +95,6 @@ class DirActivity : AppCompatActivity() {
             result?.let {
                 listAdapter.items = it
                 listAdapter.notifyDataSetChanged()
-//                for(i in 0..result.size-1)
-//                    Log.i(RepoActivity::class.java.simpleName, "repo name: ${it[i].name}")
             }
         }, {
 
@@ -116,41 +110,29 @@ class DirActivity : AppCompatActivity() {
         finish()
     }
 
-    fun startAct(dirName: String) {
+    fun startDirAct(dirName: String) {
         this.dirName.add(dirName)
         val intent = Intent(this, DirActivity::class.java)
         intent.putStringArrayListExtra("dirName", this.dirName)
         intent.putExtra("ownerName", ownerName)
         intent.putExtra("repoName", repoName)
         startActivityForResult(intent, 123)
-//        startActivity(intent)
-//        this.dirName.removeAt(this.dirName.size - 1)
     }
 
     fun startFileAct(fileName: String) {
-//            this.dirName.add(fileName)
         this.dirName.add(fileName)
         val intent = Intent(this, FileActivity::class.java)
         intent.putStringArrayListExtra("dirName", this.dirName)
         intent.putExtra("ownerName", ownerName)
         intent.putExtra("repoName", repoName)
-//        startActivity(intent)
         startActivityForResult(intent, 123)
-//        this.dirName.removeAt(this.dirName.size - 1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i("dirActivity", "dirName22: $requestCode, $resultCode, $data")
-
-
         if (requestCode == 123 || resultCode == RESULT_OK) {
-            Log.i("dirActivity", "dirName33")
             data?.let {
                 this.dirName = it.getStringArrayListExtra("dirName")
-                for(i in 0..dirName.size-1) {
-                    Log.i("dirActivity", "dirName: ${dirName[i]}")
-                }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.user.simplehub.pulls.fragment
+package com.example.user.simplehub.fragment.pulls
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.user.simplehub.R
-import com.example.user.simplehub.fragment.SectionsPageAdapter
+import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
 import kotlinx.android.synthetic.main.issue_tab_assigned.view.*
 
 class Created : Fragment() {
@@ -21,7 +21,7 @@ class Created : Fragment() {
         setupSubViewPager(view.pager_issue_assigned)
         view.tab_issue_assigned.setupWithViewPager(view.pager_issue_assigned)
 
-        createdOpen.setOnListener(object: PullListener{
+        createdOpen.setOnListener(object: PullListener {
             override fun getFilter(): String = "created"
 
             override fun getState(): String = "open"

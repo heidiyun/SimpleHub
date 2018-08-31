@@ -13,10 +13,10 @@ import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
-import com.example.user.simplehub.fragment.SectionsPageAdapter
-import com.example.user.simplehub.pulls.fragment.Assigned
-import com.example.user.simplehub.pulls.fragment.Created
-import com.example.user.simplehub.pulls.fragment.Mentioned
+import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
+import com.example.user.simplehub.fragment.pulls.Assigned
+import com.example.user.simplehub.fragment.pulls.Created
+import com.example.user.simplehub.fragment.pulls.Mentioned
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_pull_request.*

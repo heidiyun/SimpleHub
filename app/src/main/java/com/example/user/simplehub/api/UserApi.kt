@@ -62,7 +62,8 @@ interface UserApi {
     @GET("repos/{owner}/{repoName}/commits")
     @Headers("Accept: application/json")
     fun getRepoCommits(@Path("owner") owner: String,
-                       @Path("repoName") repoName: String): Call<List<GithubRepoCommits>>
+                       @Path("repoName") repoName: String,
+                       @Query("page") page: Int): Call<List<GithubRepoCommits>>
 
     @GET("search/users")
     @Headers("Accept: application/json")

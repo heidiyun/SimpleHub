@@ -15,6 +15,7 @@ import com.example.user.simplehub.utils.enqueue
 import com.example.user.simplehub.utils.getSimpleDate
 import kotlinx.android.synthetic.main.activity_repo_commits.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
+import kotlinx.android.synthetic.main.fragment_example.view.*
 import kotlinx.android.synthetic.main.item_repo_commits.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,7 +25,7 @@ class CommitViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 )
 
 class CommitListAdapter : RecyclerView.Adapter<CommitViewHolder>() {
-    var items: List<GithubRepoCommits> = emptyList()
+    var items: MutableList<GithubRepoCommits> = mutableListOf()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommitViewHolder {
@@ -53,6 +54,7 @@ class CommitActivity : AppCompatActivity() {
 
 
     lateinit var listAdapter: CommitListAdapter
+    var page: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,15 +68,37 @@ class CommitActivity : AppCompatActivity() {
         val repoName = bundle.getString("repoName")
         val ownerName = bundle.getString("ownerName")
 
-        commitView.adapter = listAdapter
-        commitView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
 
+        commitView.adapter = listAdapter
+        commitView.layoutManager = layoutManager
+
+        commitView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount = commitView.layoutManager.childCount
+                val totalItemCount = commitView.layoutManager.itemCount
+                val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
+
+                if (visibleItemCount + pastVisibleItems >=
+                        totalItemCount) {
+                    // 최하단이벤트를 받아올 수 있게 되었다.!!
+                    setApi(ownerName, repoName, ++page)
+
+                }
+            }
+        })
+        setApi(ownerName, repoName, 1)
+    }
+
+    fun setApi(ownerName: String, repoName: String, page: Int) {
+        this.page = page
         val contributorApi = provideUserApi(this)
-        val call = contributorApi.getRepoCommits(ownerName, repoName)
+        val call = contributorApi.getRepoCommits(ownerName, repoName, page)
         call.enqueue({ response ->
             val result = response.body()
             result?.let {
-                listAdapter.items = it
+                listAdapter.items.addAll(it)
                 listAdapter.notifyDataSetChanged()
             }
         }, {
@@ -82,5 +106,6 @@ class CommitActivity : AppCompatActivity() {
         })
 
     }
+
 }
 

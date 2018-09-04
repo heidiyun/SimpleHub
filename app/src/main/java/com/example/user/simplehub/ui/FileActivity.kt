@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
+import br.tiagohm.markdownview.css.styles.Github
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
@@ -32,6 +33,8 @@ class FileActivity : AppCompatActivity() {
         file.movementMethod = ScrollingMovementMethod.getInstance()
 
         bar_repo_text.text = dirName[dirName.size - 1]
+        val fileName = dirName.last()
+        val fileNameList = fileName.split(".")
 
         val repoApi = provideUserApi(this)
         val call = repoApi.getDirContents(ownerName,
@@ -61,8 +64,14 @@ class FileActivity : AppCompatActivity() {
                     reader.close()
 
                     runOnUiThread {
-                        file.text = fullString
-                        fileProgressBar.visibility = View.GONE
+                        if (fileNameList.last() == "md") {
+                            markdownView.visibility = View.VISIBLE
+                            markdownView.addStyleSheet(Github())
+                            markdownView.loadMarkdown(fullString)
+                        } else {
+                            file.text = fullString
+                            fileProgressBar.visibility = View.GONE
+                        }
                     }
 
                 }.start()

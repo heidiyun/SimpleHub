@@ -1,7 +1,5 @@
 package com.example.user.simplehub.ui
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -40,8 +38,7 @@ class ProfileActivity : AppCompatActivity(),
         false
     }
 
-    lateinit var searchview: SearchView
-
+    lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,19 +131,23 @@ class ProfileActivity : AppCompatActivity(),
 
     override fun onBackPressed() {
 
-        if (profileDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            println("drawer open")
-            profileDrawerLayout.closeDrawer(GravityCompat.START)
-        } else if (fragment.isVisible) {
-            println("fragment visible")
+        when {
+            profileDrawerLayout.isDrawerOpen(GravityCompat.START) -> {
+                println("drawer open")
+                profileDrawerLayout.closeDrawer(GravityCompat.START)
+            }
+            fragment.isVisible -> {
+                println("fragment visible")
 //            supportFragmentManager.beginTransaction().remove(fragment).commit()
-            // listener.onClose()
-            searchview?.isIconified = true
-            searchview!!.clearFocus()
+                // listener.onClose()
+                searchView.isIconified = true
+                searchView.clearFocus()
 
-        } else {
-            println("super")
-            super.onBackPressed()
+            }
+            else -> {
+                println("super")
+                super.onBackPressed()
+            }
         }
     }
 
@@ -175,7 +176,8 @@ class ProfileActivity : AppCompatActivity(),
                         .add(R.id.contents, fragment)
                         .commit()
             }
-            searchview = this
+
+            searchView = this
             setOnCloseListener(listener)
 //            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }

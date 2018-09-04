@@ -176,7 +176,9 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
                     if (starRepoList[i] == repoName)
                         return true
                 }
+                return false
             }
+            return false
         }
         return false
     }

@@ -58,9 +58,9 @@
                         android:id="@+id/nameText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="2dp"
                         android:textSize="25dp"
                         app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -69,8 +69,8 @@
                         android:id="@+id/IDText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:layout_marginBottom="4dp"
+                        android:layout_marginStart="16dp"
                         android:textSize="20dp"
                         app:layout_constraintStart_toEndOf="@+id/ownerAvatarImage"
                         app:layout_constraintTop_toBottomOf="@+id/nameText" />
@@ -135,8 +135,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:orientation="vertical" />
 
 
     <android.support.design.widget.NavigationView

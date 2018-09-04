@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/include"
@@ -23,13 +22,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/include" />
 
-   <TextView
-       android:id="@+id/file"
-       android:layout_marginTop="60dp"
-       android:layout_width="wrap_content"
-       android:layout_height="match_parent"
-       android:scrollbars="vertical"
-       />
+    <TextView
+        android:id="@+id/file"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:scrollbars="vertical" />
 
+    <br.tiagohm.markdownview.MarkdownView
+        android:id="@+id/markdownView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:visibility="gone">
+    </br.tiagohm.markdownview.MarkdownView>
 
 </android.support.constraint.ConstraintLayout>

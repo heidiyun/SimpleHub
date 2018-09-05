@@ -1,17 +1,18 @@
 package com.example.user.simplehub.ui
 
-import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
+import android.webkit.WebViewClient
 import br.tiagohm.markdownview.css.styles.Github
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_file.*
-import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.app_bar_repo.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -32,6 +33,10 @@ class FileActivity : AppCompatActivity() {
 
         file.movementMethod = ScrollingMovementMethod.getInstance()
 
+        webView.webViewClient = WebViewClient()
+        val webSettings = webView.settings
+        webSettings.javaScriptEnabled = true
+
         bar_repo_text.text = dirName[dirName.size - 1]
         val fileName = dirName.last()
         val fileNameList = fileName.split(".")
@@ -47,6 +52,8 @@ class FileActivity : AppCompatActivity() {
             val result = response.body()
             result?.let {
                 bar_repo_text.text = it.name
+                Log.i("FileActivity", "url : ${it.url}")
+
 
                 Thread {
                     var fullString = ""
@@ -68,12 +75,16 @@ class FileActivity : AppCompatActivity() {
                             markdownView.visibility = View.VISIBLE
                             markdownView.addStyleSheet(Github())
                             markdownView.loadMarkdown(fullString)
-                        } else {
+                        } else if(fileNameList.last() == "png" ||
+                                fileNameList.last() == "jpg" ||
+                                fileNameList.last() == "gif") {
+                            webView.visibility = View.VISIBLE
+                            webView.loadUrl(it.url)
+                        } else{
                             file.text = fullString
                             fileProgressBar.visibility = View.GONE
                         }
                     }
-
                 }.start()
             }
         }, {

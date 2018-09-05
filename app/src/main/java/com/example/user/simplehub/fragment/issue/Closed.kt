@@ -28,13 +28,13 @@ class Closed: Fragment() {
         view.created_closed_view.adapter = issueListAdapter
         view.created_closed_view.layoutManager = LinearLayoutManager(activity!!.applicationContext)
 
-        val issueApi = provideUserApi(activity!!.applicationContext)
+        val issueApi = provideUserApi(requireContext())
         val call = issueApi.getIssue(listener.getFilter(), listener.getState())
         call.enqueue({
             response ->
             val result = response.body()
             result?.let {
-                for (i in 0..it.size - 1) {
+                for (i in 0 until it.size) {
                     if (it[i].pullRequest == null) {
                         issueListAdapter.items.add(it[i])
                         issueListAdapter.notifyDataSetChanged()

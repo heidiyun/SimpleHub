@@ -31,7 +31,7 @@ class Open: Fragment() {
             val result = response.body()
             result?.let {
 
-                for (i in 0..it.size - 1) {
+                for (i in 0 until it.size) {
                     if (it[i].pullRequest == null) {
                         issueListAdapter.items.add(it[i])
                         issueListAdapter.notifyDataSetChanged()

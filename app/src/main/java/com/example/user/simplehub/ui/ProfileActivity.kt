@@ -29,7 +29,9 @@ class ProfileActivity : AppCompatActivity(),
 
     companion object {
         val TAG = ProfileActivity::class.java.simpleName
-        lateinit var ownerName: String
+        lateinit var ownerLogin: String
+        lateinit var ownerAvatarUrl: String
+        lateinit var owenrName: String
     }
 
     val fragment = FragmentExample()
@@ -73,7 +75,9 @@ class ProfileActivity : AppCompatActivity(),
 
                     nameText_drawer.text = it.name
                     IDText_drawer.text = it.login
-                    ownerName = it.login
+                    ownerLogin = it.login
+                    owenrName = it.name
+                    ownerAvatarUrl = it.avatarUrl
 
                     Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
                     Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage_drawer)

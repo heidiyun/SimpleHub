@@ -18,7 +18,7 @@ fun getSimpleDate(date: String, dateFormat: SimpleDateFormat): String {
 }
 
 fun getAssetJsonDate(context: Context): String? {
-    var json: String? = null
+    val json: String?
     try {
         val inputStream = context.assets.open("color.json")
         val size = inputStream.available()

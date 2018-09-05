@@ -107,7 +107,7 @@ class FragmentExample : Fragment() {
 
     fun startAct(login: String) {
         val intent: Intent
-        if (login == ProfileActivity.ownerName) {
+        if (login == ProfileActivity.ownerLogin) {
             intent = Intent(activity, ProfileActivity::class.java)
         } else {
             intent = Intent(activity, OtherProfileActivity::class.java)

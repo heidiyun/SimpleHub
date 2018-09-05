@@ -23,7 +23,6 @@ class SignInActivity : AppCompatActivity() {
         const val CLIENT_SECRET = "8f604dacb00a15456bd8854fe003874d33287c30"
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)

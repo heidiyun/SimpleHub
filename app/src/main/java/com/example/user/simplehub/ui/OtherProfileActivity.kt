@@ -3,6 +3,7 @@ package com.example.user.simplehub.ui
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
@@ -67,7 +68,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                     result2?.let { following ->
                         for (i in 0 until following.size) {
                             println("following name: ${following[i].login}")
-                            if (IDText.text == ProfileActivity.ownerName) {
+                            if (IDText.text == ProfileActivity.ownerLogin) {
                                 followButton.visibility = View.GONE
                             } else if (following[i].login == IDText.text) {
                                 followButton.text = "Unfollow"
@@ -85,11 +86,13 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                 } else {
                     emailText.text = it.email
                 }
-                nameText_drawer.text = it.name
-                IDText_drawer.text = it.login
+
+                nameText_drawer.text = ProfileActivity.owenrName
+                IDText_drawer.text = ProfileActivity.ownerLogin
 
                 Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
-                Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage_drawer)
+                Glide.with(this).load(ProfileActivity.ownerAvatarUrl).into(ownerAvatarImage_drawer)
+
 
                 setupViewPager(pager, it.login)
 

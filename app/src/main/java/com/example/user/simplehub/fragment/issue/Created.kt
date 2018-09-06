@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.user.simplehub.R
 import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
-
 import kotlinx.android.synthetic.main.issue_tab_created.view.*
 
 class Created : Fragment() {
@@ -22,14 +21,14 @@ class Created : Fragment() {
         setupSubViewPager(view.pager_issue_created)
         view.tab_issue_created.setupWithViewPager(view.pager_issue_created)
 
-        createdOpen.setOnListener(object: Listener {
+        createdOpen.setOnListener(object : Listener {
             override fun getFilter(): String = "created"
 
             override fun getState(): String = "open"
 
         })
 
-        createdClosed.setOnListener(object: Listener {
+        createdClosed.setOnListener(object : Listener {
             override fun getFilter(): String = "created"
 
             override fun getState(): String = "closed"

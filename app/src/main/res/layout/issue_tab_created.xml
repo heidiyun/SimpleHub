@@ -16,8 +16,9 @@
             android:layout_height="wrap_content"
             android:background="@color/buttonText"
             android:minHeight="?attr/actionBarSize"
+            app:tabBackground="@drawable/selector_tab_click"
             app:tabIndicatorColor="@color/buttonText"
-            app:tabSelectedTextColor="@color/IDtext"
+            app:tabSelectedTextColor="@color/IDText"
             android:theme="@style/ThemeOverlay.AppCompat.Light" />
 
         <android.support.v4.view.ViewPager

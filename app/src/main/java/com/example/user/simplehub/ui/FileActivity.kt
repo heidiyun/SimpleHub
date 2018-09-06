@@ -1,7 +1,5 @@
 package com.example.user.simplehub.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.ScrollingMovementMethod
@@ -35,7 +33,7 @@ class FileActivity : AppCompatActivity() {
 
         webView.webViewClient = WebViewClient()
         val webSettings = webView.settings
-        webSettings.javaScriptEnabled = true
+//        webSettings.javaScriptEnabled = true
 
         bar_repo_text.text = dirName[dirName.size - 1]
         val fileName = dirName.last()

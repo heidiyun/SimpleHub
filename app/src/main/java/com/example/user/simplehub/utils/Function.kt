@@ -7,9 +7,9 @@ import java.util.*
 
 val dateFormat = SimpleDateFormat("YYYY/MM/dd HH:mm", Locale.getDefault())
 
-fun getSimpleDate(date: String, dateFormat: SimpleDateFormat): String {
+fun getSimpleDate(date: String?, dateFormat: SimpleDateFormat): String {
     val timeZone = TimeZone.getTimeZone("Africa/Casablanca")
-    val splitDate = date.replace("Z", ".000" + timeZone.displayName)
+    val splitDate = date?.replace("Z", ".000" + timeZone.displayName)
     println(splitDate)
     val givenDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
     val parsedDate = givenDateFormat.parse(splitDate)

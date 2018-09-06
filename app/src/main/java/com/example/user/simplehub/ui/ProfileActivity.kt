@@ -153,6 +153,7 @@ class ProfileActivity : AppCompatActivity(),
                 super.onBackPressed()
             }
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

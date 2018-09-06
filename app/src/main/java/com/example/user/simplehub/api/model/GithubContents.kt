@@ -30,9 +30,12 @@ data class GithubStarring(@field:SerializedName("full_name") val fullName: Strin
                           val name: String,
                           val owner: RepoOwner)
 
-data class PullsUser(val login: String)
+data class PullsUser(val login: String,
+                     @field:SerializedName("avatar_url") val avatarUrl: String)
 
-data class PullsRepo(@field:SerializedName("full_name") val repoName: String)
+data class PullsRepo(@field:SerializedName("full_name") val repoName: String,
+                     val name: String
+)
 
 data class Pulls(val url: String)
 
@@ -41,7 +44,8 @@ data class GithubPulls(@field:SerializedName("pull_request") val pullRequest: Pu
                        val title: String,
                        val number: Int,
                        val user: PullsUser,
-                       val repository: PullsRepo)
+                       val repository: PullsRepo,
+                       val body: String)
 
 data class GithubRepoContents(val name: String, val type: String,
                               @field:SerializedName("download_url") val url: String)

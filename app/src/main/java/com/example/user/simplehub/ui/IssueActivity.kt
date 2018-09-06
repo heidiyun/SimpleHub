@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
 
 
-
 class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,8 +48,7 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         val githubApi = provideUserApi(this)
         val call = githubApi.getUserInfo()
-        call.enqueue({
-            response ->
+        call.enqueue({ response ->
             val result = response.body()
             result?.let {
                 nameText_drawer.text = it.name
@@ -72,12 +70,11 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
 
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         item.isChecked = true
 
         when (item.itemId) {
-            R.id.nav_profile-> {
+            R.id.nav_profile -> {
                 startActivity<ProfileActivity>()
             }
 
@@ -85,7 +82,7 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 startActivity<PullsActivity>()
             }
 
-            R.id.nav_issue-> {
+            R.id.nav_issue -> {
                 startActivity<IssueActivity>()
             }
 
@@ -97,11 +94,14 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     override fun onBackPressed() {
+       
         if (issue_drawer.isDrawerOpen(GravityCompat.START)) {
             issue_drawer.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

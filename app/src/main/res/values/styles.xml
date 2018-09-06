@@ -14,9 +14,9 @@
 
     <style name="AppTheme.Toolbar" parent="AppTheme">
         <!--This line changes the color of text in Toolbar-->
-        <item name="android:textColorPrimary">@color/IDtext</item>
+        <item name="android:textColorPrimary">@color/IDText</item>
         <!--This line changes the color of icons in toolbar (back, overflow menu icons)-->
-        <item name="android:textColorSecondary">@color/IDtext</item>
+        <item name="android:textColorSecondary">@color/IDText</item>
     </style >
 
 </resources>

@@ -26,6 +26,7 @@ class Open: Fragment() {
 
         val issueApi = provideUserApi(activity!!.applicationContext)
         val call = issueApi.getIssue(listener.getFilter(), listener.getState())
+
         call.enqueue({
             response ->
             val result = response.body()

@@ -33,7 +33,8 @@ class FileActivity : AppCompatActivity() {
 
         webView.webViewClient = WebViewClient()
         val webSettings = webView.settings
-//        webSettings.javaScriptEnabled = true
+        webSettings.builtInZoomControls = true
+        webSettings.setSupportZoom(true)
 
         bar_repo_text.text = dirName[dirName.size - 1]
         val fileName = dirName.last()
@@ -51,7 +52,6 @@ class FileActivity : AppCompatActivity() {
             result?.let {
                 bar_repo_text.text = it.name
                 Log.i("FileActivity", "url : ${it.url}")
-
 
                 Thread {
                     var fullString = ""
@@ -97,6 +97,4 @@ class FileActivity : AppCompatActivity() {
         setResult(RESULT_OK, intent)
         finish()
     }
-
-
 }

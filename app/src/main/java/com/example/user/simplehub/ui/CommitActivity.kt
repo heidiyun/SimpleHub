@@ -27,7 +27,6 @@ class CommitViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 class CommitListAdapter : RecyclerView.Adapter<CommitViewHolder>() {
     var items: MutableList<GithubRepoCommits> = mutableListOf()
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommitViewHolder {
         return CommitViewHolder(parent)
     }
@@ -46,12 +45,9 @@ class CommitListAdapter : RecyclerView.Adapter<CommitViewHolder>() {
             Glide.with(this).load(item.committer.avatar_url).into(commiterAvatarImage)
         }
     }
-
-
 }
 
 class CommitActivity : AppCompatActivity() {
-
 
     lateinit var listAdapter: CommitListAdapter
     var page: Int = 0
@@ -84,7 +80,6 @@ class CommitActivity : AppCompatActivity() {
                         totalItemCount) {
                     // 최하단이벤트를 받아올 수 있게 되었다.!!
                     setApi(ownerName, repoName, ++page)
-
                 }
             }
         })
@@ -104,8 +99,6 @@ class CommitActivity : AppCompatActivity() {
         }, {
 
         })
-
     }
-
 }
 

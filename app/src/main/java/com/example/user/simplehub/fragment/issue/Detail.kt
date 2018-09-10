@@ -2,8 +2,7 @@ package com.example.user.simplehub.fragment.issue
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
-import android.view.KeyEvent
+import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +27,7 @@ class Detail : Fragment() {
 
         return view
     }
+
 
 
 

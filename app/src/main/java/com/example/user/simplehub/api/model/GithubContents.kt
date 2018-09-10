@@ -45,7 +45,8 @@ data class GithubPulls(@field:SerializedName("pull_request") val pullRequest: Pu
                        val number: Int,
                        val user: PullsUser,
                        val repository: PullsRepo,
-                       val body: String)
+                       val body: String,
+                       val state: String)
 
 data class GithubRepoContents(val name: String, val type: String,
                               @field:SerializedName("download_url") val url: String)
@@ -71,3 +72,15 @@ data class GithubUserItem(@field:SerializedName("total_count") val totalCount: I
 data class GithubSubscription(val subscribed: Boolean, val message: String)
 
 data class GithubSubscribers(val login: String)
+
+data class emptyCall(val url: String)
+
+data class GithubIssueEvents(val user: GithubSubscribers,
+                             val event: String,
+                             @field:SerializedName("created_at") val createDate: String,
+                             val assignee: GithubSubscribers,
+                             val assigner: GithubSubscribers,
+                             val rename: RenameObject)
+
+data class RenameObject(val from: String,
+                        val to: String)

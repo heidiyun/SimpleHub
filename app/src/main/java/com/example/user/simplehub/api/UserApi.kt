@@ -110,4 +110,19 @@ interface UserApi {
     @GET("users/heidiyun/received_events")
     @Headers("Accept: application/json")
     fun getEvent()
+
+    @PATCH("repos/{owner}/{repoName}/issues/{number}")
+    @Headers("Accept: application/json",
+            "Content-Type: application/json")
+    fun editIssue(@Path("owner") owner: String,
+                  @Path("repoName") repoName: String,
+                  @Path("number") number: Int,
+                  @Body model: IssueRequestModel): Call<emptyCall>
+
+    @GET("repos/{owner}/{repoName}/issues/{number}/events")
+    @Headers("Accept: application/json")
+    fun getIssueEvents(@Path("owner") owner: String,
+                       @Path("repoName") repoName: String,
+                       @Path("number") number: Int): Call<List<GithubIssueEvents>>
+
 }

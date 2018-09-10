@@ -2,6 +2,8 @@ package com.example.user.simplehub.ui
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBarDrawerToggle
@@ -16,6 +18,7 @@ import com.example.user.simplehub.api.removeToken
 import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
 import com.example.user.simplehub.fragment.issue.Assigned
 import com.example.user.simplehub.fragment.issue.Created
+import com.example.user.simplehub.fragment.issue.Detail
 import com.example.user.simplehub.fragment.issue.Mentioned
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_issue.*
@@ -23,7 +26,6 @@ import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import org.jetbrains.anko.startActivity
-
 
 class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -60,7 +62,6 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         })
     }
 
-
     private fun setupViewPager(viewPager: ViewPager) {
         val adapter = SectionsPageAdapter(supportFragmentManager)
         adapter.addFragment(Created(), "Created")
@@ -69,6 +70,14 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         viewPager.adapter = adapter
     }
 
+
+    override fun onBackPressed() {
+        if (issue_drawer.isDrawerOpen(GravityCompat.START)) {
+            issue_drawer.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         item.isChecked = true
@@ -87,21 +96,9 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             }
 
         }
-
         issue_drawer.closeDrawer(GravityCompat.START)
 
         return true
-    }
-
-    override fun onBackPressed() {
-       
-        if (issue_drawer.isDrawerOpen(GravityCompat.START)) {
-            issue_drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -17,6 +17,10 @@ class Open: Fragment() {
     lateinit var issueListAdapter: IssueListAdapter
     lateinit var listener: Listener
 
+    companion object {
+        const val TAG = "OpenFragment"
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.created_tab_opend, container, false)
 

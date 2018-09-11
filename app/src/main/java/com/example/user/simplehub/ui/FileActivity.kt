@@ -73,13 +73,9 @@ class FileActivity : AppCompatActivity() {
                             markdownView.visibility = View.VISIBLE
                             markdownView.addStyleSheet(Github())
                             markdownView.loadMarkdown(fullString)
-                        } else if(fileNameList.last() == "png" ||
-                                fileNameList.last() == "jpg" ||
-                                fileNameList.last() == "gif") {
+                        } else{
                             webView.visibility = View.VISIBLE
                             webView.loadUrl(it.url)
-                        } else{
-                            file.text = fullString
                             fileProgressBar.visibility = View.GONE
                         }
                     }

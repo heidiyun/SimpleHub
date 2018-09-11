@@ -78,7 +78,6 @@ class FragmentExample : Fragment() {
 
 //        setApi("")
 
-
         return view
     }
 

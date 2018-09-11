@@ -5,7 +5,12 @@ import com.google.gson.annotations.SerializedName
 data class GithubProfile(@field:SerializedName("name") val name: String,
                          @field:SerializedName("login") val login: String,
                          @field:SerializedName("email") val email: String,
-                         @field:SerializedName("avatar_url") val avatarUrl: String)
+                         @field:SerializedName("avatar_url") val avatarUrl: String,
+                         @field:SerializedName("public_repos") val repoNumber: Int,
+                         @field:SerializedName("public_gists") val gistNumber: Int,
+                         val followers: Int,
+                         val following: Int,
+                         @field:SerializedName("created_at") val joinDate: String)
 
 data class RepoOwner(val login: String)
 

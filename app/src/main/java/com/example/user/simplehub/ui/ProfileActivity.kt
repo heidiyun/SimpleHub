@@ -31,14 +31,14 @@ class ProfileActivity : AppCompatActivity(),
         val TAG = ProfileActivity::class.java.simpleName
         lateinit var ownerLogin: String
         lateinit var ownerAvatarUrl: String
-        lateinit var owenrName: String
+        lateinit var ownerName: String
     }
 
     val fragment = FragmentExample()
-    val listener: SearchView.OnCloseListener = SearchView.OnCloseListener {
-        supportFragmentManager.beginTransaction().remove(fragment).commit()
-        false
-    }
+//    val listener: SearchView.OnCloseListener = SearchView.OnCloseListener {
+//        supportFragmentManager.beginTransaction().remove(fragment).commit()
+//        false
+//    }
 
     lateinit var searchView: SearchView
 
@@ -76,7 +76,7 @@ class ProfileActivity : AppCompatActivity(),
                     nameText_drawer.text = it.name
                     IDText_drawer.text = it.login
                     ownerLogin = it.login
-                    owenrName = it.name
+                    ownerName = it.name
                     ownerAvatarUrl = it.avatarUrl
 
                     Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
@@ -97,16 +97,19 @@ class ProfileActivity : AppCompatActivity(),
 
     private fun setupViewPager(viewPager: ViewPager, login: String) {
         val adapter = SectionsPageAdapter(supportFragmentManager)
+        val overview = OverviewTab()
         val repository = RepositoryTab()
         val star = StarTab()
         val follower = FollowerTab()
         val following = FollowingTab()
         val args = Bundle()
         args.putString("login", login)
+        overview.arguments = args
         repository.arguments = args
         star.arguments = args
         follower.arguments = args
         following.arguments = args
+        adapter.addFragment(overview, "Overview")
         adapter.addFragment(repository, "Repository")
         adapter.addFragment(star, "Star")
         adapter.addFragment(follower, "Follower")
@@ -146,7 +149,6 @@ class ProfileActivity : AppCompatActivity(),
                 // listener.onClose()
                 searchView.isIconified = true
                 searchView.clearFocus()
-
             }
             else -> {
                 println("super")
@@ -183,7 +185,11 @@ class ProfileActivity : AppCompatActivity(),
             }
 
             searchView = this
-            setOnCloseListener(listener)
+            setOnCloseListener {
+                supportFragmentManager.beginTransaction().remove(fragment).commit()
+                false
+            }
+//            setOnCloseListener(listener)
 //            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
 

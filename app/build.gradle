@@ -64,6 +64,8 @@ dependencies {
 
     implementation 'com.github.tiagohm.MarkdownView:library:0.19.0'
 
+    implementation 'com.github.2coffees1team:GlideToVectorYou:v1.1.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

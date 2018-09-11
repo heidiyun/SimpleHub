@@ -2,6 +2,8 @@ package com.example.user.simplehub.utils
 
 import android.content.Context
 import android.util.Log
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,3 +35,6 @@ fun getAssetJsonDate(context: Context): String? {
 
     return json
 }
+
+@GlideModule
+class AppGlideModule : AppGlideModule()

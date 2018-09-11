@@ -1,9 +1,6 @@
 package com.example.user.simplehub.ui
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
@@ -87,7 +84,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                     emailText.text = it.email
                 }
 
-                nameText_drawer.text = ProfileActivity.owenrName
+                nameText_drawer.text = ProfileActivity.ownerName
                 IDText_drawer.text = ProfileActivity.ownerLogin
 
                 Glide.with(this).load(it.avatarUrl).into(ownerAvatarImage)
@@ -128,16 +125,19 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
     private fun setupViewPager(viewPager: ViewPager, login: String) {
         val adapter = SectionsPageAdapter(supportFragmentManager)
+        val overview = OverviewTab()
         val repository = RepositoryTab()
         val star = StarTab()
         val follower = FollowerTab()
         val following = FollowingTab()
         val args = Bundle()
         args.putString("login", login)
+        overview.arguments = args
         repository.arguments = args
         star.arguments = args
         follower.arguments = args
         following.arguments = args
+        adapter.addFragment(overview, "Overview")
         adapter.addFragment(repository, "Repository")
         adapter.addFragment(star, "Star")
         adapter.addFragment(follower, "Follower")

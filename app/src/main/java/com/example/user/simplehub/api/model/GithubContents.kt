@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class GithubProfile(@field:SerializedName("name") val name: String,
                          @field:SerializedName("login") val login: String,
-                         @field:SerializedName("email") val email: String,
+                         @field:SerializedName("email") val email: String?,
                          @field:SerializedName("avatar_url") val avatarUrl: String,
                          @field:SerializedName("public_repos") val repoNumber: Int,
                          @field:SerializedName("public_gists") val gistNumber: Int,
@@ -16,7 +16,7 @@ data class RepoOwner(val login: String)
 
 data class GithubRepo(val name: String,
                       val owner: RepoOwner,
-                      val language: String,
+                      val language: String?,
                       @field:SerializedName("watchers_count") val watcherCount: Int,
                       @field:SerializedName("stargazers_count") val starCount: Int,
                       @field:SerializedName("full_name") val fullName: String)
@@ -31,7 +31,7 @@ data class GithubFollowing(val login: String,
 
 data class GithubStarring(@field:SerializedName("full_name") val fullName: String,
                           @field:SerializedName("stargazers_count") val starNumber: Int,
-                          val language: String,
+                          val language: String?,
                           val name: String,
                           val owner: RepoOwner)
 
@@ -78,7 +78,7 @@ data class GithubSubscription(val subscribed: Boolean, val message: String)
 
 data class GithubSubscribers(val login: String)
 
-data class emptyCall(val url: String)
+data class EmptyCall(val url: String)
 
 data class GithubIssueEvents(val user: GithubSubscribers,
                              val event: String,

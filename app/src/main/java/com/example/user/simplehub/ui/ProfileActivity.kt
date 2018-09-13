@@ -12,11 +12,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
-import com.example.user.simplehub.fragment.profile.FragmentExample
+import com.example.user.simplehub.ui.fragment.profile.Search
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
-import com.example.user.simplehub.fragment.profile.*
+import com.example.user.simplehub.ui.fragment.profile.*
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
@@ -26,20 +26,14 @@ import org.jetbrains.anko.startActivity
 class ProfileActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener {
 
-
     companion object {
-        val TAG = ProfileActivity::class.java.simpleName
+        val TAG: String = ProfileActivity::class.java.simpleName
         lateinit var ownerLogin: String
         lateinit var ownerAvatarUrl: String
         lateinit var ownerName: String
     }
 
-    val fragment = FragmentExample()
-//    val listener: SearchView.OnCloseListener = SearchView.OnCloseListener {
-//        supportFragmentManager.beginTransaction().remove(fragment).commit()
-//        false
-//    }
-
+    val fragment = Search()
     lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,18 +134,13 @@ class ProfileActivity : AppCompatActivity(),
 
         when {
             profileDrawerLayout.isDrawerOpen(GravityCompat.START) -> {
-                println("drawer open")
                 profileDrawerLayout.closeDrawer(GravityCompat.START)
             }
             fragment.isVisible -> {
-                println("fragment visible")
-//            supportFragmentManager.beginTransaction().remove(fragment).commit()
-                // listener.onClose()
                 searchView.isIconified = true
                 searchView.clearFocus()
             }
             else -> {
-                println("super")
                 super.onBackPressed()
             }
         }
@@ -176,6 +165,8 @@ class ProfileActivity : AppCompatActivity(),
                 }
             })
 
+            setIconifiedByDefault(true)
+            this.maxWidth  = Integer.MAX_VALUE
             queryHint = "Search User"
 
             setOnSearchClickListener {
@@ -189,8 +180,6 @@ class ProfileActivity : AppCompatActivity(),
                 supportFragmentManager.beginTransaction().remove(fragment).commit()
                 false
             }
-//            setOnCloseListener(listener)
-//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
 
         signoutButton.setOnClickListener {

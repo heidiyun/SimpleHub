@@ -2,8 +2,6 @@ package com.example.user.simplehub.ui
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBarDrawerToggle
@@ -15,11 +13,10 @@ import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
-import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
-import com.example.user.simplehub.fragment.issue.Assigned
-import com.example.user.simplehub.fragment.issue.Created
-import com.example.user.simplehub.fragment.issue.Detail
-import com.example.user.simplehub.fragment.issue.Mentioned
+import com.example.user.simplehub.ui.fragment.issue.Assigned
+import com.example.user.simplehub.ui.fragment.issue.Created
+import com.example.user.simplehub.ui.fragment.issue.Mentioned
+import com.example.user.simplehub.ui.fragment.profile.SectionsPageAdapter
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_issue.*
 import kotlinx.android.synthetic.main.activity_profile_tab.*
@@ -43,7 +40,7 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         navView_issue.setNavigationItemSelectedListener(this)
 
-        profile.text = "issue"
+        profile.text = getString(R.string.issue)
 
         setupViewPager(pager_issue)
         tab_issue.setupWithViewPager(pager_issue)
@@ -96,8 +93,8 @@ class IssueActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             }
 
         }
-        issue_drawer.closeDrawer(GravityCompat.START)
 
+        issue_drawer.closeDrawer(GravityCompat.START)
         return true
     }
 

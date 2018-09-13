@@ -1,15 +1,15 @@
 package com.example.user.simplehub.api
 
 import android.content.Context
-import com.example.user.simplehub.api.model.GithubProfile
-import com.google.gson.Gson
+import com.example.user.simplehub.api.model.AuthApi
+import com.example.user.simplehub.api.model.UserApi
+import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.google.gson.GsonBuilder
 
 
 val gson2 = GsonBuilder()
@@ -43,11 +43,12 @@ class AuthInterceptor(private val context: Context): Interceptor {
         return chain.proceed(request)
     }
 
-}fun authHttpClient(context: Context) = OkHttpClient.Builder().apply {
+}
+fun authHttpClient(context: Context): OkHttpClient = OkHttpClient.Builder().apply {
     addInterceptor(AuthInterceptor(context))
 }.build()
 
-fun provideUserApi(context: Context) = Retrofit.Builder().apply {
+fun provideUserApi(context: Context): UserApi = Retrofit.Builder().apply {
     baseUrl("https://api.github.com/")
     client(authHttpClient(context))
     addConverterFactory(GsonConverterFactory.create(gson2))

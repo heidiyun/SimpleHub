@@ -13,12 +13,11 @@ import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.android.synthetic.main.app_bar.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 class SignInActivity : AppCompatActivity() {
 
     companion object {
-        val TAG = SignInActivity::class.java.simpleName
+        val TAG: String = SignInActivity::class.java.simpleName
         const val CLIENT_ID = "d3be1425f2b68349c8cf"
         const val CLIENT_SECRET = "8f604dacb00a15456bd8854fe003874d33287c30"
     }
@@ -62,7 +61,8 @@ class SignInActivity : AppCompatActivity() {
         val call = authApi.getAccessToken(CLIENT_ID, CLIENT_SECRET, code)
 
         call.enqueue({
-            it.body()?.let {
+            response ->
+            response.body()?.let {
                 Log.i(TAG, "code = ${it.accessToken}")
                 updateToken(this, it.accessToken)
 

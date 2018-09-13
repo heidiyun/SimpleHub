@@ -1,7 +1,6 @@
 package com.example.user.simplehub.utils
 
 import android.content.Context
-import android.util.Log
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule
 import java.io.IOException
@@ -15,7 +14,6 @@ fun getSimpleDate(date: String?, dateFormat: SimpleDateFormat): String {
     val splitDate = date?.replace("Z", ".000" + timeZone.displayName)
     val givenDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
     val parsedDate = givenDateFormat.parse(splitDate)
-//  val simpleDate = SimpleDateFormat("EEE, MMM d, HH:mm", Locale.getDefault())
     return dateFormat.format(parsedDate)
 }
 
@@ -32,7 +30,6 @@ fun getAssetJsonDate(context: Context): String? {
         e.printStackTrace()
         return null
     }
-
     return json
 }
 

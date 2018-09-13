@@ -13,10 +13,10 @@ import com.bumptech.glide.Glide
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
-import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
-import com.example.user.simplehub.fragment.pulls.Assigned
-import com.example.user.simplehub.fragment.pulls.Created
-import com.example.user.simplehub.fragment.pulls.Mentioned
+import com.example.user.simplehub.ui.fragment.profile.SectionsPageAdapter
+import com.example.user.simplehub.ui.fragment.pulls.Assigned
+import com.example.user.simplehub.ui.fragment.pulls.Created
+import com.example.user.simplehub.ui.fragment.pulls.Mentioned
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_pull_request.*
@@ -97,7 +97,6 @@ class PullsActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         signoutButton.setOnClickListener {
             removeToken(this)
             Log.i(ProfileActivity.TAG, "sign out button")
@@ -106,17 +105,6 @@ class PullsActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
 
-            R.id.action_settings -> {
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
 }

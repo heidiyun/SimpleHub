@@ -12,10 +12,10 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
-import com.example.user.simplehub.fragment.profile.SectionsPageAdapter
-import com.example.user.simplehub.fragment.repo.Code
-import com.example.user.simplehub.fragment.repo.Issue
-import com.example.user.simplehub.fragment.repo.PullRequest
+import com.example.user.simplehub.ui.fragment.profile.SectionsPageAdapter
+import com.example.user.simplehub.ui.fragment.repo.Code
+import com.example.user.simplehub.ui.fragment.repo.Issue
+import com.example.user.simplehub.ui.fragment.repo.PullRequest
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_profile_tab.*
 import kotlinx.android.synthetic.main.activity_repository.*
@@ -24,12 +24,12 @@ import kotlinx.android.synthetic.main.head_repo.*
 
 class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
-    var subscribed: Boolean = false
-    var isFabOpen = false
-    lateinit var fab_open: Animation
-    lateinit var fab_close: Animation
-    lateinit var repoName: String
-    lateinit var ownerName: String
+    private var subscribed: Boolean = false
+    private var isFabOpen = false
+    private lateinit var fabOpen: Animation
+    private lateinit var fabClose: Animation
+    private lateinit var repoName: String
+    private lateinit var ownerName: String
 
     companion object {
         var starNameList = mutableListOf<String>()
@@ -134,8 +134,8 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        fab_open = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)
-        fab_close = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)
+        fabOpen = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_open)
+        fabClose = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)
 
         fab.setOnClickListener(this)
         commit_feed_button.setOnClickListener(this)
@@ -143,7 +143,7 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val id = v.getId()
+        val id = v.id
         when (id) {
             R.id.fab -> {
                 anim()
@@ -171,9 +171,9 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
         for (i in 0 until starNameList.size) {
             Log.i("RepoActivity", "starNameList : ${starNameList[i]}")
             if (starNameList[i] == ownerName) {
-                for (i in 0 until starRepoList.size) {
-                    Log.i("RepoActivity", "repoNameList : ${starRepoList[i]}")
-                    if (starRepoList[i] == repoName)
+                for (j in 0 until starRepoList.size) {
+                    Log.i("RepoActivity", "repoNameList : ${starRepoList[j]}")
+                    if (starRepoList[j] == repoName)
                         return true
                 }
                 return false
@@ -202,18 +202,18 @@ class RepoActivity : AppCompatActivity(), View.OnClickListener {
 
     fun anim() {
         if (isFabOpen) {
-            text_commit.startAnimation(fab_close)
-            text_contributor.startAnimation(fab_close)
-            contributor_button.startAnimation(fab_close)
-            commit_feed_button.startAnimation(fab_close)
+            text_commit.startAnimation(fabClose)
+            text_contributor.startAnimation(fabClose)
+            contributor_button.startAnimation(fabClose)
+            commit_feed_button.startAnimation(fabClose)
             contributor_button.isClickable = false
             commit_feed_button.isClickable = false
             isFabOpen = false
         } else {
-            text_commit.startAnimation(fab_open)
-            text_contributor.startAnimation(fab_open)
-            contributor_button.startAnimation(fab_open)
-            commit_feed_button.startAnimation(fab_open)
+            text_commit.startAnimation(fabOpen)
+            text_contributor.startAnimation(fabOpen)
+            contributor_button.startAnimation(fabOpen)
+            commit_feed_button.startAnimation(fabOpen)
             contributor_button.isClickable = true
             commit_feed_button.isClickable = true
             isFabOpen = true

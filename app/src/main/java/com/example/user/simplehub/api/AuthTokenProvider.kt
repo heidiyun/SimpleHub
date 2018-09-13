@@ -2,8 +2,6 @@ package com.example.user.simplehub.api
 
 import android.content.Context
 import android.preference.PreferenceManager
-import android.util.Log
-import com.example.user.simplehub.ui.ProfileActivity
 
 const val KEY_AUTH_TOKEN = "user.example.github.auth_token"
 
@@ -22,5 +20,4 @@ fun removeToken(context: Context) {
     PreferenceManager.getDefaultSharedPreferences(context).edit().remove(KEY_AUTH_TOKEN).apply()
     updateToken(context, null)
     val token = getToken(context)
-    Log.i(ProfileActivity::class.java.simpleName, "token 11 ${token}")
 }

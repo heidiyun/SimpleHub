@@ -18,7 +18,7 @@ import java.net.URL
 
 class FileActivity : AppCompatActivity() {
 
-    var dirName = arrayListOf<String>()
+    private var dirName = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

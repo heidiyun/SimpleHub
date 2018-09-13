@@ -12,11 +12,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
-import com.example.user.simplehub.fragment.profile.FragmentExample
 import com.example.user.simplehub.R
 import com.example.user.simplehub.api.provideUserApi
 import com.example.user.simplehub.api.removeToken
-import com.example.user.simplehub.fragment.profile.*
+import com.example.user.simplehub.ui.fragment.profile.*
 import com.example.user.simplehub.utils.enqueue
 import kotlinx.android.synthetic.main.activity_myprofile.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
@@ -25,13 +24,9 @@ import org.jetbrains.anko.startActivity
 
 class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val fragment = FragmentExample()
-    val listener: SearchView.OnCloseListener = SearchView.OnCloseListener {
-        supportFragmentManager.beginTransaction().remove(fragment).commit()
-        false
-    }
+    private val fragment = Search()
 
-    lateinit var searchview: SearchView
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +35,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         val bundle = intent.extras
         val login = bundle.getString("login")
 
-        profile.text = "Profile"
+        profile.text = getString(R.string.profile)
         setSupportActionBar(navigationBar)
         supportActionBar!!.title = null
 
@@ -68,12 +63,12 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                             if (IDText.text == ProfileActivity.ownerLogin) {
                                 followButton.visibility = View.GONE
                             } else if (following[i].login == IDText.text) {
-                                followButton.text = "Unfollow"
+                                followButton.text = getString(R.string.unfollow)
                             }
                         }
                     }
                 }, { exception ->
-
+                    exception.printStackTrace()
                 })
 
                 nameText.text = it.name
@@ -107,7 +102,9 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
             if (followButton.text == "Unfollow") {
                 val call = userApi.deleteFollowing(IDText.text as String)
                 call.enqueue({ response ->
-                    followButton.text = "Follow"
+                    val status = response.code()
+                    if (status in 200..299)
+                        followButton.text = getString(R.string.follow)
 
                 }, { exception ->
                     exception.printStackTrace()
@@ -115,7 +112,9 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
             } else {
                 val call = userApi.putFollowing(IDText.text as String)
                 call.enqueue({ response ->
-                    followButton.text = "Unfollow"
+                    val status = response.code()
+                    if (status in 200..299)
+                        followButton.text = getString(R.string.unfollow)
                 }, { exception ->
                     exception.printStackTrace()
                 })
@@ -146,7 +145,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        item.setChecked(true)
+        item.isChecked = true
 
         when (item.itemId) {
             R.id.nav_profile -> {
@@ -164,25 +163,22 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
     }
 
     override fun onBackPressed() {
-        if (profileDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            println("drawer open")
-            profileDrawerLayout.closeDrawer(GravityCompat.START)
-        } else if (fragment.isVisible) {
-            println("fragment visible")
-//            supportFragmentManager.beginTransaction().remove(fragment).commit()
-            // listener.onClose()
-            searchview?.isIconified = true
-            searchview!!.clearFocus()
-
-        } else {
-            println("super")
-            super.onBackPressed()
+        when {
+            profileDrawerLayout.isDrawerOpen(GravityCompat.START) -> {
+                profileDrawerLayout.closeDrawer(GravityCompat.START)
+            }
+            fragment.isVisible -> {
+                searchView.isIconified = true
+                searchView.clearFocus()
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.fragment_search, menu)
-//        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu?.findItem(R.id.menuItemSearch)?.actionView as SearchView).apply {
 
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -192,7 +188,7 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     println("newText $newText")
-                    fragment.setApi(newText,1)
+                    fragment.setApi(newText, 1)
 
                     return true
                 }
@@ -205,9 +201,11 @@ class OtherProfileActivity : AppCompatActivity(), NavigationView.OnNavigationIte
                         .add(R.id.contents, fragment)
                         .commit()
             }
-            searchview = this
-            setOnCloseListener(listener)
-//            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            searchView = this
+            setOnCloseListener {
+                supportFragmentManager.beginTransaction().remove(fragment).commit()
+                false
+            }
         }
 
         signoutButton.setOnClickListener {
